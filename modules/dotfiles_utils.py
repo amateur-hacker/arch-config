@@ -3,7 +3,6 @@ import logging
 import os
 import pwd
 from pathlib import Path
-from typing import Iterable
 
 from decman import Directory, File, Symlink
 
@@ -13,9 +12,30 @@ from modules.utils import (
     run_cmd_as_root,
     run_cmd_as_user,
 )
+from specs import DirectoryMap, DotfileItems, FileMap, SymlinkMap
 
 logger = logging.getLogger(__name__)
 username = get_username()
+
+
+def get_current_wallpaper():
+    home = Path(get_user_home_dir())
+    json_path = home / ".cache/noctalia/wallpapers.json"
+
+    result = run_cmd_as_user(
+        [
+            "jq",
+            "-r",
+            """
+            .wallpapers[""]
+            | select(. != null and . != "")
+            // .defaultWallpaper
+            """,
+            str(json_path),
+        ],
+    )
+
+    return result.strip()
 
 
 def ensure_fullname(username: str, fullname: str):
@@ -41,7 +61,7 @@ def ensure_acl(path: Path, acl: str):
         run_cmd_as_user(["setfacl", "-m", acl, str(path)])
 
 
-def update_xdg_user_dirs() -> None:
+def update_xdg_user_dirs():
     """Update XDG user directories."""
     home = Path(get_user_home_dir())
     config_path = home / ".config/user-dirs.dirs"
@@ -69,7 +89,7 @@ def update_xdg_user_dirs() -> None:
             return
 
 
-def apply_graphical_gsettings() -> None:
+def apply_graphical_gsettings():
     """Apply GNOME-related gsettings if in a graphical session."""
     if not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY")):
         logger.info("No graphical session detected. Skipping gsettings.")
@@ -118,7 +138,7 @@ def apply_graphical_gsettings() -> None:
         )
 
 
-def resolve_source(base: Path, src: str) -> Path:
+def resolve_source(base: Path, src: str):
     """Resolve source path relative to base if not absolute."""
     path = Path(src)
     return path if path.is_absolute() else base / path
@@ -126,10 +146,10 @@ def resolve_source(base: Path, src: str) -> Path:
 
 def build_files(
     base: Path,
-    items: Iterable[tuple[str, str] | tuple[str, str, str]],
-) -> dict[str, File]:
+    items: DotfileItems,
+):
     """Build File mappings from (dest, src[, owner]) tuples."""
-    result: dict[str, File] = {}
+    result: FileMap = {}
 
     for dest, src, *rest in items:
         owner = rest[0] if rest else None
@@ -145,10 +165,10 @@ def build_files(
 
 def build_directories(
     base: Path,
-    items: Iterable[tuple[str, str] | tuple[str, str, str]],
-) -> dict[str, Directory]:
+    items: DotfileItems,
+):
     """Build Directory mappings from (dest, src[, owner]) tuples."""
-    result: dict[str, Directory] = {}
+    result: DirectoryMap = {}
 
     for dest, src, *rest in items:
         owner = rest[0] if rest else None
@@ -167,11 +187,11 @@ def build_directories(
 
 def build_symlinks(
     base: Path,
-    items: Iterable[tuple[str, str] | tuple[str, str, str]],
+    items: DotfileItems,
     default_owner: str,
-) -> dict[str, str | Symlink]:
+):
     """Build Symlink mappings from (dest, src[, owner]) tuples."""
-    result: dict[str, str | Symlink] = {}
+    result: SymlinkMap = {}
 
     for dest, src, *rest in items:
         owner = rest[0] if rest else default_owner
@@ -188,7 +208,7 @@ def build_symlinks(
     return result
 
 
-def file_hash(path: str) -> str:
+def file_hash(path: str):
     """Return SHA-256 hash of file or None if it does not exist."""
     p = Path(path)
 
@@ -239,23 +259,3 @@ def build_plymouth_theme():
     cmd = ["plymouth-set-default-theme", "-R"]
     logger.info("Building plymouth theme")
     run_cmd_as_root(cmd)
-
-
-def get_current_wallpaper() -> str:
-    home = Path(get_user_home_dir())
-    json_path = home / ".cache/noctalia/wallpapers.json"
-
-    result = run_cmd_as_user(
-        [
-            "jq",
-            "-r",
-            """
-            .wallpapers[""]
-            | select(. != null and . != "")
-            // .defaultWallpaper
-            """,
-            str(json_path),
-        ],
-    )
-
-    return result.strip()

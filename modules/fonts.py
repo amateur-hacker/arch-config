@@ -1,9 +1,11 @@
 import decman
 from decman.plugins import pacman
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "noto-fonts",
     "noto-fonts-cjk",
     "noto-fonts-emoji",
@@ -23,5 +25,5 @@ class Fonts(decman.Module):
         super().__init__("fonts")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)

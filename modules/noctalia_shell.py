@@ -1,9 +1,11 @@
 import decman
 from decman.plugins import pacman
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     (
         "noctalia-shell",
         {
@@ -19,12 +21,12 @@ PKGS: list[str | tuple[str, set[str]]] = [
 ]
 
 
-class Noctalia(decman.Module):
+class NoctaliaShell(decman.Module):
     """Noctalia shell package profile."""
 
     def __init__(self):
-        super().__init__("noctalia")
+        super().__init__("noctalia_shell")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)

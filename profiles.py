@@ -1,31 +1,25 @@
-from enum import Enum
-
-import decman
-
-from modules.cli import CLI
-from modules.dev import Dev
+from modules.cli_tools import CLITools
+from modules.dev_tools import DevTools
 from modules.fonts import Fonts
-from modules.gui import GUI
+from modules.gui_tools import GUITools
 from modules.hyprland import Hyprland
-from modules.noctalia import Noctalia
-from modules.theming import Theming
+from modules.noctalia_shell import NoctaliaShell
+from modules.theming_tools import ThemingTools
+from modules.wayland_tools import WaylandTools
+from specs import Profile, ProfileModules, ProfilesMap
 
-WORKSTATION = [
-    CLI(),
-    Dev(),
-    GUI(),
-    Fonts(),
-    Theming(),
-    Noctalia(),
+WORKSTATION: ProfileModules = [
     Hyprland(),
+    WaylandTools(),
+    NoctaliaShell(),
+    CLITools(),
+    DevTools(),
+    GUITools(),
+    Fonts(),
+    ThemingTools(),
 ]
 
 
-class Profile(Enum):
-    WORKSTATION = "workstation"
-    # GAMING = "gaming"
-
-
-PROFILES: dict[Profile, list[decman.Module]] = {
+PROFILES: ProfilesMap = {
     Profile.WORKSTATION: WORKSTATION,
 }

@@ -1,9 +1,11 @@
 import decman
-from decman.plugins import pacman, aur
+from decman.plugins import aur, pacman
+
+from specs import PkgList
 
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "adw-gtk-theme",
     "bibata-cursor-theme",
     "catppuccin-mocha-grub-theme-git",
@@ -16,21 +18,21 @@ PKGS: list[str | tuple[str, set[str]]] = [
     "tela-circle-icon-theme-blue",
 ]
 
-AUR_PKGS: list[str | tuple[str, set[str]]] = [
+AUR_PKGS: PkgList = [
     "sddm-silent-theme",
 ]
 
 
-class Theming(decman.Module):
+class ThemingTools(decman.Module):
     """Theming tools package profile."""
 
     def __init__(self):
-        super().__init__("cli")
+        super().__init__("theming_tools")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)
 
     @aur.packages
-    def aur_pkgs(self) -> set[str]:
+    def aur_pkgs(self):
         return resolve_pkgs(AUR_PKGS)

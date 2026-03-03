@@ -1,8 +1,10 @@
 import os
 import pwd
-from typing import Iterable, Union
+from typing import Iterable
 
 import decman
+
+from specs import PkgSpec
 
 
 def is_laptop():
@@ -29,7 +31,7 @@ def get_username() -> str:
         raise RuntimeError("Cannot determine username.")
 
 
-def get_user_home_dir() -> str:
+def get_user_home_dir():
     """Return the home directory of the effective non-root user."""
     username = get_username()
 
@@ -39,13 +41,7 @@ def get_user_home_dir() -> str:
         raise RuntimeError(f"Cannot determine home directory for user '{username}'.")
 
 
-PkgSpec = Union[
-    str,
-    tuple[str, set[str]],
-]
-
-
-def resolve_pkgs(raw: Iterable[PkgSpec]) -> set[str]:
+def resolve_pkgs(raw: Iterable[PkgSpec]):
     result: set[str] = set()
 
     for item in raw:
@@ -77,11 +73,11 @@ def resolve_pkgs(raw: Iterable[PkgSpec]) -> set[str]:
     return result
 
 
-def run_cmd_as_root(cmd: list[str], **kwargs) -> str:
+def run_cmd_as_root(cmd: list[str], **kwargs):
     return decman.prg(cmd, pty=False, **kwargs)
 
 
-def run_cmd_as_user(cmd: list[str], **kwargs) -> str:
+def run_cmd_as_user(cmd: list[str], **kwargs):
     return decman.prg(
         cmd,
         user=get_username(),

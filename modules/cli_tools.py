@@ -2,9 +2,11 @@ import decman
 from decman.plugins import pacman, aur
 from decman.plugins.aur import CustomPackage
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "acpi",
     "bat",
     "bottom",
@@ -72,7 +74,7 @@ PKGS: list[str | tuple[str, set[str]]] = [
     ("zoxide", {"fzf"}),
 ]
 
-AUR_PKGS: list[str | tuple[str, set[str]]] = [
+AUR_PKGS: PkgList = [
     "ain-bin",
     "cbonsai",
     "decman",
@@ -88,18 +90,18 @@ AUR_CUSTOM_PKGS = [
 ]
 
 
-class CLI(decman.Module):
+class CLITools(decman.Module):
     """CLI tools package profile."""
 
     def __init__(self):
-        super().__init__("cli")
+        super().__init__("cli_tools")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)
 
     @aur.packages
-    def aur_pkgs(self) -> set[str]:
+    def aur_pkgs(self):
         return resolve_pkgs(AUR_PKGS)
 
     @aur.custom_packages

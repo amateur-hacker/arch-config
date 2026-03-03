@@ -1,9 +1,11 @@
 import decman
 from decman.plugins import pacman
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "google-chrome",
     "imv",
     "kitty",
@@ -31,12 +33,12 @@ PKGS: list[str | tuple[str, set[str]]] = [
 ]
 
 
-class GUI(decman.Module):
+class GUITools(decman.Module):
     """GUI tools package profile."""
 
     def __init__(self):
-        super().__init__("gui")
+        super().__init__("gui_tools")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)

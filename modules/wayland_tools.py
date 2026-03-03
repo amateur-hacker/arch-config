@@ -6,17 +6,18 @@ from specs import PkgList
 from .utils import resolve_pkgs
 
 PKGS: PkgList = [
-    ("paru", {"bat", "devtools"}),
-    "chaotic-keyring",
-    "chaotic-mirrorlist",
+    "grim",
+    "satty",
+    "slurp",
+    "wl-clipboard",
 ]
 
 
-class AUR(decman.Module):
-    """Development tools package profile."""
+class WaylandTools(decman.Module):
+    """Wayland tools package profile."""
 
     def __init__(self):
-        super().__init__("aur")
+        super().__init__("wayland_tools")
 
     @pacman.packages
     def pkgs(self):

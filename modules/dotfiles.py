@@ -1,21 +1,21 @@
 from pathlib import Path
-from typing import Callable, TypedDict
 
 import decman
-from decman import Directory, File, Symlink
+
+from specs import DotfileItemList, TrackedItemsMap
 
 from .dotfiles_utils import (
     apply_graphical_gsettings,
     build_directories,
     build_files,
-    build_symlinks,
-    ensure_acl,
-    file_hash,
-    generate_locales,
     build_font_cache,
     build_initramfs_images,
     build_plymouth_theme,
+    build_symlinks,
+    ensure_acl,
+    file_hash,
     generate_grub_config,
+    generate_locales,
     get_current_wallpaper,
     sync_pacman_repos,
     update_xdg_user_dirs,
@@ -32,9 +32,9 @@ class Dotfiles(decman.Module):
         self._home = Path(get_user_home_dir())
         self._user = get_username()
 
-    def files(self) -> dict[str, File]:
+    def files(self):
         current_wallpaper_path = get_current_wallpaper()
-        file_items: list[tuple[str, str] | tuple[str, str, str]] = [
+        file_items: DotfileItemList = [
             # (
             #     "/path/to/dst/file",
             #     "/path/to/src/file",
@@ -66,8 +66,8 @@ class Dotfiles(decman.Module):
 
         return build_files(base=self._base, items=file_items)
 
-    def directories(self) -> dict[str, Directory]:
-        directory_items: list[tuple[str, str] | tuple[str, str, str]] = [
+    def directories(self):
+        directory_items: DotfileItemList = [
             (
                 "/usr/share/plymouth/themes/anonymous",
                 "usr/share/plymouth/themes/anonymous",
@@ -76,8 +76,8 @@ class Dotfiles(decman.Module):
 
         return build_directories(base=self._base, items=directory_items)
 
-    def symlinks(self) -> dict[str, str | Symlink]:
-        symlink_items: list[tuple[str, str] | tuple[str, str, str]] = [
+    def symlinks(self):
+        symlink_items: DotfileItemList = [
             (f"{self._home}/.config/atac", "config/atac"),
             (f"{self._home}/.config/bottom", "config/bottom"),
             (f"{self._home}/.config/cava", "config/cava"),
@@ -110,15 +110,7 @@ class Dotfiles(decman.Module):
         )
 
     def after_update(self, store):
-        TrackedItem = TypedDict(
-            "TrackedItem",
-            {
-                "key": str,
-                "action": Callable[[], None],
-            },
-        )
-
-        tracked_items: dict[str, TrackedItem] = {
+        tracked_items: TrackedItemsMap = {
             "/etc/default/grub": {
                 "key": "grub_hash",
                 "action": generate_grub_config,

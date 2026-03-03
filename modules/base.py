@@ -1,9 +1,11 @@
 import decman
 from decman.plugins import pacman
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "base",
     "base-devel",
     "bluez",
@@ -49,5 +51,5 @@ class Base(decman.Module):
         super().__init__("base")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)

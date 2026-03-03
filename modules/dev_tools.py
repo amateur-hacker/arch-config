@@ -1,9 +1,11 @@
 import decman
 from decman.plugins import pacman
 
+from specs import PkgList
+
 from .utils import resolve_pkgs
 
-PKGS: list[str | tuple[str, set[str]]] = [
+PKGS: PkgList = [
     "bun",
     "cmake",
     "devtools",
@@ -35,12 +37,12 @@ PKGS: list[str | tuple[str, set[str]]] = [
 ]
 
 
-class Dev(decman.Module):
+class DevTools(decman.Module):
     """Development tools package profile."""
 
     def __init__(self):
-        super().__init__("dev")
+        super().__init__("dev_tools")
 
     @pacman.packages
-    def pkgs(self) -> set[str]:
+    def pkgs(self):
         return resolve_pkgs(PKGS)

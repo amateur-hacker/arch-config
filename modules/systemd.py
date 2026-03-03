@@ -29,7 +29,7 @@ class Systemd(decman.Module):
         self._is_laptop = is_laptop()
 
     @systemd.units
-    def systemd_units(self) -> set[str]:
+    def systemd_units(self):
         units = set(SYSTEM_UNITS)
 
         if self._is_laptop:
