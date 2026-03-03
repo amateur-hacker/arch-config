@@ -5,7 +5,7 @@ from rich.logging import RichHandler
 from rich.theme import Theme
 
 
-def setup_logging() -> None:
+def setup_logging():
     custom_theme = Theme(
         {
             "logging.level.info": "white",
