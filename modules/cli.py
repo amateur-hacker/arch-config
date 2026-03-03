@@ -1,0 +1,107 @@
+import decman
+from decman.plugins import pacman, aur
+from decman.plugins.aur import CustomPackage
+
+from .utils import resolve_pkgs
+
+PKGS: list[str | tuple[str, set[str]]] = [
+    "acpi",
+    "bat",
+    "bottom",
+    "cava",
+    ("chess-tui", {"stockfish"}),
+    "cowsay",
+    "curl",
+    "fd",
+    "ffmpeg",
+    "figlet",
+    (
+        "fish",
+        {
+            "fisher",
+            "fzf",
+            "kitty-shell-integration",
+        },
+    ),
+    "fzf",
+    "geoip",
+    ("github-cli", {"git"}),
+    "httpie",
+    "imagemagick",
+    "inxi",
+    "jq",
+    "less",
+    "lolcat",
+    "lsd",
+    "perl-file-mimeinfo",
+    "plocate",
+    "ripgrep",
+    "rsync",
+    "spotdl",
+    ("starship", {"ttf-cascadia-mono-nerd"}),
+    "tealdeer",
+    "toilet",
+    "trash-cli",
+    "tty-clock",
+    "ufw",
+    "unrar",
+    "unzip",
+    "wget",
+    "wtype",
+    (
+        "yazi",
+        {
+            "7zip",
+            "fd",
+            "ffmpeg",
+            "fzf",
+            "git",
+            "imagemagick",
+            "jq",
+            "mediainfo",
+            "poppler",
+            "resvg",
+            "ripgrep",
+            "wl-clipboard",
+            "zoxide",
+        },
+    ),
+    "yt-dlp",
+    "7zip",
+    "zip",
+    ("zoxide", {"fzf"}),
+]
+
+AUR_PKGS: list[str | tuple[str, set[str]]] = [
+    "ain-bin",
+    "cbonsai",
+    "decman",
+    "gowall",
+    "pipes.sh",
+]
+
+AUR_CUSTOM_PKGS = [
+    CustomPackage(
+        "nitch++-git",
+        "https://github.com/amateur-hacker/nitchplusplus",
+    )
+]
+
+
+class CLI(decman.Module):
+    """CLI tools package profile."""
+
+    def __init__(self):
+        super().__init__("cli")
+
+    @pacman.packages
+    def pkgs(self) -> set[str]:
+        return resolve_pkgs(PKGS)
+
+    @aur.packages
+    def aur_pkgs(self) -> set[str]:
+        return resolve_pkgs(AUR_PKGS)
+
+    @aur.custom_packages
+    def aur_custom_pkgs(self):
+        return AUR_CUSTOM_PKGS

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+move_to_focused() {
+  hyprctl dispatch movecursor "$(
+    hyprctl -j activewindow 2>/dev/null |
+      jq -r '
+        select(.address != null) |
+        "\(.at[0] + (.size[0]/2 | rint)) \(.at[1] + (.size[1]/2 | rint))"
+      '
+  )" >/dev/null
+}
+
+socat -u "unix-connect:${XDG_RUNTIME_DIR}/hypr/${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" stdout |
+  while read -r line; do
+    case "$line" in
+    "activewindow>>"*)
+      sleep 0.03 # tiny delay so geometry updates
+      move_to_focused
+      ;;
+    esac
+  done

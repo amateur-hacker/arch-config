@@ -1,0 +1,9 @@
+color:
+  theme: custom
+  color: always
+icons:
+  when: always
+sorting:
+  dir-grouping: first
+header: true
+# no-symlink: true
