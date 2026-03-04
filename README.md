@@ -20,12 +20,12 @@ decman --help
 - **Declarative Package Management** — Define packages in Python, let decman handle installation
 - **Declarative Dotfile Management** — Symlink/copy dotfiles from repo to system
 - **AUR Support** — Chaotic AUR + Paru + custom AUR packages
-- **Hyprland** — Wayland compositor with plugins
+- **Hyprland** — Wayland compositor with noctalia shell
 - **Fish Shell** — Modern CLI shell with plugins
-- **Neovim** — Configured with dependencies
-- **Dev Tools** — Node.js, Python, Rust, Go, Bun, Docker, Lazygit
+- **Neovim** — LazyVim with customizations
+- **Dev Tools** — Node.js, Python, Rust, Go, Bun, Docker, Lazygit, Lazydocker
 - **GUI Apps** — Chrome, Spotify, Telegram, Kitty, MPV
-- **Theming** — Catppuccin, SDDM, GTK themes
+- **Theming** — Catppuccin Mocha Lavender, SDDM, GRUB, GTK themes
 
 ## 📂 Project Structure
 
@@ -68,32 +68,55 @@ PKGS: PkgList = [
 ```
 
 Package format:
+
 - `"package"` — single package
 - `("package", {"dep1", "dep2"})` — package with dependencies
 
 ## 📁 Adding Dotfiles
 
-Edit `modules/dotfiles.py` — add to `symlinks()` or `files()`:
+Edit `modules/dotfiles.py` — use the module-level variables:
 
 ```python
-def symlinks(self):
-    return build_symlinks(base=self._base, items=[
-        (f"{self._home}/.config/newapp", "config/newapp"),
-    ])
+# modules/dotfiles.py
+
+# Copy files to system locations (/etc, /usr, etc.)
+FILE_ITEMS: DotfileItemList = [
+    ("/etc/default/grub", "etc/default/grub"),
+    ("/etc/pacman.conf", "etc/pacman.conf"),
+    # (destination, source) or (destination, source, owner)
+]
+
+# Copy directories to system
+DIRECTORY_ITEMS: DotfileItemList = [
+    ("/usr/share/plymouth/themes/anonymous", "usr/share/plymouth/themes/anonymous"),
+]
+
+# Create symlinks in user's home directory
+SYMLINK_ITEMS: DotfileItemList = [
+    (f"{HOME}/.config/hypr", "config/hypr"),
+    (f"{HOME}/.config/kitty", "config/kitty"),
+    # (destination, source) — destination is relative to home
+]
+
+# Run commands when tracked files change (by hash)
+TRACKED_ITEMS: TrackedItemsMap = {
+    "/etc/default/grub": {
+        "key": "grub_hash",
+        "action": generate_grub_config,  # function that runs grub-mkconfig
+    },
+    "/etc/fonts/local.conf": {
+        "key": "fonts_hash",
+        "action": build_font_cache,  # function that runs fc-cache
+    },
+}
 ```
 
 Dotfile format:
+
 - `(destination, source)` — relative to dotfiles/ directory
 - `(destination, source, owner)` — with specific owner
 
-## 💻 Useful Commands
-
-| Command | Description |
-|---------|-------------|
-| `decman --dry-run` | Preview changes without applying |
-| `decman --debug` | Show debug output |
-| `decman --skip files` | Skip dotfiles step |
-| `decman --only aur` | Only run AUR packages |
+> **Note:** For symlinks, if a folder already exists at the destination, remove it first before running decman — otherwise it will warn you.
 
 ## 🔧 Creating a New Module
 
@@ -119,14 +142,20 @@ class MyModule(decman.Module):
 ```
 
 Then add it to `main.py`:
+
 ```python
 from modules.my_module import MyModule
 
 decman.modules += [MyModule()]
 ```
 
-## ⚠️ Tips
+## 💻 Useful Commands
 
-- Always run with `--dry-run` first to preview changes
-- Review what `initial-setup.sh` does before running
-- Backup important configs before applying new ones
+| Command | Description |
+|---------|-------------|
+| `decman --dry-run` | Preview changes without applying |
+| `decman --debug` | Show debug output |
+| `decman --skip files` | Skip dotfiles step |
+| `decman --only aur` | Only run AUR packages |
+| `decman --params aur-upgrade-devel` | Upgrade devel packages (*-git, etc.) |
+| `decman --params aur-force` | Force rebuild cached AUR packages |

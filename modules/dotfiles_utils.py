@@ -4,7 +4,7 @@ import os
 import pwd
 from pathlib import Path
 
-from decman import Directory, File, Symlink
+from decman import Directory, File, Store, Symlink
 
 from modules.utils import (
     get_user_home_dir,
@@ -12,13 +12,14 @@ from modules.utils import (
     run_cmd_as_root,
     run_cmd_as_user,
 )
-from specs import DirectoryMap, DotfileItems, FileMap, SymlinkMap
+from specs import DirectoryMap, DotfileItems, FileMap, SymlinkMap, TrackedItemsMap
 
 logger = logging.getLogger(__name__)
 username = get_username()
 
 
 def get_current_wallpaper():
+    """Return the current active wallpaper"""
     home = Path(get_user_home_dir())
     json_path = home / ".cache/noctalia/wallpapers.json"
 
@@ -39,7 +40,7 @@ def get_current_wallpaper():
 
 
 def ensure_fullname(username: str, fullname: str):
-    """Ensure user's fullname"""
+    """Ensure the user's fullname."""
     try:
         current = pwd.getpwnam(username).pw_gecos.split(",")[0]
     except KeyError as e:
@@ -51,7 +52,7 @@ def ensure_fullname(username: str, fullname: str):
 
 
 def ensure_acl(path: Path, acl: str):
-    """Ensure ACL entry exists on path."""
+    """Ensure the ACL entry exists on the path."""
     if not path.exists():
         raise FileNotFoundError(f"{path} doesn't exist")
 
@@ -208,15 +209,32 @@ def build_symlinks(
     return result
 
 
-def file_hash(path: str):
-    """Return SHA-256 hash of file or None if it does not exist."""
-    p = Path(path)
+def file_hash(path: Path):
+    """Return SHA-256 hash of file."""
+    if not path.exists():
+        raise FileNotFoundError(f"{path} doesn't exist")
 
-    if not p.exists():
-        raise FileNotFoundError(f"{p} doesn't exist")
-
-    with p.open("rb") as f:
+    with path.open("rb") as f:
         return hashlib.sha256(f.read()).hexdigest()
+
+
+def run_tracked_actions(tracked_items: TrackedItemsMap, store: Store):
+    """Run actions when tracked files change."""
+    for path, config in tracked_items.items():
+        key = config["key"]
+        action = config["action"]
+
+        store.ensure(key, None)
+        p = Path(path)
+
+        if not p.exists():
+            continue
+
+        current = file_hash(p)
+
+        if store[key] != current:
+            action()
+            store[key] = current
 
 
 def generate_grub_config():

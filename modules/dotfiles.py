@@ -13,14 +13,110 @@ from .dotfiles_utils import (
     build_plymouth_theme,
     build_symlinks,
     ensure_acl,
-    file_hash,
     generate_grub_config,
     generate_locales,
     get_current_wallpaper,
+    run_tracked_actions,
     sync_pacman_repos,
     update_xdg_user_dirs,
 )
 from .utils import get_user_home_dir, get_username
+
+
+HOME = get_user_home_dir()
+
+FILE_ITEMS: DotfileItemList = [
+    # (
+    #     "/path/to/dst/file",
+    #     "/path/to/src/file",
+    #     "your_user_name",
+    # ),  # NOTE: Just an example
+    ("/etc/default/grub", "etc/default/grub"),
+    ("/etc/fonts/local.conf", "etc/fonts/local.conf"),
+    ("/etc/locale.conf", "etc/locale.conf"),
+    ("/etc/mkinitcpio.conf", "etc/mkinitcpio.conf"),
+    ("/etc/pacman.conf", "etc/pacman.conf"),
+    ("/etc/plymouth/plymouthd.conf", "etc/plymouth/plymouthd.conf"),
+    ("/etc/sddm.conf.d/10-theme.conf", "etc/sddm.conf.d/10-theme.conf"),
+    (
+        "/usr/share/icons/default/index.theme",
+        "usr/share/cursor/default/index.theme",
+    ),
+    (
+        "/usr/share/sddm/themes/silent/configs/catppuccin-mocha.conf",
+        "usr/share/sddm/themes/silent/configs/catppuccin-mocha.conf",
+    ),
+    (
+        "/usr/share/sddm/themes/silent/metadata.desktop",
+        "usr/share/sddm/themes/silent/metadata.desktop",
+    ),
+    (
+        "/usr/share/sddm/themes/silent/backgrounds/bg.png",
+        get_current_wallpaper(),
+    ),
+]
+
+DIRECTORY_ITEMS: DotfileItemList = [
+    (
+        "/usr/share/plymouth/themes/anonymous",
+        "usr/share/plymouth/themes/anonymous",
+    ),
+]
+
+SYMLINK_ITEMS: DotfileItemList = [
+    (f"{HOME}/.config/atac", "config/atac"),
+    (f"{HOME}/.config/bottom", "config/bottom"),
+    (f"{HOME}/.config/cava", "config/cava"),
+    (f"{HOME}/.config/chrome-flags.conf", "config/chrome-flags.conf"),
+    (f"{HOME}/.config/fish", "config/fish"),
+    (f"{HOME}/.config/gtk-3.0", "config/gtk-3.0"),
+    (f"{HOME}/.config/gtk-4.0", "config/gtk-4.0"),
+    (f"{HOME}/.config/hypr", "config/hypr"),
+    (f"{HOME}/.config/kitty", "config/kitty"),
+    (f"{HOME}/.config/lsd", "config/lsd"),
+    (f"{HOME}/.config/mimeapps.list", "config/mimeapps.list"),
+    (f"{HOME}/.config/mpv/mpv.conf", "config/mpv/mpv.conf"),
+    (f"{HOME}/.config/neovide", "config/neovide"),
+    (f"{HOME}/.config/nitch++", "config/nitch++"),
+    (f"{HOME}/.config/noctalia", "config/noctalia"),
+    (f"{HOME}/.config/nvim", "config/nvim"),
+    (f"{HOME}/.config/opencode/themes", "config/opencode/themes"),
+    (f"{HOME}/.local/state/opencode/kv.json", "config/opencode/kv.json"),
+    (f"{HOME}/.config/starship", "config/starship"),
+    (f"{HOME}/.config/user-dirs.dirs", "config/user-dirs.dirs"),
+    (f"{HOME}/.config/yazi", "config/yazi"),
+    (f"{HOME}/.config/zathura", "config/zathura"),
+    (f"{HOME}/.face", "home/.face"),
+    (f"{HOME}/.face.icon", "home/.face"),
+    # (f"{self._home}/.face.icon1", "home/.face1"),
+]
+
+TRACKED_ITEMS: TrackedItemsMap = {
+    "/etc/default/grub": {
+        "key": "grub_hash",
+        "action": generate_grub_config,
+    },
+    "/etc/fonts/local.conf": {
+        "key": "fonts_hash",
+        "action": build_font_cache,
+    },
+    "/etc/locale.conf": {
+        "key": "locale_hash",
+        "action": generate_locales,
+    },
+    "/etc/mkinitcpio.conf": {
+        "key": "mkinitcpio_hash",
+        "action": build_initramfs_images,
+    },
+    "/etc/pacman.conf": {
+        "key": "pacman_hash",
+        "action": sync_pacman_repos,
+    },
+    "/etc/plymouth/plymouthd.conf": {
+        "key": "plymouth_hash",
+        "action": build_plymouth_theme,
+    },
+}
 
 
 class Dotfiles(decman.Module):
@@ -33,127 +129,19 @@ class Dotfiles(decman.Module):
         self._user = get_username()
 
     def files(self):
-        current_wallpaper_path = get_current_wallpaper()
-        file_items: DotfileItemList = [
-            # (
-            #     "/path/to/dst/file",
-            #     "/path/to/src/file",
-            #     "your_user_name",
-            # ),  # NOTE: Just an example
-            ("/etc/default/grub", "etc/default/grub"),
-            ("/etc/fonts/local.conf", "etc/fonts/local.conf"),
-            ("/etc/locale.conf", "etc/locale.conf"),
-            ("/etc/mkinitcpio.conf", "etc/mkinitcpio.conf"),
-            ("/etc/pacman.conf", "etc/pacman.conf"),
-            ("/etc/plymouth/plymouthd.conf", "etc/plymouth/plymouthd.conf"),
-            ("/etc/sddm.conf.d/10-theme.conf", "etc/sddm.conf.d/10-theme.conf"),
-            (
-                "/usr/share/icons/default/index.theme",
-                "usr/share/cursor/default/index.theme",
-            ),
-            (
-                "/usr/share/sddm/themes/silent/configs/catppuccin-mocha.conf",
-                "usr/share/sddm/themes/silent/configs/catppuccin-mocha.conf",
-            ),
-            (
-                "/usr/share/sddm/themes/silent/metadata.desktop",
-                "usr/share/sddm/themes/silent/metadata.desktop",
-            ),
-            (
-                "/usr/share/sddm/themes/silent/backgrounds/bg.png",
-                current_wallpaper_path,
-            ),
-        ]
-
-        return build_files(base=self._base, items=file_items)
+        return build_files(base=self._base, items=FILE_ITEMS)
 
     def directories(self):
-        directory_items: DotfileItemList = [
-            (
-                "/usr/share/plymouth/themes/anonymous",
-                "usr/share/plymouth/themes/anonymous",
-            ),
-        ]
-
-        return build_directories(base=self._base, items=directory_items)
+        return build_directories(base=self._base, items=DIRECTORY_ITEMS)
 
     def symlinks(self):
-        symlink_items: DotfileItemList = [
-            (f"{self._home}/.config/atac", "config/atac"),
-            (f"{self._home}/.config/bottom", "config/bottom"),
-            (f"{self._home}/.config/cava", "config/cava"),
-            (f"{self._home}/.config/chrome-flags.conf", "config/chrome-flags.conf"),
-            (f"{self._home}/.config/fish", "config/fish"),
-            (f"{self._home}/.config/gtk-3.0", "config/gtk-3.0"),
-            (f"{self._home}/.config/gtk-4.0", "config/gtk-4.0"),
-            (f"{self._home}/.config/hypr", "config/hypr"),
-            (f"{self._home}/.config/kitty", "config/kitty"),
-            (f"{self._home}/.config/lsd", "config/lsd"),
-            (f"{self._home}/.config/mimeapps.list", "config/mimeapps.list"),
-            (f"{self._home}/.config/mpv/mpv.conf", "config/mpv/mpv.conf"),
-            (f"{self._home}/.config/neovide", "config/neovide"),
-            (f"{self._home}/.config/nitch++", "config/nitch++"),
-            (f"{self._home}/.config/noctalia", "config/noctalia"),
-            (f"{self._home}/.config/nvim", "config/nvim"),
-            (f"{self._home}/.config/opencode/themes", "config/opencode/themes"),
-            (f"{self._home}/.local/state/opencode/kv.json", "config/opencode/kv.json"),
-            (f"{self._home}/.config/starship", "config/starship"),
-            (f"{self._home}/.config/user-dirs.dirs", "config/user-dirs.dirs"),
-            (f"{self._home}/.config/yazi", "config/yazi"),
-            (f"{self._home}/.config/zathura", "config/zathura"),
-            (f"{self._home}/.face", "home/.face"),
-            (f"{self._home}/.face.icon", "home/.face"),
-            # (f"{self._home}/.face.icon1", "home/.face1"),
-        ]
-
         # NOTE: can use .extend method for conditional logic.
-
         return build_symlinks(
-            base=self._base, items=symlink_items, default_owner=self._user
+            base=self._base, items=DIRECTORY_ITEMS, default_owner=self._user
         )
 
     def after_update(self, store):
-        tracked_items: TrackedItemsMap = {
-            "/etc/default/grub": {
-                "key": "grub_hash",
-                "action": generate_grub_config,
-            },
-            "/etc/fonts/local.conf": {
-                "key": "fonts_hash",
-                "action": build_font_cache,
-            },
-            "/etc/locale.conf": {
-                "key": "locale_hash",
-                "action": generate_locales,
-            },
-            "/etc/mkinitcpio.conf": {
-                "key": "mkinitcpio_hash",
-                "action": build_initramfs_images,
-            },
-            "/etc/pacman.conf": {
-                "key": "pacman_hash",
-                "action": sync_pacman_repos,
-            },
-            "/etc/plymouth/plymouthd.conf": {
-                "key": "plymouth_hash",
-                "action": build_plymouth_theme,
-            },
-        }
-
-        for path, config in tracked_items.items():
-            key = config["key"]
-            action = config["action"]
-
-            store.ensure(key, None)
-
-            if not Path(path).exists():
-                continue
-
-            current = file_hash(path)
-
-            if store[key] != current:
-                action()
-                store[key] = current
+        run_tracked_actions(TRACKED_ITEMS, store)
 
         ensure_acl(path=self._home, acl="user:sddm:--x")
         ensure_acl(path=self._home / ".face.icon", acl="user:sddm:r--")

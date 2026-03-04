@@ -13,13 +13,13 @@ PKGS: PkgList = [
             "hyprpicker",
             "hyprpolkitagent",
             "hyprshot",
-            "socat",
-            "uwsm",
-            "xdg-desktop-portal",
-            "xdg-desktop-portal-gtk",
             "xdg-desktop-portal-hyprland",
         },
     ),
+    "socat",
+    "uwsm",
+    "xdg-desktop-portal",
+    "xdg-desktop-portal-gtk",
 ]
 
 
