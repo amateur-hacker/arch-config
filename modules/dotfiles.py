@@ -95,6 +95,8 @@ class Dotfiles(decman.Module):
             (f"{self._home}/.config/nitch++", "config/nitch++"),
             (f"{self._home}/.config/noctalia", "config/noctalia"),
             (f"{self._home}/.config/nvim", "config/nvim"),
+            (f"{self._home}/.config/opencode/themes", "config/opencode/themes"),
+            (f"{self._home}/.local/state/opencode/kv.json", "config/opencode/kv.json"),
             (f"{self._home}/.config/starship", "config/starship"),
             (f"{self._home}/.config/user-dirs.dirs", "config/user-dirs.dirs"),
             (f"{self._home}/.config/yazi", "config/yazi"),

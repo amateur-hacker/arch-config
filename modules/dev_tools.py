@@ -29,6 +29,7 @@ PKGS: PkgList = [
     ),
     "ninja",
     ("nodejs", {"npm"}),
+    "opencode",
     ("php", {"composer"}),
     ("python", {"python-pipx", "python-rich"}),
     ("ruby", {"rubygems"}),
