@@ -1,9 +1,17 @@
 color:
+  when: auto
   theme: custom
-  color: always
 icons:
-  when: always
+  when: auto
 sorting:
   dir-grouping: first
-header: true
-# no-symlink: true
+# Possible values: permission, user, group, context, size, date, name, inode, links, git
+blocks:
+  - permission
+  - user
+  # - group
+  - size
+  - date
+  - name
+# header: false
+# no-symlink: false

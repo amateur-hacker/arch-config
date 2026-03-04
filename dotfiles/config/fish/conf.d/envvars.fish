@@ -42,8 +42,6 @@ set -x GOBIN "$GOPATH/bin"
 set -x GOMODCACHE "$XDG_CACHE_HOME/go/mod"
 set -x REDISCLI_HISTFILE "$XDG_DATA_HOME/redis/rediscli_history"
 set -x GIT_CONFIG_GLOBAL "$XDG_CONFIG_HOME/git/config"
-set -x STARSHIP_CONFIG "$XDG_CONFIG_HOME/starship/starship.toml"
-set -x ATAC_MAIN_DIR "$XDG_DATA_HOME/atac"
 # set -x WGETRC "$XDG_CONFIG_HOME/wget/wgetrc"
 # set -x REDISCLI_RCFILE "$XDG_CONFIG_HOME/redis/redisclirc"
 # set -x PYTHONSTARTUP "$XDG_CONFIG_HOME/python/pythonrc"
@@ -85,22 +83,20 @@ end
 # Personal environment tweaks
 set -x NODE_OPTIONS "--no-warnings --max-old-space-size=4096"
 set -x MANPAGER "nvim +Man!"
-# set -x FZF_DEFAULT_OPTS "\
-# --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
-# --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
-# --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
-# --color=selected-bg:#45475A \
-# --color=border:#313244,label:#CDD6F4 \
-# --exact --border --cycle --reverse"
-set -x LS_COLORS (dircolors -b | sed 's/^LS_COLORS='\''//;s/'\''$//')
+set -x FZF_DEFAULT_OPTS "\
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#B4BEFE,pointer:#B4BEFE \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#B4BEFE,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#6C7086,label:#CDD6F4"
+set -x LS_COLORS (dircolors -b  ~/.config/dircolors | sed 's/^LS_COLORS='\''//;s/'\''$//')
 set -x ATAC_THEME "$XDG_CONFIG_HOME/atac/mocha.toml"
 
 # Colored less + termcap vars
-set -x LESS "R --use-color -Dd+r -Du+b"
-set -x LESS_TERMCAP_mb (printf '\e[1;31m')
-set -x LESS_TERMCAP_md (printf '\e[1;36m')
+set -x LESS_TERMCAP_mb (printf '\e[1;38;2;243;139;168m') # pink
+set -x LESS_TERMCAP_md (printf '\e[1;38;2;180;190;254m') # lavender
 set -x LESS_TERMCAP_me (printf '\e[0m')
-set -x LESS_TERMCAP_so (printf '\e[01;44;33m')
+set -x LESS_TERMCAP_so (printf '\e[38;2;30;30;46;48;2;180;190;254m') # inverted lavender highlight
 set -x LESS_TERMCAP_se (printf '\e[0m')
-set -x LESS_TERMCAP_us (printf '\e[1;32m')
+set -x LESS_TERMCAP_us (printf '\e[1;38;2;166;227;161m') # green underline
 set -x LESS_TERMCAP_ue (printf '\e[0m')

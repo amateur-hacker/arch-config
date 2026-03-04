@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 username = get_username()
 
 
-def get_current_wallpaper():
-    """Return the current active wallpaper"""
+def get_current_wallpaper_path():
+    """Return the path of the current active wallpaper."""
     home = Path(get_user_home_dir())
     json_path = home / ".cache/noctalia/wallpapers.json"
 
@@ -210,7 +210,7 @@ def build_symlinks(
 
 
 def file_hash(path: Path):
-    """Return SHA-256 hash of file."""
+    """Return the SHA-256 hash of file."""
     if not path.exists():
         raise FileNotFoundError(f"{path} doesn't exist")
 

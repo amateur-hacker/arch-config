@@ -47,6 +47,7 @@ PKGS: PkgList = [
     "trash-cli",
     "tty-clock",
     "ufw",
+    ("unp", {"unrar", "unzip", "bzip2", "p7zip"}),
     "unrar",
     "unzip",
     "wget",

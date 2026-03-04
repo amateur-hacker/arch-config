@@ -198,4 +198,14 @@ return {
       },
     },
   },
+  {
+    "catppuccin/nvim",
+    opts = {
+      color_overrides = {
+        mocha = {
+          blue = "#b4befe", -- lavender
+        },
+      },
+    },
+  },
 }

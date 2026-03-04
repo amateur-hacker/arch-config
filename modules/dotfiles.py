@@ -15,15 +15,15 @@ from .dotfiles_utils import (
     ensure_acl,
     generate_grub_config,
     generate_locales,
-    get_current_wallpaper,
+    get_current_wallpaper_path,
     run_tracked_actions,
     sync_pacman_repos,
     update_xdg_user_dirs,
 )
 from .utils import get_user_home_dir, get_username
 
-
 HOME = get_user_home_dir()
+USER = get_username()
 
 FILE_ITEMS: DotfileItemList = [
     # (
@@ -52,7 +52,7 @@ FILE_ITEMS: DotfileItemList = [
     ),
     (
         "/usr/share/sddm/themes/silent/backgrounds/bg.png",
-        get_current_wallpaper(),
+        get_current_wallpaper_path(),
     ),
 ]
 
@@ -68,6 +68,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/bottom", "config/bottom"),
     (f"{HOME}/.config/cava", "config/cava"),
     (f"{HOME}/.config/chrome-flags.conf", "config/chrome-flags.conf"),
+    (f"{HOME}/.config/dircolors", "config/dircolors"),
     (f"{HOME}/.config/fish", "config/fish"),
     (f"{HOME}/.config/gtk-3.0", "config/gtk-3.0"),
     (f"{HOME}/.config/gtk-4.0", "config/gtk-4.0"),
@@ -82,7 +83,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/nvim", "config/nvim"),
     (f"{HOME}/.config/opencode/themes", "config/opencode/themes"),
     (f"{HOME}/.local/state/opencode/kv.json", "config/opencode/kv.json"),
-    (f"{HOME}/.config/starship", "config/starship"),
+    (f"{HOME}/.config/starship.toml", "config/starship.toml"),
     (f"{HOME}/.config/user-dirs.dirs", "config/user-dirs.dirs"),
     (f"{HOME}/.config/yazi", "config/yazi"),
     (f"{HOME}/.config/zathura", "config/zathura"),
@@ -125,8 +126,6 @@ class Dotfiles(decman.Module):
     def __init__(self):
         super().__init__("dotfiles")
         self._base = Path(__file__).resolve().parent.parent / "dotfiles"
-        self._home = Path(get_user_home_dir())
-        self._user = get_username()
 
     def files(self):
         return build_files(base=self._base, items=FILE_ITEMS)
@@ -136,14 +135,12 @@ class Dotfiles(decman.Module):
 
     def symlinks(self):
         # NOTE: can use .extend method for conditional logic.
-        return build_symlinks(
-            base=self._base, items=DIRECTORY_ITEMS, default_owner=self._user
-        )
+        return build_symlinks(base=self._base, items=SYMLINK_ITEMS, default_owner=USER)
 
     def after_update(self, store):
         run_tracked_actions(TRACKED_ITEMS, store)
 
-        ensure_acl(path=self._home, acl="user:sddm:--x")
-        ensure_acl(path=self._home / ".face.icon", acl="user:sddm:r--")
+        ensure_acl(path=Path(HOME), acl="user:sddm:--x")
+        ensure_acl(path=Path(HOME) / ".face.icon", acl="user:sddm:r--")
         update_xdg_user_dirs()
         apply_graphical_gsettings()
