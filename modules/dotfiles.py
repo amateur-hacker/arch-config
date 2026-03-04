@@ -45,6 +45,7 @@ class Dotfiles(decman.Module):
             ("/etc/locale.conf", "etc/locale.conf"),
             ("/etc/mkinitcpio.conf", "etc/mkinitcpio.conf"),
             ("/etc/pacman.conf", "etc/pacman.conf"),
+            ("/etc/plymouth/plymouthd.conf", "etc/plymouth/plymouthd.conf"),
             ("/etc/sddm.conf.d/10-theme.conf", "etc/sddm.conf.d/10-theme.conf"),
             (
                 "/usr/share/icons/default/index.theme",

@@ -77,7 +77,7 @@ def update_xdg_user_dirs():
         if not line or line.startswith("#") or "=" not in line:
             continue
 
-        key, value = line.split("=", 1)
+        _, value = line.split("=", 1)
         value = value.strip().strip('"')
 
         resolved_path = Path(value.replace("$HOME", str(home)))

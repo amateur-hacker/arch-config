@@ -14,6 +14,7 @@ PKGS: PkgList = [
     ("chess-tui", {"stockfish"}),
     "cowsay",
     "curl",
+    "dysk",
     "fd",
     "ffmpeg",
     "figlet",
