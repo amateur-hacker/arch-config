@@ -1,6 +1,6 @@
 # 🏠 Arch Linux Declarative Config
 
-> Declarative system configuration for Hyprland using [decman](https://github.com/kiviktnm/decman)
+> A Declarative system configuration for **Arch Linux** using [decman](https://github.com/kiviktnm/decman)
 
 ## 🚀 Quick Start
 
