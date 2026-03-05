@@ -38,8 +38,8 @@ end
 
 # System info on launch if interactive
 if status is-interactive
-    # fastfetch
-    nitch++
+    fastfetch
+    # nitch++
 end
 
 fish_config theme choose "Catppuccin Mocha"

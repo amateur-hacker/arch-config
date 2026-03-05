@@ -69,6 +69,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/cava", "config/cava"),
     (f"{HOME}/.config/chrome-flags.conf", "config/chrome-flags.conf"),
     (f"{HOME}/.config/dircolors", "config/dircolors"),
+    (f"{HOME}/.config/fastfetch", "config/fastfetch"),
     (f"{HOME}/.config/fish", "config/fish"),
     (f"{HOME}/.config/gtk-3.0", "config/gtk-3.0"),
     (f"{HOME}/.config/gtk-4.0", "config/gtk-4.0"),
@@ -89,7 +90,6 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/zathura", "config/zathura"),
     (f"{HOME}/.face", "home/.face"),
     (f"{HOME}/.face.icon", "home/.face"),
-    # (f"{self._home}/.face.icon1", "home/.face1"),
 ]
 
 TRACKED_ITEMS: TrackedItemsMap = {
