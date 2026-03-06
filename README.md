@@ -186,8 +186,7 @@ class MyModule(decman.Module):
         return self._aur_custom_pkgs
 ```
 
-Remember to export the module first inside `modules/__init__.py`.
-Then add it to either `profiles.py` or `main.py`:
+Export the module in `modules/__init__.py`, then add it to `profiles.py` or `main.py`.
 
 ```python
 # profiles.py
