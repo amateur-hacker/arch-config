@@ -4,7 +4,7 @@ from modules import (
     Fonts,
     GUIApps,
     Hyprland,
-    NoctaliaShell,
+    Noctalia,
     Theming,
     WaylandUtils,
 )
@@ -13,7 +13,7 @@ from specs import Profile, ProfileModules, ProfilesMap
 WORKSTATION: ProfileModules = [
     Hyprland(),
     WaylandUtils(),
-    NoctaliaShell(),
+    Noctalia(),
     CLITools(),
     Development(),
     GUIApps(),

@@ -7,7 +7,7 @@ from .fonts import Fonts
 from .gui_apps import GUIApps
 from .hardware import Hardware
 from .hyprland import Hyprland
-from .noctalia_shell import NoctaliaShell
+from .noctalia import Noctalia
 from .systemd import Systemd
 from .theming import Theming
 from .users import Users
@@ -23,7 +23,7 @@ __all__ = [
     "GUIApps",
     "Hardware",
     "Hyprland",
-    "NoctaliaShell",
+    "Noctalia",
     "Systemd",
     "Theming",
     "Users",

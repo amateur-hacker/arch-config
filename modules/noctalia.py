@@ -29,11 +29,11 @@ PKGS: PkgList = [
 ]
 
 
-class NoctaliaShell(decman.Module):
+class Noctalia(decman.Module):
     """Noctalia shell package profile."""
 
     def __init__(self):
-        super().__init__("noctalia_shell")
+        super().__init__("noctalia")
 
         _resolved_pkgs = resolve_pkgs(PKGS)
         self._pkgs, self._aur_pkgs, _ = split_pkgs(_resolved_pkgs)
