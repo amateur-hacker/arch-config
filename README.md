@@ -41,17 +41,19 @@ decman --help
 ├── settings.py          # User settings
 ├── logging_config.py    # Logging setup
 ├── modules/             # Package & dotfile modules
-│   ├── base.py          # Base system packages
-│   ├── hardware.py      # Hardware drivers
-│   ├── hyprland.py      # Hyprland compositor
 │   ├── aur.py           # AUR packages
+│   ├── base.py          # Base system packages
 │   ├── cli_tools.py     # CLI tools
 │   ├── development.py   # Development tools
+│   ├── dotfiles.py      # Dotfile management
 │   ├── fonts.py         # Fonts
 │   ├── gui_apps.py      # GUI applications
+│   ├── hardware.py      # Hardware drivers
+│   ├── hyprland.py      # Hyprland compositor
+│   ├── noctalia.py      # Noctalia shell
+│   ├── systemd.py       # Systemd services
 │   ├── theming.py       # Themes
 │   ├── wayland.py       # Wayland Utilities
-│   ├── dotfiles.py      # Dotfile management
 │   └── users.py         # User management
 └── dotfiles/            # Source dotfiles
     ├── config/          # ~/.config files
