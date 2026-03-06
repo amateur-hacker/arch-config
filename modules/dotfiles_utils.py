@@ -22,6 +22,10 @@ def get_current_wallpaper_path():
     """Return the path of the current active wallpaper."""
     home = Path(get_user_home_dir())
     json_path = home / ".cache/noctalia/wallpapers.json"
+    default_wall = "/etc/xdg/quickshell/noctalia-shell/Assets/Wallpaper/noctalia.png"
+
+    if not json_path.exists():
+        raise FileNotFoundError(f"{json_path} doesn't exist")
 
     result = run_cmd_as_user(
         [
@@ -35,6 +39,9 @@ def get_current_wallpaper_path():
             str(json_path),
         ],
     )
+
+    if not result:
+        return default_wall
 
     return result.strip()
 

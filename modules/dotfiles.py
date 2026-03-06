@@ -12,7 +12,6 @@ from .dotfiles_utils import (
     build_initramfs_images,
     build_plymouth_theme,
     build_symlinks,
-    # copy_wallpaper_to_sddm,
     ensure_acl,
     generate_grub_config,
     generate_locales,
@@ -52,10 +51,7 @@ FILE_ITEMS: DotfileItemList = [
         "/usr/share/sddm/themes/silent/metadata.desktop",
         "usr/share/sddm/themes/silent/metadata.desktop",
     ),
-    # (
-    #     "/usr/share/sddm/themes/silent/backgrounds/bg.png",
-    #     CURRENT_WALLPAPER_PATH,
-    # ),
+    (f"{HOME}/.current_wall", CURRENT_WALLPAPER_PATH, USER),
 ]
 
 DIRECTORY_ITEMS: DotfileItemList = [
@@ -119,13 +115,6 @@ TRACKED_ITEMS: TrackedItemsMap = {
         "key": "plymouth_hash",
         "action": build_plymouth_theme,
     },
-    # CURRENT_WALLPAPER_PATH: {
-    #     "key": "current_wallpaper_hash",
-    #     "action": lambda: copy_wallpaper_to_sddm(
-    #         src=CURRENT_WALLPAPER_PATH,
-    #         dest="/usr/share/sddm/themes/silent/backgrounds/bg.png",
-    #     ),
-    # },
 }
 
 
@@ -151,5 +140,6 @@ class Dotfiles(decman.Module):
 
         ensure_acl(path=Path(HOME), acl="user:sddm:--x")
         ensure_acl(path=Path(HOME) / ".face.icon", acl="user:sddm:r--")
+        ensure_acl(path=Path(HOME) / ".current_wall", acl="user:sddm:r--")
         update_xdg_user_dirs()
         apply_graphical_gsettings()
