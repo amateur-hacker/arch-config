@@ -128,11 +128,33 @@ Dotfile format:
 ```python
 # modules/my_module.py
 import decman
-from decman.plugins import pacman
+from decman.plugins import pacman, aur
+from decman.plugins.aur import CustomPackage
 
 from specs import PkgList
 
-PKGS: PkgList = ["my-package"]
+from .utils import resolve_pkgs, split_pkgs
+
+PKGS: PkgList = [
+  "pacman_pkg1",
+  (
+      "pacman_pkg2",
+      {
+          "deps1",
+          "deps2",
+      },
+  ),
+  ("aur_pkg1", {"deps1"}),
+  "aur_pkg2",
+  (
+      CustomPackage("pkg_name", "git_url"),
+      {
+          "deps1",
+          "deps2",
+      },
+   ),
+  CustomPackage("pkg_name", None, "path"),
+]
 
 
 class MyModule(decman.Module):
@@ -141,9 +163,21 @@ class MyModule(decman.Module):
     def __init__(self):
         super().__init__("my-module")
 
+        _resolved_pkgs = resolve_pkgs(PKGS)
+        # Use _, if you don't want any field.
+        self._pkgs, self._aur_pkgs, self._aur_custom_pkgs = split_pkgs(_resolved_pkgs)
+
     @pacman.packages
     def pkgs(self):
-        return PKGS
+        return self._pkgs
+
+    @aur.packages
+    def aur_pkgs(self):
+        return self._aur_pkgs
+
+    @aur.custom_packages
+    def aur_custom_pkgs(self):
+        return self._aur_custom_pkgs
 ```
 
 Then add it to `main.py`:
