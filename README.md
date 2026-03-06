@@ -144,16 +144,16 @@ PKGS: PkgList = [
           "deps2",
       },
   ),
-  ("aur_pkg1", {"deps1"}),
-  "aur_pkg2",
+  "aur_pkg1",
+  ("aur_pkg2", {"deps1"}),
+  CustomPackage("pkg_name", "git_url"),
   (
-      CustomPackage("pkg_name", "git_url"),
+      CustomPackage("pkg_name", None, "path"),
       {
           "deps1",
           "deps2",
       },
    ),
-  CustomPackage("pkg_name", None, "path"),
 ]
 
 
