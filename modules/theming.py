@@ -20,8 +20,8 @@ PKGS: PkgList = [
 ]
 
 
-class ThemingTools(decman.Module):
-    """Theming tools package profile."""
+class Theming(decman.Module):
+    """Theming package profile."""
 
     def __init__(self):
         super().__init__("theming_tools")

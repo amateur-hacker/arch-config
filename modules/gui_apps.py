@@ -33,8 +33,8 @@ PKGS: PkgList = [
 ]
 
 
-class GUITools(decman.Module):
-    """GUI tools package profile."""
+class GUIApps(decman.Module):
+    """GUI Apps package profile."""
 
     def __init__(self):
         super().__init__("gui_tools")

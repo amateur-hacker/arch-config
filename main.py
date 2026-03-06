@@ -1,13 +1,9 @@
 import decman
 
 from logging_config import setup_logging
-from modules.aur import AUR
-from modules.base import Base
-from modules.dotfiles import Dotfiles
-from modules.hardware import Hardware
-from modules.systemd import Systemd
-from modules.users import Users
-from profiles import PROFILES, Profile
+from modules import AUR, Base, Dotfiles, Hardware, Systemd, Users
+from profiles import PROFILES
+from specs import Profile
 
 setup_logging()
 

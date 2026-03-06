@@ -1,11 +1,13 @@
-from modules.cli_tools import CLITools
-from modules.dev_tools import DevTools
-from modules.fonts import Fonts
-from modules.gui_tools import GUITools
-from modules.hyprland import Hyprland
-from modules.noctalia_shell import NoctaliaShell
-from modules.theming_tools import ThemingTools
-from modules.wayland_tools import WaylandTools
+from modules import (
+    CLITools,
+    Development,
+    Fonts,
+    GUIApps,
+    Hyprland,
+    NoctaliaShell,
+    Theming,
+    WaylandTools,
+)
 from specs import Profile, ProfileModules, ProfilesMap
 
 WORKSTATION: ProfileModules = [
@@ -13,10 +15,10 @@ WORKSTATION: ProfileModules = [
     WaylandTools(),
     NoctaliaShell(),
     CLITools(),
-    DevTools(),
-    GUITools(),
+    Development(),
+    GUIApps(),
     Fonts(),
-    ThemingTools(),
+    Theming(),
 ]
 
 

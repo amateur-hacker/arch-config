@@ -6,7 +6,13 @@ from specs import PkgList
 from .utils import resolve_pkgs
 
 PKGS: PkgList = [
-    ("paru", {"bat", "devtools"}),
+    (
+        "paru",
+        {
+            "bat",
+            "devtools",
+        },
+    ),
     "chaotic-keyring",
     "chaotic-mirrorlist",
 ]

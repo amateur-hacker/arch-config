@@ -31,18 +31,24 @@ PKGS: PkgList = [
     ("nodejs", {"npm"}),
     "opencode",
     ("php", {"composer"}),
-    ("python", {"python-pipx", "python-rich"}),
+    (
+        "python",
+        {
+            "python-pipx",
+            "python-rich",
+        },
+    ),
     ("ruby", {"rubygems"}),
     "rust",
     "sqlite",
 ]
 
 
-class DevTools(decman.Module):
-    """Development tools package profile."""
+class Development(decman.Module):
+    """Development package profile."""
 
     def __init__(self):
-        super().__init__("dev_tools")
+        super().__init__("development")
 
     @pacman.packages
     def pkgs(self):
