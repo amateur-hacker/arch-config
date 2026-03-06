@@ -57,7 +57,7 @@ decman --help
 
 ## 📦 Adding Packages
 
-Edit any module in `modules/` — for example, to add packages to Hyprland:
+Edit any module in `modules/` — for example, to add packages to CLI tools:
 
 ```python
 # modules/cli_tools.py
