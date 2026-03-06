@@ -12,7 +12,7 @@ applied declaratively through decman.
 # Step 1: Run initial setup (installs decman, AUR helper, etc.)
 ./initial-setup.sh
 
-# Step 2: Apply your configuration
+# Step 2: Edit the settings.py first then apply the configuration
 sudo decman --source main.py
 
 # Step 3: Explore more options
