@@ -60,10 +60,14 @@ decman --help
 Edit any module in `modules/` — for example, to add packages to Hyprland:
 
 ```python
-# modules/hyprland.py
+# modules/cli_tools.py
 PKGS: PkgList = [
-    ("hyprland", {"hyprland-protocols", "hyprpicker"}),
-    "new-package",  # Add your package here
+    # Add your package here
+    "pipes.sh",  # AUR package support
+    CustomPackage(
+        "nitch++-git",
+        "https://github.com/amateur-hacker/nitchplusplus",
+    ),  # Custom Package support
 ]
 ```
 
