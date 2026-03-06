@@ -62,12 +62,13 @@ Edit any module in `modules/` — for example, to add packages to CLI tools:
 ```python
 # modules/cli_tools.py
 PKGS: PkgList = [
-    # Add your package here
+    ("zoxide", {"fzf"}), # Package with deps
     "pipes.sh",  # AUR package support
     CustomPackage(
         "nitch++-git",
         "https://github.com/amateur-hacker/nitchplusplus",
     ),  # Custom Package support
+    "new_package"  # Add your package here
 ]
 ```
 
