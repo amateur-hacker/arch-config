@@ -3,9 +3,10 @@ from typing import Callable, Iterable, TypeAlias, TypedDict
 
 import decman
 from decman import Directory, File, Symlink
+from decman.plugins.aur import CustomPackage
 
 # Package types
-PkgSpec: TypeAlias = str | tuple[str, set[str]]
+PkgSpec: TypeAlias = str | tuple[str, set[str]] | CustomPackage
 PkgList: TypeAlias = list[PkgSpec]
 
 # Dotfile types

@@ -1,19 +1,30 @@
 import decman
-from decman.plugins import pacman, aur
+from decman.plugins import aur, pacman
 from decman.plugins.aur import CustomPackage
 
 from specs import PkgList
 
-from .utils import resolve_pkgs
+from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PkgList = [
     "acpi",
+    "ain-bin",
     "bat",
     "bottom",
     "cava",
+    ("cbonsai", {"scdoc"}),
     ("chess-tui", {"stockfish"}),
     "cowsay",
     "curl",
+    (
+        "decman",
+        {
+            "python-setuptools",
+            "python-build",
+            "python-installer",
+            "python-wheel",
+        },
+    ),
     "duf",
     "dysk",
     "fastfetch",
@@ -30,6 +41,7 @@ PKGS: PkgList = [
     ),
     "fzf",
     "geoip",
+    ("gowall", {"go"}),
     ("github-cli", {"git"}),
     "httpie",
     "imagemagick",
@@ -38,7 +50,12 @@ PKGS: PkgList = [
     "less",
     "lolcat",
     "lsd",
+    CustomPackage(
+        "nitch++-git",
+        "https://github.com/amateur-hacker/nitchplusplus",
+    ),
     "perl-file-mimeinfo",
+    "pipes.sh",
     "plocate",
     "ripgrep",
     "rsync",
@@ -80,25 +97,16 @@ PKGS: PkgList = [
             "zoxide",
         },
     ),
-    "yt-dlp",
+    (
+        "yt-dlp",
+        {
+            "ffmpeg",
+            "python-mutagen",
+        },
+    ),
     "7zip",
     "zip",
     ("zoxide", {"fzf"}),
-]
-
-AUR_PKGS: PkgList = [
-    "ain-bin",
-    "cbonsai",
-    "decman",
-    "gowall",
-    "pipes.sh",
-]
-
-AUR_CUSTOM_PKGS = [
-    CustomPackage(
-        "nitch++-git",
-        "https://github.com/amateur-hacker/nitchplusplus",
-    )
 ]
 
 
@@ -108,14 +116,17 @@ class CLITools(decman.Module):
     def __init__(self):
         super().__init__("cli_tools")
 
+        _resolved_pkgs = resolve_pkgs(PKGS)
+        self._pkgs, self._aur_pkgs, self._aur_custom_pkgs = split_pkgs(_resolved_pkgs)
+
     @pacman.packages
     def pkgs(self):
-        return resolve_pkgs(PKGS)
+        return self._pkgs
 
     @aur.packages
     def aur_pkgs(self):
-        return resolve_pkgs(AUR_PKGS)
+        return self._aur_pkgs
 
     @aur.custom_packages
     def aur_custom_pkgs(self):
-        return AUR_CUSTOM_PKGS
+        return self._aur_custom_pkgs

@@ -12,6 +12,7 @@ from .dotfiles_utils import (
     build_initramfs_images,
     build_plymouth_theme,
     build_symlinks,
+    # copy_wallpaper_to_sddm,
     ensure_acl,
     generate_grub_config,
     generate_locales,
@@ -24,6 +25,7 @@ from .utils import get_user_home_dir, get_username
 
 HOME = get_user_home_dir()
 USER = get_username()
+CURRENT_WALLPAPER_PATH = get_current_wallpaper_path()
 
 FILE_ITEMS: DotfileItemList = [
     # (
@@ -50,10 +52,10 @@ FILE_ITEMS: DotfileItemList = [
         "/usr/share/sddm/themes/silent/metadata.desktop",
         "usr/share/sddm/themes/silent/metadata.desktop",
     ),
-    (
-        "/usr/share/sddm/themes/silent/backgrounds/bg.png",
-        get_current_wallpaper_path(),
-    ),
+    # (
+    #     "/usr/share/sddm/themes/silent/backgrounds/bg.png",
+    #     CURRENT_WALLPAPER_PATH,
+    # ),
 ]
 
 DIRECTORY_ITEMS: DotfileItemList = [
@@ -117,6 +119,13 @@ TRACKED_ITEMS: TrackedItemsMap = {
         "key": "plymouth_hash",
         "action": build_plymouth_theme,
     },
+    # CURRENT_WALLPAPER_PATH: {
+    #     "key": "current_wallpaper_hash",
+    #     "action": lambda: copy_wallpaper_to_sddm(
+    #         src=CURRENT_WALLPAPER_PATH,
+    #         dest="/usr/share/sddm/themes/silent/backgrounds/bg.png",
+    #     ),
+    # },
 }
 
 

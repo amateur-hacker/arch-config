@@ -35,6 +35,9 @@ alias sv='EDITOR=nvim sudoedit'
 alias z='zathura'
 alias jctl="journalctl -p 3 -xb"
 
+# Fix clear command
+alias clear="clear && printf '\033[3J'"
+
 # Clean home directory
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
 

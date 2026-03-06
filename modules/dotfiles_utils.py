@@ -277,3 +277,18 @@ def build_plymouth_theme():
     cmd = ["plymouth-set-default-theme", "-R"]
     logger.info("Building plymouth theme")
     run_cmd_as_root(cmd)
+
+
+def copy_wallpaper_to_sddm(src: str, dest: str):
+    """Copy the current wallpaper to sddm background."""
+    src_path = Path(src)
+    dest_path = Path(dest)
+
+    if not src_path.exists():
+        raise FileNotFoundError(f"{src_path} doesn't exist")
+
+    if not dest_path.exists():
+        raise FileNotFoundError(f"{dest_path} doesn't exist")
+
+    cmd = ["cp", src, dest]
+    run_cmd_as_root(cmd)
