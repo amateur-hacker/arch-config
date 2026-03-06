@@ -2,6 +2,10 @@
 
 > A Declarative system configuration for **Arch Linux** using [decman](https://github.com/kiviktnm/decman)
 
+This repository organizes system configuration into modular Python files.
+Each module declares packages, dotfiles, and system behavior, which are
+applied declaratively through decman.
+
 ## 🚀 Quick Start
 
 ```bash
@@ -41,12 +45,12 @@ decman --help
 │   ├── hardware.py    # Hardware drivers
 │   ├── hyprland.py    # Hyprland compositor
 │   ├── aur.py         # AUR packages
-│   ├── cli_tools.py   # CLI utilities
-│   ├── dev_tools.py   # Development tools
+│   ├── cli_tools.py   # CLI tools
+│   ├── development.py   # Development tools
 │   ├── fonts.py       # Fonts
-│   ├── gui_tools.py   # GUI applications
-│   ├── theming_tools.py # Themes
-│   ├── wayland_tools.py # Wayland tools
+│   ├── gui_apps.py   # GUI applications
+│   ├── theming.py # Themes
+│   ├── wayland.py     # Wayland Utilities
 │   ├── dotfiles.py    # Dotfile management
 │   └── users.py       # User management
 └── dotfiles/           # Source dotfiles
@@ -118,7 +122,7 @@ TRACKED_ITEMS: TrackedItemsMap = {
 
 Dotfile format:
 
-- `(destination, source)` — relative to dotfiles/ directory
+- `(destination, source)` — destination: absolute path, source: relative to `dotfiles/`
 - `(destination, source, owner)` — with specific owner
 
 > **Note:** For symlinks, if a folder already exists at the destination, remove it first before running decman — otherwise it will warn you.
@@ -136,24 +140,24 @@ from specs import PkgList
 from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PkgList = [
-  "pacman_pkg1",
-  (
-      "pacman_pkg2",
-      {
-          "deps1",
-          "deps2",
-      },
-  ),
-  "aur_pkg1",
-  ("aur_pkg2", {"deps1"}),
-  CustomPackage("pkg_name", "git_url"),
-  (
-      CustomPackage("pkg_name", None, "path"),
-      {
-          "deps1",
-          "deps2",
-      },
-   ),
+    "pacman_pkg1",
+    (
+        "pacman_pkg2",
+        {
+            "deps1",
+            "deps2",
+        },
+    ),
+    "aur_pkg1",
+    ("aur_pkg2", {"deps1"}),
+    CustomPackage("pkg_name", "git_url"),
+    (
+        CustomPackage("pkg_name", None, "path"),
+        {
+            "deps1",
+            "deps2",
+        },
+    ),
 ]
 
 
@@ -180,12 +184,30 @@ class MyModule(decman.Module):
         return self._aur_custom_pkgs
 ```
 
-Then add it to `main.py`:
+Remember to export the module first inside `modules/__init__.py`.
+Then add it to either `profiles.py` or `main.py`:
 
 ```python
-from modules.my_module import MyModule
+# profiles.py
+from modules import MyModule
+from specs import Profile, ProfileModules, ProfilesMap
 
-decman.modules += [MyModule()]
+WORKSTATION: ProfileModules = [
+    ...,
+    MyModule(),
+]
+
+
+PROFILES: ProfilesMap = {
+    Profile.WORKSTATION: WORKSTATION,
+}
+```
+
+```python
+# main.py
+from modules import MyModule
+
+decman.modules += [..., MyModule()]
 ```
 
 ## 💻 Useful Commands
