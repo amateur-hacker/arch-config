@@ -13,11 +13,11 @@ PKGS: PkgList = [
 ]
 
 
-class WaylandTools(decman.Module):
-    """Wayland tools package profile."""
+class WaylandUtils(decman.Module):
+    """Wayland utilities package profile."""
 
     def __init__(self):
-        super().__init__("wayland_tools")
+        super().__init__("wayland_utils")
 
     @pacman.packages
     def pkgs(self):

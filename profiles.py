@@ -6,13 +6,13 @@ from modules import (
     Hyprland,
     NoctaliaShell,
     Theming,
-    WaylandTools,
+    WaylandUtils,
 )
 from specs import Profile, ProfileModules, ProfilesMap
 
 WORKSTATION: ProfileModules = [
     Hyprland(),
-    WaylandTools(),
+    WaylandUtils(),
     NoctaliaShell(),
     CLITools(),
     Development(),

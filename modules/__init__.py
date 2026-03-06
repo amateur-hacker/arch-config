@@ -11,7 +11,7 @@ from .noctalia_shell import NoctaliaShell
 from .systemd import Systemd
 from .theming import Theming
 from .users import Users
-from .wayland_tools import WaylandTools
+from .wayland_utils import WaylandUtils
 
 __all__ = [
     "AUR",
@@ -27,5 +27,5 @@ __all__ = [
     "Systemd",
     "Theming",
     "Users",
-    "WaylandTools",
+    "WaylandUtils",
 ]
