@@ -73,6 +73,11 @@ rules = [
     "edit",
     "reveal",
   ] },
+  # Additional mimetypes
+  { mime = "application/{mbox,javascript,wine-extension-ini}", use = [
+    "edit",
+    "reveal",
+  ] },
   # Image
   { mime = "image/*", use = [
     "open",

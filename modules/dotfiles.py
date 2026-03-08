@@ -51,7 +51,10 @@ FILE_ITEMS: DotfileItemList = [
         "/usr/share/sddm/themes/silent/metadata.desktop",
         "usr/share/sddm/themes/silent/metadata.desktop",
     ),
-    (f"{HOME}/.current_wall", CURRENT_WALLPAPER_PATH, USER),
+    (
+        "/usr/share/sddm/themes/silent/backgrounds/current_wall",
+        CURRENT_WALLPAPER_PATH,
+    ),
 ]
 
 DIRECTORY_ITEMS: DotfileItemList = [
@@ -140,6 +143,9 @@ class Dotfiles(decman.Module):
 
         ensure_acl(path=Path(HOME), acl="user:sddm:--x")
         ensure_acl(path=Path(HOME) / ".face.icon", acl="user:sddm:r--")
-        ensure_acl(path=Path(HOME) / ".current_wall", acl="user:sddm:r--")
+        ensure_acl(
+            path=Path("/usr/share/sddm/themes/silent/backgrounds"),
+            acl=f"user:{USER}:rwx",
+        )
         update_xdg_user_dirs()
         apply_graphical_gsettings()

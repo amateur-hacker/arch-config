@@ -423,7 +423,7 @@
         "screenUnlock": "",
         "session": "",
         "startup": "",
-        "wallpaperChange": "ln -sf \"$1\" $HOME/.current_wall"
+        "wallpaperChange": "ln -sf \"$1\" /usr/share/sddm/themes/silent/backgrounds/current_wall"
     },
     "idle": {
         "customCommands": "[]",
@@ -664,7 +664,7 @@
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",
         "wallhavenPurity": "100",
-        "wallhavenQuery": "",
+        "wallhavenQuery": "nature",
         "wallhavenRatios": "",
         "wallhavenResolutionHeight": "",
         "wallhavenResolutionMode": "atleast",

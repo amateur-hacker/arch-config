@@ -63,10 +63,10 @@ def ensure_acl(path: Path, acl: str):
     if not path.exists():
         raise FileNotFoundError(f"{path} doesn't exist")
 
-    current = run_cmd_as_user(["getfacl", "-p", str(path)])
+    current = run_cmd_as_root(["getfacl", "-p", str(path)])
     if acl not in current:
         logger.info("Applying ACL '%s' to %s", acl, path)
-        run_cmd_as_user(["setfacl", "-m", acl, str(path)])
+        run_cmd_as_root(["setfacl", "-m", acl, str(path)])
 
 
 def update_xdg_user_dirs():
