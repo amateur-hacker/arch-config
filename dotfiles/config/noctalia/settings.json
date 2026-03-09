@@ -12,7 +12,7 @@
         "enableSessionSearch": false,
         "enableSettingsSearch": false,
         "enableWindowsSearch": false,
-        "iconMode": "tabler",
+        "iconMode": "native",
         "ignoreMouseInput": true,
         "overviewLayer": false,
         "pinnedApps": [
@@ -175,6 +175,14 @@
                     "id": "Tray",
                     "pinned": [
                     ]
+                },
+                {
+                    "defaultSettings": {
+                        "enableCross": true,
+                        "enableWindowsSelection": true,
+                        "screenshotEditor": "swappy"
+                    },
+                    "id": "plugin:screen-shot-and-record"
                 },
                 {
                     "hideWhenZero": false,
@@ -427,16 +435,16 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": false,
+        "enabled": true,
         "fadeDuration": 5,
-        "lockCommand": "",
+        "lockCommand": "echo $(( $(date +%s) - 660 )) > /tmp/idle",
         "lockTimeout": 660,
-        "resumeLockCommand": "",
-        "resumeScreenOffCommand": "",
-        "resumeSuspendCommand": "",
-        "screenOffCommand": "",
+        "resumeLockCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
+        "resumeScreenOffCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
+        "resumeSuspendCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
+        "screenOffCommand": "echo $(( $(date +%s) - 600 )) > /tmp/idle",
         "screenOffTimeout": 600,
-        "suspendCommand": "",
+        "suspendCommand": "echo $(( $(date +%s) - 1800 )) > /tmp/idle",
         "suspendTimeout": 1800
     },
     "location": {
@@ -584,8 +592,8 @@
                 "action": "userspaceReboot",
                 "command": "",
                 "countdownEnabled": true,
-                "enabled": false,
-                "keybind": ""
+                "enabled": true,
+                "keybind": "8"
             }
         ],
         "showHeader": true,

@@ -56,36 +56,6 @@ def run_cmd_as_user(cmd: list[str], **kwargs):
     )
 
 
-# def resolve_pkgs(raw: Iterable[PkgSpec]):
-#     result: set[str] = set()
-#
-#     for item in raw:
-#         if isinstance(item, str):
-#             result.add(item)
-#
-#         elif isinstance(item, tuple):
-#             if len(item) != 2:
-#                 raise ValueError(f"Invalid package tuple format: {item}")
-#
-#             name, deps = item
-#
-#             if not isinstance(name, str):
-#                 raise TypeError(f"Package name must be str, got {type(name)}")
-#
-#             if not isinstance(deps, set):
-#                 raise TypeError(f"Dependencies must be set[str], got {type(deps)}")
-#
-#             for dep in deps:
-#                 if not isinstance(dep, str):
-#                     raise TypeError(f"Dependency must be str, got {type(dep)}")
-#
-#             result.add(name)
-#             result.update(deps)
-#
-#         else:
-#             raise TypeError(f"Unsupported package type: {type(item)}")
-#
-#     return result
 def resolve_pkgs(raw: Iterable[PkgSpec]):
     result: set[str | CustomPackage] = set()
 
@@ -131,17 +101,6 @@ def is_repo_pkg(pkg: str) -> bool:
         return False
 
 
-# def split_pkgs(pkgs: Iterable[str]):
-#     pacman_pkgs = set()
-#     aur_pkgs = set()
-#
-#     for pkg in pkgs:
-#         if is_repo_pkg(pkg):
-#             pacman_pkgs.add(pkg)
-#         else:
-#             aur_pkgs.add(pkg)
-#
-#     return pacman_pkgs, aur_pkgs
 def split_pkgs(pkgs: Iterable[str | CustomPackage]):
     pacman_pkgs: set[str] = set()
     aur_pkgs: set[str] = set()

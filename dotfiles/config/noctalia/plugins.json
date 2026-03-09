@@ -12,11 +12,15 @@
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screen-recorder": {
+            "enabled": false,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "screen-shot-and-record": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screenshot": {
-            "enabled": true,
+            "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         }
     },

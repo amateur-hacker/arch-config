@@ -17,7 +17,7 @@ symbol = " "
 [character]
 # Note the use of Catppuccin color 'peach'
 success_symbol = "[ ❯](peach)"
-error_symbol = "[ ❯](peach)"
+error_symbol = "[ ❯](red)"
 vimcmd_symbol = "[ ❮](subtext1)"
 
 [git_branch]

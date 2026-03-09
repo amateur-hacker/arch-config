@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
@@ -50,3 +51,26 @@ map.set("n", "<c-s-]>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move Buffer Rig
 map.set("n", "<c-s-[>", "<cmd>BufferLineMovePrev<cr>", { desc = "Move Buffer Left" })
 map.set("n", "<leader>b.", "<cmd>BufferLineMoveNext<cr>", { desc = "Move Buffer Right" })
 map.set("n", "<leader>b,", "<cmd>BufferLineMovePrev<cr>", { desc = "Move Buffer Left" })
+
+local brainrot_enabled = false
+
+map.set("n", "<leader>B", function()
+  local notify = vim.notify
+  vim.notify = function() end
+
+  if not package.loaded["brainrot"] then
+    require("lazy").load({ plugins = { "brainrot.nvim" } })
+  end
+  if brainrot_enabled then
+    vim.cmd("Brainrot phonk disable")
+    vim.cmd("Brainrot boom disable")
+    notify("Brainrot disabled")
+  else
+    vim.cmd("Brainrot phonk enable")
+    vim.cmd("Brainrot boom enable")
+    notify("Brainrot enabled")
+  end
+
+  brainrot_enabled = not brainrot_enabled
+  vim.notify = notify
+end)

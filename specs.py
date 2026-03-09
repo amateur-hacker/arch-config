@@ -6,7 +6,9 @@ from decman import Directory, File, Symlink
 from decman.plugins.aur import CustomPackage
 
 # Package types
-PkgSpec: TypeAlias = str | tuple[str, set[str]] | CustomPackage
+PkgSpec: TypeAlias = (
+    str | tuple[str, set[str]] | CustomPackage | tuple[CustomPackage, set[str]]
+)
 PkgList: TypeAlias = list[PkgSpec]
 
 # Dotfile types

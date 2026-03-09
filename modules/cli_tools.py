@@ -59,9 +59,11 @@ PKGS: PkgList = [
     "plocate",
     "ripgrep",
     "rsync",
+    "scrntime-git",
     "spotdl",
     ("starship", {"ttf-cascadia-mono-nerd"}),
     "tealdeer",
+    ("tesseract", {"tesseract-data-eng"}),
     "toilet",
     "trash-cli",
     "tty-clock",
@@ -78,7 +80,6 @@ PKGS: PkgList = [
     "unrar",
     "unzip",
     "wget",
-    "wtype",
     (
         "yazi",
         {

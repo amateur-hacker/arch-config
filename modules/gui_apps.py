@@ -1,13 +1,15 @@
 import decman
-from decman.plugins import pacman
+from decman.plugins import aur, pacman
 
 from specs import PkgList
 
-from .utils import resolve_pkgs
+from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PkgList = [
+    "blanket",
     "google-chrome",
     "imv",
+    "keypunch-git",
     "kitty",
     "libreoffice-fresh",
     ("mpv", {"mpv-mpris"}),
@@ -39,6 +41,13 @@ class GUIApps(decman.Module):
     def __init__(self):
         super().__init__("gui_tools")
 
+        _resolved_pkgs = resolve_pkgs(PKGS)
+        self._pkgs, self._aur_pkgs, _ = split_pkgs(_resolved_pkgs)
+
     @pacman.packages
     def pkgs(self):
-        return resolve_pkgs(PKGS)
+        return self._pkgs
+
+    @aur.packages
+    def aur_pkgs(self):
+        return self._aur_pkgs
