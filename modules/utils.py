@@ -103,9 +103,16 @@ def resolve_pkgs(raw: Iterable[PkgSpec]):
     return result
 
 
+repo_cache: set[str] | None = None
+
+
 def get_repo_pkgs() -> set[str]:
-    out = decman.sh("expac -S %n", pty=False)
-    return set(out.splitlines())
+    global repo_cache
+    if repo_cache is None:
+        out = decman.sh("expac -S %n", pty=False)
+        repo_cache = set(out.splitlines())
+
+    return repo_cache
 
 
 def split_pkgs(pkgs: Iterable[str | CustomPackage]):
@@ -128,8 +135,8 @@ def split_pkgs(pkgs: Iterable[str | CustomPackage]):
         else:
             raise TypeError(f"Unsupported package type: {type(pkg)}")
 
-    sorted_pacman_pkgs = sorted(pacman_pkgs)
-    sorted_aur_pkgs = sorted(aur_pkgs)
-    sorted_aur_custom_pkgs = sorted(aur_custom_pkgs, key=lambda p: p.pkgname)
-
-    return sorted_pacman_pkgs, sorted_aur_pkgs, sorted_aur_custom_pkgs
+    return (
+        sorted(pacman_pkgs),
+        sorted(aur_pkgs),
+        sorted(aur_custom_pkgs, key=lambda p: p.pkgname),
+    )

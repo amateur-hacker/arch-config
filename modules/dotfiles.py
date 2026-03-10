@@ -150,4 +150,4 @@ class Dotfiles(decman.Module):
         )
         update_xdg_user_dirs()
         apply_graphical_gsettings()
-        set_papirus_folder_color()
+        set_papirus_folder_color(desired_color="cat-mocha-lavender")

@@ -244,48 +244,55 @@ def run_tracked_actions(tracked_items: TrackedItemsMap, store: Store):
 
 def generate_grub_config():
     """Generate GRUB configuration."""
-    cmd = ["grub-mkconfig", "-o", "/boot/grub/grub.cfg"]
     logger.info("Generating GRUB config.")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["grub-mkconfig", "-o", "/boot/grub/grub.cfg"])
 
 
 def build_font_cache():
     """Build system font cache."""
-    cmd = ["fc-cache", "-fv"]
     logger.info("Building font cache.")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["fc-cache", "-fv"])
 
 
 def generate_locales():
     """Generate system locales."""
-    cmd = ["locale-gen"]
     logger.info("Generating locales.")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["locale-gen"])
 
 
 def build_initramfs_images():
     """Build initramfs images."""
-    cmd = ["mkinitcpio", "-P"]
     logger.info("Building initramfs images.")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["mkinitcpio", "-P"])
 
 
 def sync_pacman_repos():
     """Sync pacman repositories."""
-    cmd = ["pacman", "-Sy"]
     logger.info("Syncing pacman repositories.")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["pacman", "-Sy"])
 
 
 def build_plymouth_theme():
     """Build plymouth theme."""
-    cmd = ["plymouth-set-default-theme", "-R"]
     logger.info("Building plymouth theme")
-    run_cmd_as_root(cmd)
+    run_cmd_as_root(["plymouth-set-default-theme", "-R"])
 
 
-def set_papirus_folder_color():
-    """Set Papirus folder color to Catppuccin Mocha Lavender."""
-    command = ["papirus-folders", "-C", "cat-mocha-lavender", "--theme", "Papirus-Dark"]
-    logger.info("Setting Papirus folder color to Catppuccin Mocha Lavender.")
-    run_cmd_as_user(command)
+def set_papirus_folder_color(desired_color: str = "cat-mocha-lavender"):
+    """Set Papirus folder color for Papirus-Dark theme."""
+    config_file = Path("/var/lib/papirus-folders/keep")
+    theme = "Papirus-Dark"
+
+    if config_file.exists():
+        settings = dict(
+            line.split("=", 1)
+            for line in config_file.read_text().splitlines()
+            if "=" in line
+        )
+
+        if settings.get("theme") == theme and settings.get("color") == desired_color:
+            return
+
+    logger.info("Setting Papirus folder color to '%s'.", desired_color)
+
+    run_cmd_as_user(["papirus-folders", "-t", theme, "-C", desired_color])
