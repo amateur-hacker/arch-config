@@ -7,6 +7,7 @@ from specs import PkgList
 from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PkgList = [
+    "7zip",
     "acpi",
     "ain-bin",
     "bat",
@@ -71,10 +72,10 @@ PKGS: PkgList = [
     (
         "unp",
         {
+            "7zip",
+            "bzip2",
             "unrar",
             "unzip",
-            "bzip2",
-            "7zip",
         },
     ),
     "unrar",
@@ -105,7 +106,6 @@ PKGS: PkgList = [
             "python-mutagen",
         },
     ),
-    "7zip",
     "zip",
     ("zoxide", {"fzf"}),
 ]

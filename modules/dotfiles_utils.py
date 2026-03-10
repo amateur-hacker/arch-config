@@ -14,14 +14,15 @@ from modules.utils import (
 )
 from specs import DirectoryMap, DotfileItems, FileMap, SymlinkMap, TrackedItemsMap
 
+USERNAME = get_username()
+HOME = Path(get_user_home_dir())
+
 logger = logging.getLogger(__name__)
-username = get_username()
 
 
 def get_current_wallpaper_path():
     """Return the path of the current active wallpaper."""
-    home = Path(get_user_home_dir())
-    json_path = home / ".cache/noctalia/wallpapers.json"
+    json_path = HOME / ".cache/noctalia/wallpapers.json"
     default_wall = "/etc/xdg/quickshell/noctalia-shell/Assets/Wallpaper/noctalia.png"
 
     if not json_path.exists():
@@ -71,13 +72,10 @@ def ensure_acl(path: Path, acl: str):
 
 def update_xdg_user_dirs():
     """Update XDG user directories."""
-    home = Path(get_user_home_dir())
-    config_path = home / ".config/user-dirs.dirs"
+    config_path = HOME / ".config/user-dirs.dirs"
 
     if not config_path.exists():
-        logger.info("XDG user directories config missing — initializing")
-        run_cmd_as_user(["xdg-user-dirs-update"])
-        return
+        raise FileNotFoundError(f"{config_path} doesn't exist")
 
     for line in config_path.read_text().splitlines():
         line = line.strip()
@@ -88,7 +86,7 @@ def update_xdg_user_dirs():
         _, value = line.split("=", 1)
         value = value.strip().strip('"')
 
-        resolved_path = Path(value.replace("$HOME", str(home)))
+        resolved_path = Path(value.replace("$HOME", str(HOME)))
 
         if not resolved_path.exists():
             logger.info("Updating XDG user directories.")
@@ -286,16 +284,8 @@ def build_plymouth_theme():
     run_cmd_as_root(cmd)
 
 
-def copy_wallpaper_to_sddm(src: str, dest: str):
-    """Copy the current wallpaper to sddm background."""
-    src_path = Path(src)
-    dest_path = Path(dest)
-
-    if not src_path.exists():
-        raise FileNotFoundError(f"{src_path} doesn't exist")
-
-    if not dest_path.exists():
-        raise FileNotFoundError(f"{dest_path} doesn't exist")
-
-    cmd = ["cp", src, dest]
-    run_cmd_as_root(cmd)
+def set_papirus_folder_color():
+    """Set Papirus folder color to Catppuccin Mocha Lavender."""
+    command = ["papirus-folders", "-C", "cat-mocha-lavender", "--theme", "Papirus-Dark"]
+    logger.info("Setting Papirus folder color to Catppuccin Mocha Lavender.")
+    run_cmd_as_user(command)

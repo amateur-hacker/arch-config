@@ -17,6 +17,7 @@ from .dotfiles_utils import (
     generate_locales,
     get_current_wallpaper_path,
     run_tracked_actions,
+    set_papirus_folder_color,
     sync_pacman_repos,
     update_xdg_user_dirs,
 )
@@ -149,3 +150,4 @@ class Dotfiles(decman.Module):
         )
         update_xdg_user_dirs()
         apply_graphical_gsettings()
+        set_papirus_folder_color()

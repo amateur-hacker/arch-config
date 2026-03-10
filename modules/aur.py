@@ -3,7 +3,7 @@ from decman.plugins import pacman
 
 from specs import PkgList
 
-from .utils import resolve_pkgs
+from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PkgList = [
     (
@@ -23,7 +23,9 @@ class AUR(decman.Module):
 
     def __init__(self):
         super().__init__("aur")
+        _resolved_pkgs = resolve_pkgs(PKGS)
+        self._pkgs, _, _ = split_pkgs(_resolved_pkgs)
 
     @pacman.packages
     def pkgs(self):
-        return resolve_pkgs(PKGS)
+        return self._pkgs

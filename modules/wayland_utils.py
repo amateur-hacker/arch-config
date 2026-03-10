@@ -36,6 +36,7 @@ class WaylandUtils(decman.Module):
 
     def __init__(self):
         super().__init__("wayland_utils")
+
         _resolved_pkgs = resolve_pkgs(PKGS)
         self._pkgs, self._aur_pkgs, self._aur_custom_pkgs = split_pkgs(_resolved_pkgs)
 

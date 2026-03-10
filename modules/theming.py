@@ -11,6 +11,7 @@ PKGS: PkgList = [
     "catppuccin-mocha-grub-theme-git",
     "matugen",
     "nwg-look",
+    "papirus-folders-catppuccin-git",
     ("plymouth", {"plymouth-theme-cybernetic-git"}),
     "qt5ct",
     "qt6ct",
