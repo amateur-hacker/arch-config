@@ -13,18 +13,18 @@ PKGS: PkgList = [
     "bat",
     "bottom",
     "cava",
-    ("cbonsai", {"scdoc"}),
-    ("chess-tui", {"stockfish"}),
+    ("cbonsai", ["scdoc"]),
+    ("chess-tui", ["stockfish"]),
     "cowsay",
     "curl",
     (
         "decman",
-        {
-            "python-setuptools",
+        [
             "python-build",
             "python-installer",
+            "python-setuptools",
             "python-wheel",
-        },
+        ],
     ),
     "duf",
     "dysk",
@@ -34,16 +34,16 @@ PKGS: PkgList = [
     "figlet",
     (
         "fish",
-        {
+        [
             "fisher",
             "fzf",
             "kitty-shell-integration",
-        },
+        ],
     ),
     "fzf",
     "geoip",
-    ("gowall", {"go"}),
-    ("github-cli", {"git"}),
+    ("gowall", ["go"]),
+    ("github-cli", ["git"]),
     "httpie",
     "imagemagick",
     "inxi",
@@ -62,28 +62,27 @@ PKGS: PkgList = [
     "rsync",
     "scrntime-git",
     "spotdl",
-    ("starship", {"ttf-cascadia-mono-nerd"}),
+    ("starship", ["ttf-cascadia-mono-nerd"]),
     "tealdeer",
-    ("tesseract", {"tesseract-data-eng"}),
     "toilet",
     "trash-cli",
     "tty-clock",
     "ufw",
     (
         "unp",
-        {
+        [
             "7zip",
             "bzip2",
             "unrar",
             "unzip",
-        },
+        ],
     ),
     "unrar",
     "unzip",
     "wget",
     (
         "yazi",
-        {
+        [
             "7zip",
             "fd",
             "ffmpeg",
@@ -97,17 +96,17 @@ PKGS: PkgList = [
             "ripgrep",
             "wl-clipboard",
             "zoxide",
-        },
+        ],
     ),
     (
         "yt-dlp",
-        {
+        [
             "ffmpeg",
             "python-mutagen",
-        },
+        ],
     ),
     "zip",
-    ("zoxide", {"fzf"}),
+    ("zoxide", ["fzf"]),
 ]
 
 

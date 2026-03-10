@@ -52,25 +52,27 @@ map.set("n", "<c-s-[>", "<cmd>BufferLineMovePrev<cr>", { desc = "Move Buffer Lef
 map.set("n", "<leader>b.", "<cmd>BufferLineMoveNext<cr>", { desc = "Move Buffer Right" })
 map.set("n", "<leader>b,", "<cmd>BufferLineMovePrev<cr>", { desc = "Move Buffer Left" })
 
-local brainrot_enabled = false
+if not vim.g.neovide then
+  local brainrot_enabled = false
 
-map.set("n", "<leader>B", function()
-  local notify = vim.notify
-  vim.notify = function() end
+  map.set("n", "<leader>B", function()
+    local notify = vim.notify
+    vim.notify = function() end
 
-  if not package.loaded["brainrot"] then
-    require("lazy").load({ plugins = { "brainrot.nvim" } })
-  end
-  if brainrot_enabled then
-    vim.cmd("Brainrot phonk disable")
-    vim.cmd("Brainrot boom disable")
-    notify("Brainrot disabled")
-  else
-    vim.cmd("Brainrot phonk enable")
-    vim.cmd("Brainrot boom enable")
-    notify("Brainrot enabled")
-  end
+    if not package.loaded["brainrot"] then
+      require("lazy").load({ plugins = { "brainrot.nvim" } })
+    end
+    if brainrot_enabled then
+      vim.cmd("Brainrot phonk disable")
+      vim.cmd("Brainrot boom disable")
+      notify("Brainrot disabled")
+    else
+      vim.cmd("Brainrot phonk enable")
+      vim.cmd("Brainrot boom enable")
+      notify("Brainrot enabled")
+    end
 
-  brainrot_enabled = not brainrot_enabled
-  vim.notify = notify
-end)
+    brainrot_enabled = not brainrot_enabled
+    vim.notify = notify
+  end, { desc = "Toggle Brainrot" })
+end

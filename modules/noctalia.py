@@ -8,14 +8,17 @@ from .utils import resolve_pkgs, split_pkgs
 PKGS: PkgList = [
     (
         "noctalia-shell-git",
-        {
+        [
             # Optional Deps
             "cava",
             "cliphist",
             "ddcutil",
             "fastfetch",
             "gpu-screen-recorder",
+            "grim",
             "libnotify",
+            "tesseract",
+            "tesseract-data-eng",
             "wlsunset",
             # Make deps of 'noctalia-shell-git' and 'noctalia-qs'
             "cli11",
@@ -24,7 +27,7 @@ PKGS: PkgList = [
             "ninja",
             "qt6-shadertools",
             "spirv-tools",
-        },
+        ],
     ),
 ]
 

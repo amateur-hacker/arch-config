@@ -8,10 +8,10 @@ from .utils import resolve_pkgs, split_pkgs
 PKGS: PkgList = [
     (
         "paru",
-        {
+        [
             "bat",
             "devtools",
-        },
+        ],
     ),
     "chaotic-keyring",
     "chaotic-mirrorlist",

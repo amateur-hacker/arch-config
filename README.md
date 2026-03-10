@@ -68,7 +68,7 @@ Edit any module in `modules/` — for example, to add packages to CLI tools:
 ```python
 # modules/cli_tools.py
 PKGS: PkgList = [
-    ("zoxide", {"fzf"}), # Package with deps
+    ("zoxide", ["fzf"]), # Package with deps
     "pipes.sh",  # AUR package support
     CustomPackage(
         "nitch++-git",
@@ -81,7 +81,8 @@ PKGS: PkgList = [
 Package format:
 
 - `"package"` — single package
-- `("package", {"dep1", "dep2"})` — package with dependencies
+- `("package", ["dep1", "dep2"])` — package with dependencies
+- `("package", [("dep1", ["deps1", "deps"]), "dep2"])` — nested deps
 
 ## 📁 Adding Dotfiles
 
@@ -145,20 +146,20 @@ PKGS: PkgList = [
     "pacman_pkg1",
     (
         "pacman_pkg2",
-        {
+        [
             "deps1",
             "deps2",
-        },
+        ],
     ),
     "aur_pkg1",
-    ("aur_pkg2", {"deps1"}),
+    ("aur_pkg2", ["deps1"]),
     CustomPackage("pkg_name", "git_url"),
     (
         CustomPackage("pkg_name", None, "path"),
-        {
+        [
             "deps1",
             "deps2",
-        },
+        ],
     ),
 ]
 

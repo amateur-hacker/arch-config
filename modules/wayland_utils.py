@@ -15,18 +15,27 @@ PKGS: PkgList = [
             "mechsim",
             "https://github.com/amateur-hacker/mechsim",
         ),
-        {
+        [
             "gcc",
             "make",
             "pkgconf",
             "libevdev",
             "libinput",
             "libsndfile",
-        },
+        ],
     ),
     # ("wayvibes-git", {"nlohmann-json"}),
     "wf-recorder",
     "wl-clipboard",
+    "wlr-which-key",
+    (
+        "wshowkeys-mao-git",
+        [
+            "git",
+            "meson",
+            "wayland-protocols",
+        ],
+    ),
     "wtype",
 ]
 

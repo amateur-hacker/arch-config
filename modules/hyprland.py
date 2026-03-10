@@ -8,13 +8,13 @@ from .utils import resolve_pkgs, split_pkgs
 PKGS: PkgList = [
     (
         "hyprland",
-        {
+        [
             "hyprland-protocols",
             "hyprpicker",
             "hyprpolkitagent",
             "hyprshot",
             "xdg-desktop-portal-hyprland",
-        },
+        ],
     ),
     "socat",
     "uwsm",

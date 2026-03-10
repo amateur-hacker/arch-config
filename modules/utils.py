@@ -66,39 +66,21 @@ def run_cmd_as_user(cmd: list[str], **kwargs):
     )
 
 
-def resolve_pkgs(raw: Iterable[PkgSpec]):
+def resolve_pkgs(raw: Iterable[PkgSpec]) -> set[str | CustomPackage]:
     result: set[str | CustomPackage] = set()
 
-    for item in raw:
-        if isinstance(item, str):
+    def resolve(item: PkgSpec):
+        if isinstance(item, (str, CustomPackage)):
             result.add(item)
-
-        elif isinstance(item, CustomPackage):
-            result.add(item)
-
-        elif isinstance(item, tuple):
-            if len(item) != 2:
-                raise ValueError(f"Invalid package tuple format: {item}")
-
+        else:
             pkg, deps = item
-
-            if not isinstance(deps, set):
-                raise TypeError(f"Dependencies must be set[str], got {type(deps)}")
+            result.add(pkg)
 
             for dep in deps:
-                if not isinstance(dep, str):
-                    raise TypeError(f"Dependency must be str, got {type(dep)}")
+                resolve(dep)
 
-            if not isinstance(pkg, (str, CustomPackage)):
-                raise TypeError(
-                    f"Package must be str or CustomPackage, got {type(pkg)}"
-                )
-
-            result.add(pkg)
-            result.update(deps)
-
-        else:
-            raise TypeError(f"Unsupported package type: {type(item)}")
+    for item in raw:
+        resolve(item)
 
     return result
 

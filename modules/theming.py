@@ -12,7 +12,7 @@ PKGS: PkgList = [
     "matugen",
     "nwg-look",
     "papirus-folders-catppuccin-git",
-    ("plymouth", {"plymouth-theme-cybernetic-git"}),
+    ("plymouth", ["plymouth-theme-cybernetic-git"]),
     "qt5ct",
     "qt6ct",
     "sddm-silent-theme",

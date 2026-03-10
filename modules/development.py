@@ -21,24 +21,24 @@ PKGS: PkgList = [
     "neovide",
     (
         "neovim",
-        {
+        [
             "luarocks",
             "wl-clipboard",
             "tree-sitter-cli",
-        },
+        ],
     ),
     "ninja",
-    ("nodejs", {"npm"}),
+    ("nodejs", ["npm"]),
     "opencode",
-    ("php", {"composer"}),
+    ("php", ["composer"]),
     (
         "python",
-        {
+        [
             "python-pipx",
             "python-rich",
-        },
+        ],
     ),
-    ("ruby", {"rubygems"}),
+    ("ruby", ["rubygems"]),
     "rust",
     "sqlite",
 ]

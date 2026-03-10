@@ -16,10 +16,10 @@ PKGS: PkgList = [
     "grub",
     (
         "linux-zen",
-        {
+        [
             "linux-firmware",
             "linux-zen-headers",
-        },
+        ],
     ),
     "man-db",
     "man-pages",
@@ -29,13 +29,13 @@ PKGS: PkgList = [
     "pacman-contrib",
     (
         "pipewire",
-        {
+        [
             "gst-plugin-pipewire",
             "libpulse",
             "pipewire-alsa",
             "pipewire-jack",
             "pipewire-pulse",
-        },
+        ],
     ),
     "sddm",
     "snapper",

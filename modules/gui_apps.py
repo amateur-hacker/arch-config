@@ -12,26 +12,27 @@ PKGS: PkgList = [
     "keypunch-git",
     "kitty",
     "libreoffice-fresh",
-    ("mpv", {"mpv-mpris"}),
+    ("mpv", ["mpv-mpris"]),
     "qalculate-gtk",
-    ("nautilus", {"nautilus-open-any-terminal", "xdg-user-dirs-gtk"}),
+    ("nautilus", ["nautilus-open-any-terminal", "xdg-user-dirs-gtk"]),
+    "showmethekey",
     (
         "spotify",
-        {
+        [
             "ffmpeg4.4",
             "libnotify",
             "zenity",
-        },
+        ],
     ),
     (
         "telegram-desktop",
-        {
+        [
             "geoclue",
             "geocode-glib-2",
             "webkitgtk-6.0",
-        },
+        ],
     ),
-    ("zathura", {"zathura-pdf-poppler"}),
+    ("zathura", ["zathura-pdf-poppler"]),
 ]
 
 
