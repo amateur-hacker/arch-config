@@ -1,24 +1,31 @@
+from typing import TypeAlias
+import decman
 from modules import (
     CLITools,
-    Development,
+    DevTools,
     Fonts,
     GUIApps,
     Hyprland,
     Noctalia,
     Theming,
-    WaylandUtils,
+    WaylandTools,
+    ExternalPkgs,
 )
-from specs import Profile, ProfileModules, ProfilesMap
+from specs import Profile
+
+ProfileModules: TypeAlias = list[decman.Module]
+ProfilesMap: TypeAlias = dict[Profile, ProfileModules]
 
 WORKSTATION: ProfileModules = [
     Hyprland(),
-    WaylandUtils(),
+    WaylandTools(),
     Noctalia(),
     CLITools(),
-    Development(),
+    DevTools(),
     GUIApps(),
     Fonts(),
     Theming(),
+    ExternalPkgs(),
 ]
 
 

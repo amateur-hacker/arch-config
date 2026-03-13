@@ -1,11 +1,11 @@
 import decman
 from decman.plugins import aur, pacman
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs, split_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     "bun",
     "cmake",
     "devtools",
@@ -44,11 +44,11 @@ PKGS: PkgList = [
 ]
 
 
-class Development(decman.Module):
-    """Development package profile."""
+class DevTools(decman.Module):
+    """Development tools package profile."""
 
     def __init__(self):
-        super().__init__("development")
+        super().__init__("dev_tools")
 
         _resolved_pkgs = resolve_pkgs(PKGS)
         self._pkgs, self._aur_pkgs, _ = split_pkgs(_resolved_pkgs)

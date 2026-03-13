@@ -12,7 +12,7 @@ SETUVAR _fisher_gazorby_2F_fish_2D_abbreviation_2D_tips_files:\x7e/\x2econfig/fi
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fisher\x2efish\x1e\x7e/\x2econfig/fish/completions/fisher\x2efish
 SETUVAR _fisher_plugins:jorgebucaran/fisher\x1egazorby/fish\x2dabbreviation\x2dtips\x1efranciscolourenco/done
 SETUVAR _fisher_upgraded_to_4_4:\x1d
-SETUVAR fish_user_paths:/home/amateur_hacker/\x2elocal/share/cargo/bin\x1e/home/amateur_hacker/\x2ecargo/bin\x1e/home/amateur_hacker/\x2elocal/bin\x1e/home/amateur_hacker/\x2elocal/bin/my\x2dscripts\x1e/home/amateur_hacker/\x2ebun/bin\x1e/home/amateur_hacker/\x2ecache/\x2ebun/bin
+SETUVAR fish_user_paths:/home/amateur_hacker/\x2elocal/share/bun/bin\x1e/home/amateur_hacker/\x2elocal/share/cargo/bin\x1e/home/amateur_hacker/\x2ecargo/bin\x1e/home/amateur_hacker/\x2elocal/bin\x1e/home/amateur_hacker/\x2elocal/bin/my\x2dscripts\x1e/home/amateur_hacker/\x2ebun/bin\x1e/home/amateur_hacker/\x2ecache/\x2ebun/bin
 SETUVAR sponge_allow_previously_successful:true
 SETUVAR sponge_delay:2
 SETUVAR sponge_filters:sponge_filter_failed\x1esponge_filter_matched

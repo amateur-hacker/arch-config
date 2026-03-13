@@ -1,15 +1,15 @@
 from enum import Enum
-from typing import Callable, Iterable, TypeAlias, TypedDict
+from typing import Callable, Iterable, Literal, TypeAlias, TypedDict
 
-import decman
-from decman import Directory, File, Symlink
 from decman.plugins.aur import CustomPackage
 
-# Package types
-PkgSpec: TypeAlias = str | CustomPackage | tuple[str | CustomPackage, list["PkgSpec"]]
-PkgList: TypeAlias = list[PkgSpec]
+# Package
+Package: TypeAlias = str | CustomPackage
+PackageSpec: TypeAlias = Package | tuple[str | CustomPackage, list["PackageSpec"]]
+PackageSpecs: TypeAlias = Iterable[PackageSpec]
+PackageList: TypeAlias = list[PackageSpec]
 
-# Dotfile types
+# Dotfile
 DotfileItemSpec: TypeAlias = tuple[str, str] | tuple[str, str, str]
 DotfileItemList: TypeAlias = list[DotfileItemSpec]
 
@@ -21,17 +21,13 @@ class TrackedItemSpec(TypedDict):
 
 TrackedItemsMap: TypeAlias = dict[str, TrackedItemSpec]
 
-# Dotfile utils types
-FileMap: TypeAlias = dict[str, File]
-DirectoryMap: TypeAlias = dict[str, Directory]
-SymlinkMap: TypeAlias = dict[str, str | Symlink]
-DotfileItems: TypeAlias = Iterable[DotfileItemSpec]
+
+# External package(s)
+ExternalPackageManager: TypeAlias = Literal["cargo", "bun", "pipx", "go"]
+ExternalPackage: TypeAlias = str | tuple[str, ...]
+ExternalPackages: TypeAlias = dict[ExternalPackageManager, list[ExternalPackage]]
 
 
-# Profile types
+# Profile
 class Profile(Enum):
     WORKSTATION = "workstation"
-
-
-ProfileModules: TypeAlias = list[decman.Module]
-ProfilesMap: TypeAlias = dict[Profile, ProfileModules]

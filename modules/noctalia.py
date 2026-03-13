@@ -1,34 +1,53 @@
 import decman
 from decman.plugins import pacman, aur
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs, split_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     (
-        "noctalia-shell-git",
+        "noctalia-shell",
         [
-            # Optional Deps
             "cava",
             "cliphist",
             "ddcutil",
             "fastfetch",
             "gpu-screen-recorder",
             "grim",
+            "imagemagick",
             "libnotify",
-            "tesseract",
-            "tesseract-data-eng",
+            ("tesseract", ["tesseract-data-eng"]),
+            "wl-clipboard",
             "wlsunset",
-            # Make deps of 'noctalia-shell-git' and 'noctalia-qs'
-            "cli11",
-            "cmake",
-            "git",
-            "ninja",
-            "qt6-shadertools",
-            "spirv-tools",
+            "satty",
         ],
     ),
+    # (
+    #     "noctalia-shell-git",
+    #     [
+    #         # Optional Deps
+    #         "cava",
+    #         "cliphist",
+    #         "ddcutil",
+    #         "fastfetch",
+    #         "gpu-screen-recorder",
+    #         "grim",
+    #         "imagemagick",
+    #         "libnotify",
+    #         ("tesseract", ["tesseract-data-eng"]),
+    #         "wl-clipboard",
+    #         "wlsunset",
+    #         "satty",
+    #         # Make deps of 'noctalia-shell-git' and 'noctalia-qs'
+    #         "cli11",
+    #         "cmake",
+    #         "git",
+    #         "ninja",
+    #         "qt6-shadertools",
+    #         "spirv-tools",
+    #     ],
+    # ),
 ]
 
 

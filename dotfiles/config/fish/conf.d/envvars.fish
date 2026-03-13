@@ -29,7 +29,7 @@ end
 
 # Add to path
 ensure_dir $HOME/.local/bin
-fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.local/bin $HOME/.local/share/bun/bin
 
 # Redirect tool-specific files to XDG paths
 set -x LESSHISTFILE "$XDG_DATA_HOME/less_history"
@@ -39,6 +39,7 @@ set -x GNUPGHOME "$XDG_DATA_HOME/gnupg"
 set -x CARGO_HOME "$XDG_DATA_HOME/cargo"
 set -x GOPATH "$XDG_DATA_HOME/go"
 set -x GOBIN "$GOPATH/bin"
+set -x BUN_INSTALL "$XDG_DATA_HOME/bun"
 set -x GOMODCACHE "$XDG_CACHE_HOME/go/mod"
 set -x REDISCLI_HISTFILE "$XDG_DATA_HOME/redis/rediscli_history"
 set -x GIT_CONFIG_GLOBAL "$XDG_CONFIG_HOME/git/config"

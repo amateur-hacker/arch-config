@@ -2,11 +2,11 @@ import decman
 from decman.plugins import aur, pacman
 from decman.plugins.aur import CustomPackage
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs, split_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     "grim",
     "satty",
     "slurp",
@@ -27,7 +27,7 @@ PKGS: PkgList = [
     # ("wayvibes-git", {"nlohmann-json"}),
     "wf-recorder",
     "wl-clipboard",
-    "wlr-which-key",
+    # "wlr-which-key",
     (
         "wshowkeys-mao-git",
         [
@@ -40,11 +40,11 @@ PKGS: PkgList = [
 ]
 
 
-class WaylandUtils(decman.Module):
-    """Wayland utilities package profile."""
+class WaylandTools(decman.Module):
+    """Wayland tools package profile."""
 
     def __init__(self):
-        super().__init__("wayland_utils")
+        super().__init__("wayland_tools")
 
         _resolved_pkgs = resolve_pkgs(PKGS)
         self._pkgs, self._aur_pkgs, self._aur_custom_pkgs = split_pkgs(_resolved_pkgs)

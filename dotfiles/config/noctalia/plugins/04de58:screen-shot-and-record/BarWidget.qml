@@ -1,6 +1,7 @@
 import QtQuick
 import qs.Commons
 import qs.Widgets
+import qs.Services.UI
 import Quickshell
 
 NIconButton {
@@ -35,6 +36,31 @@ NIconButton {
   onClicked: {
     if (pluginApi) {
       pluginApi.openPanel(root.screen, root)
+    }
+  }
+
+  onRightClicked: {
+    PanelService.showContextMenu(contextMenu, root, screen);
+  }
+
+  NPopupContextMenu {
+    id: contextMenu
+
+    model: [
+      {
+        "label": I18n.tr("actions.widget-settings"),
+        "action": "widget-settings",
+        "icon": "settings"
+      }
+    ]
+
+    onTriggered: action => {
+      contextMenu.close();
+      PanelService.closeContextMenu(screen);
+
+      if (action === "widget-settings") {
+        BarService.openPluginSettings(screen, pluginApi.manifest);
+      }
     }
   }
 }

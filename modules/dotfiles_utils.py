@@ -3,6 +3,7 @@ import logging
 import os
 import pwd
 from pathlib import Path
+from typing import Iterable, TypeAlias
 
 from decman import Directory, File, Store, Symlink
 
@@ -12,7 +13,12 @@ from modules.utils import (
     run_cmd_as_root,
     run_cmd_as_user,
 )
-from specs import DirectoryMap, DotfileItems, FileMap, SymlinkMap, TrackedItemsMap
+from specs import DotfileItemSpec, TrackedItemsMap
+
+FileMap: TypeAlias = dict[str, File]
+DirectoryMap: TypeAlias = dict[str, Directory]
+SymlinkMap: TypeAlias = dict[str, str | Symlink]
+DotfileItems: TypeAlias = Iterable[DotfileItemSpec]
 
 USERNAME = get_username()
 HOME = Path(get_user_home_dir())
@@ -39,6 +45,7 @@ def get_current_wallpaper_path():
             """,
             str(json_path),
         ],
+        pty=False,
     )
 
     if not result:
@@ -56,7 +63,7 @@ def ensure_fullname(username: str, fullname: str):
 
     if current != fullname:
         logger.info("Setting fullname '%s' for user '%s'", fullname, username)
-        run_cmd_as_root(["chfn", "-f", fullname, username])
+        run_cmd_as_root(["chfn", "-f", fullname, username], pty=False)
 
 
 def ensure_acl(path: Path, acl: str):
@@ -64,10 +71,10 @@ def ensure_acl(path: Path, acl: str):
     if not path.exists():
         raise FileNotFoundError(f"{path} doesn't exist")
 
-    current = run_cmd_as_root(["getfacl", "-p", str(path)])
+    current = run_cmd_as_root(["getfacl", "-p", str(path)], pty=False)
     if acl not in current:
         logger.info("Applying ACL '%s' to %s", acl, path)
-        run_cmd_as_root(["setfacl", "-m", acl, str(path)])
+        run_cmd_as_root(["setfacl", "-m", acl, str(path)], pty=False)
 
 
 def update_xdg_user_dirs():
@@ -90,8 +97,8 @@ def update_xdg_user_dirs():
 
         if not resolved_path.exists():
             logger.info("Updating XDG user directories.")
-            run_cmd_as_user(["xdg-user-dirs-update"])
-            run_cmd_as_user(["xdg-user-dirs-gtk-update"])
+            run_cmd_as_user(["xdg-user-dirs-update"], pty=False)
+            run_cmd_as_user(["xdg-user-dirs-gtk-update"], pty=False)
             return
 
 
@@ -108,6 +115,7 @@ def apply_graphical_gsettings():
             "org.gnome.desktop.wm.preferences",
             "button-layout",
         ],
+        pty=False,
     ).strip()
 
     if wm_button_layout.strip("'") != ":":
@@ -119,7 +127,8 @@ def apply_graphical_gsettings():
                 "org.gnome.desktop.wm.preferences",
                 "button-layout",
                 ":",
-            ]
+            ],
+            pty=False,
         )
 
     nautilus_terminal = run_cmd_as_user(
@@ -129,6 +138,7 @@ def apply_graphical_gsettings():
             "com.github.stunkymonkey.nautilus-open-any-terminal",
             "terminal",
         ],
+        pty=False,
     ).strip()
 
     if nautilus_terminal.strip("'") != "kitty":
@@ -140,7 +150,8 @@ def apply_graphical_gsettings():
                 "com.github.stunkymonkey.nautilus-open-any-terminal",
                 "terminal",
                 "kitty",
-            ]
+            ],
+            pty=False,
         )
 
 
@@ -251,7 +262,7 @@ def generate_grub_config():
 def build_font_cache():
     """Build system font cache."""
     logger.info("Building font cache.")
-    run_cmd_as_root(["fc-cache", "-fv"])
+    run_cmd_as_user(["fc-cache", "-fv"])
 
 
 def generate_locales():
@@ -279,7 +290,7 @@ def build_plymouth_theme():
 
 
 def set_papirus_folder_color(desired_color: str = "cat-mocha-lavender"):
-    """Set Papirus folder color for Papirus-Dark theme."""
+    """Set Papirus folder color for Papirus-Dark icon theme if needed."""
     config_file = Path("/var/lib/papirus-folders/keep")
     theme = "Papirus-Dark"
 
@@ -295,4 +306,52 @@ def set_papirus_folder_color(desired_color: str = "cat-mocha-lavender"):
 
     logger.info("Setting Papirus folder color to '%s'.", desired_color)
 
-    run_cmd_as_user(["papirus-folders", "-t", theme, "-C", desired_color])
+    run_cmd_as_user(["papirus-folders", "-t", theme, "-C", desired_color], pty=False)
+
+
+def update_tldr_cache():
+    """Update TLDR cache if it doesn't exist."""
+    cache_dir = Path(get_user_home_dir()) / ".cache" / "tealdeer"
+
+    if cache_dir.exists():
+        return
+
+    logger.info("Updating TLDR cache")
+    run_cmd_as_user(["tldr", "--update"])
+
+
+def update_locate_db():
+    """Build locate database if it doesn't exist."""
+    db_path = "/var/lib/plocate/plocate.db"
+
+    if os.path.exists(db_path):
+        return
+
+    logger.info("Building locate database")
+    run_cmd_as_root(["updatedb"])
+
+
+def ensure_wheel_sudo_privileges():
+    """Ensure wheel group has sudo privileges."""
+    sudoers_file = Path("/etc/sudoers.d/wheel")
+    rule = "%wheel ALL=(ALL:ALL) ALL\n"
+
+    if sudoers_file.exists():
+        content = sudoers_file.read_text()
+        mode = sudoers_file.stat().st_mode & 0o777
+
+        if content == rule and mode == 0o440:
+            return
+
+    logger.info("Ensuring wheel group sudo privileges.")
+
+    run_cmd_as_root(["bash", "-c", f"echo '{rule.strip()}' > {sudoers_file}"])
+
+    run_cmd_as_root(
+        [
+            "chmod",
+            "440",
+            str(sudoers_file),
+        ],
+        pty=False,
+    )

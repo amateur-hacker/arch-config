@@ -1,7 +1,7 @@
 import decman
 
 from logging_config import setup_logging
-from modules import AUR, Base, Dotfiles, Hardware, Systemd, Users
+from modules import AUR, Base, Dotfiles, Hardware, SystemdServices, Users
 from profiles import PROFILES
 from specs import Profile
 
@@ -13,7 +13,7 @@ decman.modules += [
     Hardware(),
     AUR(),
     *PROFILES[Profile.WORKSTATION],
-    Systemd(),
+    SystemdServices(),
     Dotfiles(),
 ]
 

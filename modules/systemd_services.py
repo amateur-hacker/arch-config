@@ -20,11 +20,11 @@ USER_UNITS = {
 }
 
 
-class Systemd(decman.Module):
+class SystemdServices(decman.Module):
     """System and user systemd units module."""
 
     def __init__(self):
-        super().__init__("systemd")
+        super().__init__("systemd_services")
         self._username = get_username()
         self._is_laptop = is_laptop()
 

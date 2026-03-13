@@ -2,11 +2,11 @@ import decman
 from decman.plugins import aur, pacman
 from decman.plugins.aur import CustomPackage
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs, split_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     "7zip",
     "acpi",
     "ain-bin",

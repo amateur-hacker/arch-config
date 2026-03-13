@@ -1,31 +1,33 @@
 from .aur import AUR
 from .base import Base
 from .cli_tools import CLITools
-from .development import Development
+from .dev_tools import DevTools
 from .dotfiles import Dotfiles
 from .fonts import Fonts
 from .gui_apps import GUIApps
 from .hardware import Hardware
 from .hyprland import Hyprland
 from .noctalia import Noctalia
-from .systemd import Systemd
+from .systemd_services import SystemdServices
 from .theming import Theming
 from .users import Users
-from .wayland_utils import WaylandUtils
+from .wayland_tools import WaylandTools
+from .external_pkgs import ExternalPkgs
 
 __all__ = [
     "AUR",
     "Base",
     "CLITools",
-    "Development",
+    "DevTools",
     "Dotfiles",
     "Fonts",
     "GUIApps",
     "Hardware",
     "Hyprland",
     "Noctalia",
-    "Systemd",
+    "SystemdServices",
     "Theming",
     "Users",
-    "WaylandUtils",
+    "WaylandTools",
+    "ExternalPkgs",
 ]

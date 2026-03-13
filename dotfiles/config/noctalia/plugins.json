@@ -4,19 +4,32 @@
             "enabled": true,
             "name": "Noctalia Plugins",
             "url": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        {
+            "enabled": true,
+            "name": "Noctalia Unofficial Plugins",
+            "url": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
         }
     ],
     "states": {
+        "04de58:hyprland-submap": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
+        },
+        "04de58:screen-shot-and-record": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
+        },
         "activate-linux": {
+            "enabled": false,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "keybind-cheatsheet": {
             "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screen-recorder": {
             "enabled": false,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "screen-shot-and-record": {
-            "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screenshot": {

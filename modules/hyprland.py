@@ -1,11 +1,11 @@
 import decman
 from decman.plugins import aur, pacman
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs, split_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     (
         "hyprland",
         [

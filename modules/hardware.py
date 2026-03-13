@@ -260,7 +260,7 @@ def toggle_multilib(enable: bool):
 
 
 class Hardware(decman.Module):
-    """Decman hardware module for dynamic package and service setup."""
+    """Hardware-aware module that installs CPU, GPU, and vendor-specific packages."""
 
     def __init__(self):
         super().__init__("hardware")

@@ -13,12 +13,15 @@ from .dotfiles_utils import (
     build_plymouth_theme,
     build_symlinks,
     ensure_acl,
+    ensure_wheel_sudo_privileges,
     generate_grub_config,
     generate_locales,
     get_current_wallpaper_path,
     run_tracked_actions,
     set_papirus_folder_color,
     sync_pacman_repos,
+    update_locate_db,
+    update_tldr_cache,
     update_xdg_user_dirs,
 )
 from .utils import get_user_home_dir, get_username
@@ -32,13 +35,14 @@ FILE_ITEMS: DotfileItemList = [
     #     "/path/to/dst/file",
     #     "/path/to/src/file",
     #     "your_user_name",
-    # ),  # NOTE: Just an example
+    # ),
     ("/etc/default/grub", "etc/default/grub"),
     ("/etc/fonts/local.conf", "etc/fonts/local.conf"),
     ("/etc/locale.conf", "etc/locale.conf"),
     ("/etc/mkinitcpio.conf", "etc/mkinitcpio.conf"),
     ("/etc/pacman.conf", "etc/pacman.conf"),
     ("/etc/plymouth/plymouthd.conf", "etc/plymouth/plymouthd.conf"),
+    ("/etc/X11/xorg.conf.d/10-touchpad.conf", "etc/X11/xorg.conf.d/10-touchpad.conf"),
     ("/etc/sddm.conf.d/10-theme.conf", "etc/sddm.conf.d/10-theme.conf"),
     (
         "/usr/share/icons/default/index.theme",
@@ -142,6 +146,7 @@ class Dotfiles(decman.Module):
     def after_update(self, store):
         run_tracked_actions(TRACKED_ITEMS, store)
 
+        ensure_wheel_sudo_privileges()
         ensure_acl(path=Path(HOME), acl="user:sddm:--x")
         ensure_acl(path=Path(HOME) / ".face.icon", acl="user:sddm:r--")
         ensure_acl(
@@ -150,4 +155,6 @@ class Dotfiles(decman.Module):
         )
         update_xdg_user_dirs()
         apply_graphical_gsettings()
+        update_tldr_cache()
+        update_locate_db()
         set_papirus_folder_color(desired_color="cat-mocha-lavender")

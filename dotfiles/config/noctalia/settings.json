@@ -47,6 +47,7 @@
         "contentPadding": 2,
         "density": "default",
         "displayMode": "always_visible",
+        "enableExclusionZoneInset": true,
         "floating": false,
         "fontScale": 1,
         "frameRadius": 12,
@@ -92,6 +93,7 @@
                     "occupiedColor": "secondary",
                     "pillSize": 0.6,
                     "showApplications": false,
+                    "showApplicationsHover": false,
                     "showBadge": true,
                     "showLabelsOnlyWhenOccupied": true,
                     "unfocusedIconsOpacity": 1
@@ -163,6 +165,12 @@
                     "textColor": "none",
                     "useFixedWidth": false,
                     "visualizerType": "linear"
+                },
+                {
+                    "defaultSettings": {
+                        "icon": "keyboard"
+                    },
+                    "id": "plugin:04de58:hyprland-submap"
                 }
             ],
             "right": [
@@ -183,7 +191,7 @@
                         "enableWindowsSelection": true,
                         "screenshotEditor": "swappy"
                     },
-                    "id": "plugin:screen-shot-and-record"
+                    "id": "plugin:04de58:screen-shot-and-record"
                 },
                 {
                     "hideWhenZero": false,
@@ -326,6 +334,11 @@
         "gridSnap": false,
         "gridSnapScale": false,
         "monitorWidgets": [
+            {
+                "name": "HDMI-A-1",
+                "widgets": [
+                ]
+            }
         ],
         "overviewEnabled": true
     },
@@ -436,17 +449,17 @@
         "wallpaperChange": "ln -sf \"$1\" /usr/share/sddm/themes/silent/backgrounds/current_wall"
     },
     "idle": {
-        "customCommands": "[]",
+        "customCommands": "[{\"name\":\"Turn off screen\",\"timeout\":600,\"command\":\"echo $(( $(date +%s) - 600 )) > /tmp/idle\\n\",\"resumeCommand\":\"scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))\\n\"},{\"name\":\"Lock screen\",\"timeout\":660,\"command\":\"echo $(( $(date +%s) - 600 )) > /tmp/idle\\n\",\"resumeCommand\":\"scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))\\n\"},{\"name\":\"Suspend\",\"timeout\":1800,\"command\":\"echo $(( $(date +%s) - 600 )) > /tmp/idle\\n\",\"resumeCommand\":\"scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))\\n\"}]",
         "enabled": true,
         "fadeDuration": 5,
-        "lockCommand": "echo $(( $(date +%s) - 660 )) > /tmp/idle",
+        "lockCommand": "",
         "lockTimeout": 660,
-        "resumeLockCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
-        "resumeScreenOffCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
-        "resumeSuspendCommand": "scrntime -a $(( $(date +%s) - $(cat /tmp/idle) ))",
-        "screenOffCommand": "echo $(( $(date +%s) - 600 )) > /tmp/idle",
+        "resumeLockCommand": "",
+        "resumeScreenOffCommand": "",
+        "resumeSuspendCommand": "",
+        "screenOffCommand": "",
         "screenOffTimeout": 600,
-        "suspendCommand": "echo $(( $(date +%s) - 1800 )) > /tmp/idle",
+        "suspendCommand": "",
         "suspendTimeout": 1800
     },
     "location": {

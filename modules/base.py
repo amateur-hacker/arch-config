@@ -1,11 +1,11 @@
 import decman
 from decman.plugins import pacman
 
-from specs import PkgList
+from specs import PackageList
 
 from .utils import resolve_pkgs
 
-PKGS: PkgList = [
+PKGS: PackageList = [
     "base",
     "base-devel",
     "bluez",
