@@ -1,4 +1,4 @@
-from .aur import AUR
+from .aur_tools import AURTools
 from .base import Base
 from .cli_tools import CLITools
 from .dev_tools import DevTools
@@ -15,7 +15,7 @@ from .users import Users
 from .wayland_tools import WaylandTools
 
 __all__ = [
-    "AUR",
+    "AURTools",
     "Base",
     "CLITools",
     "DevTools",

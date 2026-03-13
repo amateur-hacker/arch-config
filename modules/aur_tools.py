@@ -18,13 +18,13 @@ PKGS: PackageList = [
 ]
 
 
-class AUR(decman.Module):
-    """Development tools package profile."""
+class AURTools(decman.Module):
+    """Install tools needed to use AUR"""
 
     def __init__(self):
         super().__init__("aur")
-        _resolved_pkgs = resolve_pkgs(PKGS)
-        self._pkgs, _, _ = split_pkgs(_resolved_pkgs)
+        resolved_pkgs = resolve_pkgs(PKGS)
+        self._pkgs, _, _ = split_pkgs(resolved_pkgs)
 
     @pacman.packages
     def pkgs(self):
