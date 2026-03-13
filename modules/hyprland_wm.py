@@ -23,8 +23,8 @@ PKGS: PackageList = [
 ]
 
 
-class Hyprland(decman.Module):
-    """Hyprland tools package profile."""
+class HyprlandWM(decman.Module):
+    """Hyprland window manager package profile."""
 
     def __init__(self):
         super().__init__("hyprland")

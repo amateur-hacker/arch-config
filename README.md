@@ -35,30 +35,31 @@ decman --help
 
 ```
 .
-├── main.py              # Entry point — decman source file
-├── profiles.py          # Profile definitions
-├── specs.py             # Type definitions
-├── settings.py          # User settings
-├── logging_config.py    # Logging setup
-├── modules/             # Package & dotfile modules
-│   ├── aur.py           # AUR packages
-│   ├── base.py          # Base system packages
-│   ├── cli_tools.py     # CLI tools
-│   ├── development.py   # Development tools
-│   ├── dotfiles.py      # Dotfile management
-│   ├── fonts.py         # Fonts
-│   ├── gui_apps.py      # GUI applications
-│   ├── hardware.py      # Hardware drivers
-│   ├── hyprland.py      # Hyprland compositor
-│   ├── noctalia.py      # Noctalia shell
-│   ├── systemd.py       # Systemd services
-│   ├── theming.py       # Themes
-│   ├── wayland.py       # Wayland Utilities
-│   └── users.py         # User management
-└── dotfiles/            # Source dotfiles
-    ├── config/          # ~/.config files
-    ├── etc/             # /etc files
-    └── home/            # ~/ files
+├── main.py                  # Entry point — decman source file
+├── profiles.py              # Profile definitions
+├── specs.py                 # Type definitions
+├── settings.py              # User settings
+├── logging_config.py        # Logging setup
+├── modules/                 # Package & dotfile modules
+│   ├── aur.py               # AUR packages
+│   ├── base.py              # Base system packages
+│   ├── cli_tools.py         # CLI tools
+│   ├── dev_tools.py         # Development tools
+│   ├── dotfiles.py          # Dotfile management
+│   ├── external_pkgs.py     # External package management
+│   ├── fonts.py             # Fonts
+│   ├── gui_apps.py          # GUI applications
+│   ├── hardware.py          # Hardware drivers
+│   ├── hyprland_wm.py       # Hyprland compositor
+│   ├── noctalia_shell.py    # Noctalia shell
+│   ├── systemd_services.py  # Systemd services
+│   ├── theming.py           # Themes
+│   ├── wayland_tools.py     # Wayland Utilities
+│   └── users.py             # User management
+└── dotfiles/                # Source dotfiles
+    ├── config/              # ~/.config files
+    ├── etc/                 # /etc files
+    └── home/                # ~/ files
 ```
 
 ## 📦 Adding Packages
@@ -211,6 +212,28 @@ from modules import MyModule
 
 decman.modules += [..., MyModule()]
 ```
+
+## 📦 External Packages
+
+Edit `modules/external_pkgs.py` — define packages for supported package managers:
+
+```python
+# modules/external_pkgs.py
+EXTERNAL_PACKAGES: ExternalPackages = {
+    "bun": [
+        "yt-search",
+    ],
+    "cargo": [
+        # ("ripgrep", "--locked"),
+    ],
+    "go": [],
+    "pipx": []
+}
+```
+
+Currently supported package managers: **bun**, **cargo**, **go** and **pipx**.
+
+> **Note:** External packages are installed after regular packages. They are managed separately from pacman/AUR packages.
 
 ## 💻 Useful Commands
 

@@ -3,16 +3,16 @@ from .base import Base
 from .cli_tools import CLITools
 from .dev_tools import DevTools
 from .dotfiles import Dotfiles
+from .external_pkgs import ExternalPkgs
 from .fonts import Fonts
 from .gui_apps import GUIApps
 from .hardware import Hardware
-from .hyprland import Hyprland
-from .noctalia import Noctalia
+from .hyprland_wm import HyprlandWM
+from .noctalia_shell import NoctaliaShell
 from .systemd_services import SystemdServices
 from .theming import Theming
 from .users import Users
 from .wayland_tools import WaylandTools
-from .external_pkgs import ExternalPkgs
 
 __all__ = [
     "AUR",
@@ -20,14 +20,14 @@ __all__ = [
     "CLITools",
     "DevTools",
     "Dotfiles",
+    "ExternalPkgs",
     "Fonts",
     "GUIApps",
     "Hardware",
-    "Hyprland",
-    "Noctalia",
+    "HyprlandWM",
+    "NoctaliaShell",
     "SystemdServices",
     "Theming",
     "Users",
     "WaylandTools",
-    "ExternalPkgs",
 ]

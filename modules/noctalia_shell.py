@@ -51,7 +51,7 @@ PKGS: PackageList = [
 ]
 
 
-class Noctalia(decman.Module):
+class NoctaliaShell(decman.Module):
     """Noctalia shell package profile."""
 
     def __init__(self):

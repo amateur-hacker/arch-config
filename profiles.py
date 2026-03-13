@@ -1,15 +1,17 @@
 from typing import TypeAlias
+
 import decman
+
 from modules import (
     CLITools,
     DevTools,
+    ExternalPkgs,
     Fonts,
     GUIApps,
-    Hyprland,
-    Noctalia,
+    HyprlandWM,
+    NoctaliaShell,
     Theming,
     WaylandTools,
-    ExternalPkgs,
 )
 from specs import Profile
 
@@ -17,9 +19,9 @@ ProfileModules: TypeAlias = list[decman.Module]
 ProfilesMap: TypeAlias = dict[Profile, ProfileModules]
 
 WORKSTATION: ProfileModules = [
-    Hyprland(),
+    HyprlandWM(),
     WaylandTools(),
-    Noctalia(),
+    NoctaliaShell(),
     CLITools(),
     DevTools(),
     GUIApps(),
