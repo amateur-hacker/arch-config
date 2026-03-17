@@ -384,6 +384,10 @@
           "desc": "Toggle audio control"
         },
         {
+          "keys": "Shift + A",
+          "desc": "Toggle airplane mode"
+        },
+        {
           "keys": "B",
           "desc": "Toggle bluetooth control"
         },
