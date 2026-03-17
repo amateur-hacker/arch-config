@@ -23,7 +23,7 @@ Item {
     readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screenName)
     readonly property real barFontSize: Style.getBarFontSizeForScreen(screenName)
 
-    readonly property string icon: cfg.icon ?? defaults.icon ?? "keyboard"
+    readonly property string icon: cfg.icon ?? defaults.icon ?? "key"
 
     property string displayText: ""
     property bool isActive: false
@@ -48,7 +48,12 @@ Item {
     visible: isActive
     z: 999
 
-    readonly property real contentWidth: content.implicitWidth + Style.marginM * 2
+    readonly property real contentWidth: {
+      if (root.isBarVertical) {
+        return content.implicitWidth + Style.marginM
+      }
+      return content.implicitWidth + Style.marginM * 2
+    }
     readonly property real contentHeight: capsuleHeight
 
     implicitWidth: contentWidth
@@ -68,7 +73,7 @@ Item {
         RowLayout {
             id: content
             anchors.centerIn: parent
-            spacing: Style.marginS
+            spacing: root.isBarVertical ? 0 : Style.marginS
 
             NIcon {
                 icon: root.icon
@@ -79,6 +84,7 @@ Item {
                 text: root.displayText
                 color: Color.mOnSurface
                 pointSize: barFontSize
+                visible: !root.isBarVertical
             }
         }
     }
@@ -117,3 +123,4 @@ Item {
         }
     }
 }
+

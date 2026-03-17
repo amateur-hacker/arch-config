@@ -12,13 +12,14 @@ PKGS: PackageList = [
     "keypunch-git",
     "kitty",
     "libreoffice-fresh",
-    ("mpv", ["mpv-mpris"]),
+    "mpv",
     "qalculate-gtk",
     ("nautilus", ["nautilus-open-any-terminal", "xdg-user-dirs-gtk"]),
-    "showmethekey",
     (
         "spotify",
         [
+            "spotx-git",
+            # Optional deps
             "ffmpeg4.4",
             "libnotify",
             "zenity",

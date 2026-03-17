@@ -17,27 +17,35 @@
             "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
         },
         "04de58:screen-shot-and-record": {
-            "enabled": true,
+            "enabled": false,
             "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
         },
         "activate-linux": {
             "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
+        "kaomoji-provider": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
         "keybind-cheatsheet": {
-            "enabled": false,
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "polkit-agent": {
+            "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screen-recorder": {
-            "enabled": false,
+            "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "screenshot": {
             "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
-        "special-workspaces": {
-            "enabled": false,
+        "show-keys": {
+            "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         }
     },

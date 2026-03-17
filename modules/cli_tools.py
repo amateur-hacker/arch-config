@@ -48,6 +48,7 @@ PKGS: PackageList = [
     "imagemagick",
     "inxi",
     "jq",
+    "libinput-tools",
     "less",
     "lolcat",
     "lsd",

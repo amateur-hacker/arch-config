@@ -1,80 +1,169 @@
 #!/usr/bin/env bash
 
-iDIR="$HOME/.config/dunst/icons"
+set -euo pipefail
 
-time=$(date +%d-%b-%y_%Ih%Mm%Ss%p)
-dir="$(xdg-user-dir)/pictures/screenshots"
-file="screenshot-${time}.png"
+# Screenshot directory
+DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}/screenshots"
+mkdir -p "$DIR"
 
-# notify and view screenshot
-notify_cmd_shot="notify-send -h string:x-canonical-private-synchronous:shot-notify -u low -i ${iDIR}/picture.png"
-notify_view() {
-  ${notify_cmd_shot} "Copied to clipboard."
-  ##	viewnior ${dir}/"$file"
-  if [[ -e "$dir/$file" ]]; then
-    ${notify_cmd_shot} "Screenshot Saved."
-  else
-    ${notify_cmd_shot} "Screenshot Deleted."
-  fi
+# Generate timestamped filename
+timestamp=$(date +"%d-%m-%y_%H-%M-%S")
+file="$DIR/${timestamp}.png"
+
+# Default mode and action
+mode="output"
+action="save"
+
+# Counters to prevent multiple modes/actions
+mode_count=0
+action_count=0
+
+# Get currently focused monitor name
+monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
+
+# Send notification (custom shell IPC)
+notify() {
+  qs -c noctalia-shell ipc call toast send "{
+    \"title\": \"Screenshot\",
+    \"body\": \"$1\",
+    \"icon\": \"camera\"
+  }"
 }
 
-# countdown
-countdown() {
-  for sec in $(seq $1 -1 1); do
-    notify-send -h string:x-canonical-private-synchronous:shot-notify -t 1000 -i "$iDIR"/timer.png "Taking shot in : $sec"
-    sleep 1
-  done
+# Help message
+show_help() {
+  cat <<EOF
+Usage: $(basename "$0") [options]
+
+Modes:
+  -s, --select        Select region
+  -a, --active        Active window
+  -f, --fullscreen    Active monitor (default)
+
+Actions:
+  -c, --copy          Copy to clipboard
+  -C, --save          Save
+  -e, --edit          Edit in satty
+EOF
 }
 
-# take shots
-shotnow() {
-  cd ${dir} && grim - | tee "$file" | wl-copy
-  sleep 2
-  notify_view
-}
+# Convert long options to short options for getopts
+args=()
 
-shot5() {
-  countdown '5'
-  sleep 1 && cd ${dir} && grim - | tee "$file" | wl-copy
-  sleep 1
-  notify_view
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --select) args+=(-s) ;;
+  --active) args+=(-a) ;;
+  --fullscreen) args+=(-f) ;;
+  --copy) args+=(-c) ;;
+  --save) args+=(-S) ;;
+  --edit) args+=(-e) ;;
+  --help)
+    show_help
+    exit 0
+    ;;
+  *)
+    args+=("$1")
+    ;;
+  esac
+  shift
+done
 
-}
+set -- "${args[@]}"
 
-shot10() {
-  countdown '10'
-  sleep 1 && cd ${dir} && grim - | tee "$file" | wl-copy
-  notify_view
-}
+# Parse options
+while getopts "safcSe" opt; do
+  case $opt in
 
-shotwin() {
-  w_pos=$(hyprctl activewindow | grep 'at:' | cut -d':' -f2 | tr -d ' ' | tail -n1)
-  w_size=$(hyprctl activewindow | grep 'size:' | cut -d':' -f2 | tr -d ' ' | tail -n1 | sed s/,/x/g)
-  cd ${dir} && grim -g "$w_pos $w_size" - | tee "$file" | wl-copy
-  notify_view
-}
+  # Select region mode
+  s)
+    ((++mode_count))
+    ((mode_count > 1)) && {
+      echo "Error: multiple modes specified"
+      exit 1
+    }
+    mode="area"
+    ;;
 
-shotarea() {
-  cd ${dir} && grim -g "$(slurp)" - | tee "$file" | wl-copy
-  notify_view
-}
+  # Active window mode
+  a)
+    ((++mode_count))
+    ((mode_count > 1)) && {
+      echo "Error: multiple modes specified"
+      exit 1
+    }
+    mode="active"
+    ;;
 
-if [[ ! -d "$dir" ]]; then
-  mkdir -p "$dir"
-fi
+  # Fullscreen (focused monitor)
+  f)
+    ((++mode_count))
+    ((mode_count > 1)) && {
+      echo "Error: multiple modes specified"
+      exit 1
+    }
+    mode="output"
+    ;;
 
-if [[ "$1" == "--now" ]]; then
-  shotnow
-elif [[ "$1" == "--in5" ]]; then
-  shot5
-elif [[ "$1" == "--in10" ]]; then
-  shot10
-elif [[ "$1" == "--active" ]]; then
-  shotwin
-elif [[ "$1" == "--area" ]]; then
-  shotarea
-else
-  echo -e "Available Options : --now --in5 --in10 --win --area"
-fi
+  # Copy to clipboard
+  c)
+    ((++action_count))
+    ((action_count > 1)) && {
+      echo "Error: multiple actions specified"
+      exit 1
+    }
+    action="copy"
+    ;;
 
-exit 0
+  # Save to file
+  S)
+    ((++action_count))
+    ((action_count > 1)) && {
+      echo "Error: multiple actions specified"
+      exit 1
+    }
+    action="save"
+    ;;
+
+  # Edit screenshot in satty
+  e)
+    ((++action_count))
+    ((action_count > 1)) && {
+      echo "Error: multiple actions specified"
+      exit 1
+    }
+    action="edit"
+    ;;
+
+  esac
+done
+
+# Build grim command based on mode
+case "$mode" in
+area)
+  geom=$(slurp)
+  [[ -z "$geom" ]] && exit 1 # exit if selection cancelled
+  cmd=(grim -g "$geom")
+  ;;
+active)
+  geom=$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
+  [[ -z "$geom" ]] && exit 1
+  cmd=(grim -g "$geom")
+  ;;
+output)
+  cmd=(grim -o "$monitor")
+  ;;
+esac
+
+# Perform selected action
+case "$action" in
+edit)
+  "${cmd[@]}" -t ppm - | satty --filename - --fullscreen --output-filename "$file"
+  ;;
+copy)
+  "${cmd[@]}" - | wl-copy && notify "Copied to clipboard"
+  ;;
+save)
+  "${cmd[@]}" "$file" && notify "Saved → $file"
+  ;;
+esac
