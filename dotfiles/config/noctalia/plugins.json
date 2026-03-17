@@ -12,6 +12,10 @@
         }
     ],
     "states": {
+        "04de58:hyprland-keybind-cheatsheet": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
+        },
         "04de58:hyprland-submap": {
             "enabled": true,
             "sourceUrl": "https://github.com/amateur-hacker/noctalia-unofficial-plugins"
@@ -25,10 +29,6 @@
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "kaomoji-provider": {
-            "enabled": true,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "keybind-cheatsheet": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },

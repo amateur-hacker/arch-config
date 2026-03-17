@@ -83,7 +83,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/kitty", "config/kitty"),
     (f"{HOME}/.config/lsd", "config/lsd"),
     (f"{HOME}/.config/mimeapps.list", "config/mimeapps.list"),
-    (f"{HOME}/.config/mpv/mpv.conf", "config/mpv/mpv.conf"),
+    (f"{HOME}/.config/mpv", "config/mpv"),
     (f"{HOME}/.config/neovide", "config/neovide"),
     (f"{HOME}/.config/nitch++", "config/nitch++"),
     (f"{HOME}/.config/noctalia", "config/noctalia"),

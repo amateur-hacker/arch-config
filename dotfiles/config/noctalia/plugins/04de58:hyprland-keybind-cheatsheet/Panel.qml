@@ -24,9 +24,9 @@ Item {
 
   property var rawCategories: pluginApi?.pluginSettings?.cheatsheetData || []
   property var categories: []
-  
 
-  
+
+
   Component.onCompleted: {
     categories = processCategories(rawCategories);
   }
@@ -50,6 +50,19 @@ Item {
     // Clear column items
     columnItems = [];
   }
+
+Component {
+  id: submapHeaderComponent
+
+  NText {
+    text: itemData.title
+    font.pointSize: 10
+    font.weight: Font.DemiBold
+    color: Color.mSecondary
+    Layout.topMargin: 6
+    Layout.bottomMargin: 2
+  }
+}
 
   onRawCategoriesChanged: {
     categories = processCategories(rawCategories);
@@ -177,8 +190,6 @@ Item {
           text: {
             if (CompositorService.isHyprland) {
               return "Hyprland Keymap";
-            } else if (CompositorService.isNiri) {
-              return "Niri Keymap";
             } else {
               return "Keymap";
             }
@@ -252,8 +263,10 @@ Item {
               model: colItems
               Loader {
                 Layout.fillWidth: true
-                sourceComponent: modelData.type === "header" ? headerComponent :
-                               (modelData.type === "spacer" ? spacerComponent : bindComponent)
+                sourceComponent:
+                  modelData.type === "header" ? headerComponent :
+                  (modelData.type === "submapHeader" ? submapHeaderComponent :
+                  (modelData.type === "spacer" ? spacerComponent : bindComponent))
                 property var itemData: modelData
 
                 // Memory leak prevention: explicit cleanup
@@ -304,34 +317,77 @@ Item {
   Component {
     id: bindComponent
     RowLayout {
-      spacing: Style.marginS
+      spacing: 2
       height: 22
       Layout.bottomMargin: 1
+      property var commaParts: itemData.keys.split(", ")
+      property var firstKeys: commaParts[0].split(" + ")
+      property var secondKeys: commaParts.length > 1 ? commaParts[1].split(" + ") : []
       Flow {
         Layout.preferredWidth: 220
         Layout.alignment: Qt.AlignVCenter
         spacing: 3
+        // First part (before comma)
         Repeater {
-          model: itemData.keys.split(" + ")
-          Rectangle {
-            width: keyText.implicitWidth + 10
-            height: 18
-            color: getKeyColor(modelData)
-            radius: 3
+          model: firstKeys
+          RowLayout {
+            spacing: 2
+            Rectangle {
+              width: keyText.implicitWidth + 10
+              height: 18
+              color: getKeyColor(modelData)
+              radius: 3
+              NText {
+                id: keyText
+                anchors.centerIn: parent
+                text: modelData
+                font.pointSize: 8
+                font.weight: Font.Bold
+                color: Color.mOnPrimary
+              }
+            }
             NText {
-              id: keyText
-              anchors.centerIn: parent
-              text: modelData
-              font.pointSize: modelData.length > 12 ? 7 : 8
+              visible: index < firstKeys.length - 1
+              text: "+"
+              font.pointSize: 10
               font.weight: Font.Bold
-              color: Color.mOnPrimary
+              color: "white"
+            }
+          }
+        }
+        // Second part (after comma) - no + between comma parts
+        Repeater {
+          visible: commaParts.length > 1
+          model: secondKeys
+          RowLayout {
+            spacing: 2
+            Rectangle {
+              width: keyText.implicitWidth + 10
+              height: 18
+              color: getKeyColor(modelData)
+              radius: 3
+              NText {
+                id: keyText
+                anchors.centerIn: parent
+                text: modelData
+                font.pointSize: 8
+                font.weight: Font.Bold
+                color: Color.mOnPrimary
+              }
+            }
+            NText {
+              visible: index < secondKeys.length - 1
+              text: "+"
+              font.pointSize: 10
+              font.weight: Font.Bold
+              color: "white"
             }
           }
         }
       }
       NText {
         Layout.fillWidth: true
-        Layout.alignment: Qt.AlignVCenter
+        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
         text: itemData.desc
         font.pointSize: 9
         color: Color.mOnSurface
@@ -363,11 +419,30 @@ Item {
       var cat = categories[catIndex];
       result.push({ type: "header", title: cat.title });
       for (var j = 0; j < cat.binds.length; j++) {
-        result.push({
-          type: "bind",
-          keys: cat.binds[j].keys,
-          desc: cat.binds[j].desc
-        });
+        var bind = cat.binds[j];
+
+        // SUBMAP GROUP
+        if (bind.__submapGroup) {
+          result.push({
+            type: "submapHeader",
+            title: bind.keys
+          });
+
+          for (var k = 0; k < bind.children.length; k++) {
+            result.push({
+              type: "bind",
+              keys: bind.children[k].keys,
+              desc: bind.children[k].desc
+            });
+          }
+
+        } else {
+          result.push({
+            type: "bind",
+            keys: bind.keys,
+            desc: bind.desc
+          });
+        }
       }
       if (i < categoryIndices.length - 1) {
         result.push({ type: "spacer" });
@@ -416,42 +491,50 @@ Item {
 
   function distributeCategories() {
     var numCols = root.columnCount;
-
-    // Calculate weights for each category
-    var catData = [];
-    for (var i = 0; i < categories.length; i++) {
-      var weight = 1 + categories[i].binds.length + 1; // header + binds + spacer
-      catData.push({ index: i, weight: weight });
-    }
-
-    // Sort by weight descending (largest categories first for better distribution)
-    catData.sort(function(a, b) { return b.weight - a.weight; });
+    var numCats = categories.length;
+    if (numCats === 0) return [];
 
     var columns = [];
-    var columnWeights = [];
+    var columnStartHeights = [];
     for (var c = 0; c < numCols; c++) {
       columns.push([]);
-      columnWeights.push(0);
+      columnStartHeights.push(0);
     }
 
-    // Assign each category to the column with smallest current weight
-    for (var i = 0; i < catData.length; i++) {
-      var minCol = 0;
-      for (var c = 1; c < numCols; c++) {
-        if (columnWeights[c] < columnWeights[minCol]) {
-          minCol = c;
+    var availableHeight = maxScreenHeight - 45 - 16 - 15 - 15;
+
+    for (var i = 0; i < numCats; i++) {
+      var catHeight = getCategoryHeight(i);
+      var assigned = false;
+
+      for (var col = 0; col < numCols; col++) {
+        var startPoint = columnStartHeights[col];
+
+        if (startPoint <= availableHeight || (col === numCols - 1)) {
+          columns[col].push(i);
+          columnStartHeights[col] += catHeight;
+          assigned = true;
+          break;
         }
       }
-      columns[minCol].push(catData[i].index);
-      columnWeights[minCol] += catData[i].weight;
-    }
 
-    // Sort categories within each column by original order for consistent display
-    for (var c = 0; c < numCols; c++) {
-      columns[c].sort(function(a, b) { return a - b; });
+      if (!assigned) {
+        columns[numCols - 1].push(i);
+      }
     }
 
     return columns;
   }
 
+  function getCategoryHeight(catIndex) {
+    var cat = categories[catIndex];
+    var h = 26;
+    for (var j = 0; j < cat.binds.length; j++) {
+      h += 22;
+    }
+    h += 10;
+    return h;
+  }
+
 }
+

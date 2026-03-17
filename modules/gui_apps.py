@@ -8,13 +8,14 @@ from .utils import resolve_pkgs, split_pkgs
 PKGS: PackageList = [
     "blanket",
     "google-chrome",
+    "gnome-clocks",
     "imv",
     "keypunch-git",
     "kitty",
     "libreoffice-fresh",
     "mpv",
     "qalculate-gtk",
-    ("nautilus", ["nautilus-open-any-terminal", "xdg-user-dirs-gtk"]),
+    ("nautilus", ["nautilus-open-any-terminal", "xdg-user-dirs-gtk", "file-roller"]),
     (
         "spotify",
         [
