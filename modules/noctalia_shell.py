@@ -19,9 +19,11 @@ PKGS: PackageList = [
             "grim",
             "imagemagick",
             "libnotify",
+            "mission-center",
+            "pavucontrol",
+            "power-profiles-daemon",
             ("tesseract", ["tesseract-data-eng"]),
             "upower",
-            "power-profiles-daemon",
             "wl-clipboard",
             "wlsunset",
             "satty",
@@ -59,7 +61,7 @@ class NoctaliaShell(decman.Module):
     """Noctalia shell package profile."""
 
     def __init__(self):
-        super().__init__("noctalia")
+        super().__init__("noctalia_shell")
 
         _resolved_pkgs = resolve_pkgs(PKGS)
         self._pkgs, self._aur_pkgs, _ = split_pkgs(_resolved_pkgs)

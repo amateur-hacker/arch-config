@@ -1,0 +1,4 @@
+{
+  "pluggedInScript": "$HOME/.config/noctalia/scripts/notify-battery --plugged",
+  "onBatteryScript": "$HOME/.config/noctalia/scripts/notify-battery --unplugged"
+}

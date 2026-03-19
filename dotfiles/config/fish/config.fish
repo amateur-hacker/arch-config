@@ -1,6 +1,20 @@
 # Disable default fish greeting
 set fish_greeting
 
+# Helpers
+function ensure_file
+    command mkdir -p (dirname $argv[1])
+    test -f $argv[1]; or touch $argv[1]
+end
+
+function ensure_dir
+    command mkdir -p $argv[1]
+end
+
+# Add to path
+ensure_dir $HOME/.local/bin
+fish_add_path $HOME/.local/bin $HOME/.local/share/bun/bin $HOME/.local/share/cargo/bin /var/lib/flatpak/exports/bin
+
 # Setup vi mode keybindings and configure defaults
 function fish_user_key_bindings
     fish_vi_key_bindings

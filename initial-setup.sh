@@ -60,7 +60,6 @@ warning() { log_and_print "${YELLOW}✗ $1${RESET}"; }
 trap 'fail "Script failed. See $LOG_FILE" >&3' ERR
 
 echo "===== Arch Config Initial Setup ====="
-echo "Started at: $(date)"
 echo ""
 
 info "Setting up Chaotic AUR..."
@@ -97,5 +96,3 @@ sudo pacman -S --noconfirm --needed python-rich
 ok "python-rich installed"
 
 info "Initial setup complete"
-
-echo "Finished at: $(date)"

@@ -23,7 +23,7 @@ TrackedItemsMap: TypeAlias = dict[str, TrackedItemSpec]
 
 
 # External package(s)
-ExternalPackageManager: TypeAlias = Literal["cargo", "bun", "pipx", "go"]
+ExternalPackageManager: TypeAlias = Literal["cargo", "bun", "pipx"]
 ExternalPackage: TypeAlias = str | tuple[str, ...]
 ExternalPackages: TypeAlias = dict[ExternalPackageManager, list[ExternalPackage]]
 

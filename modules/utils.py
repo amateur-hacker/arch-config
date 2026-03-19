@@ -16,7 +16,7 @@ from specs import (
 )
 
 InstallCommand: TypeAlias = Callable[[str, list[str]], list[str]]
-RemoveCommand: TypeAlias = Callable[[str], list[str]] | None
+RemoveCommand: TypeAlias = Callable[[str], list[str]]
 
 
 class ManagerOps(TypedDict):
@@ -203,10 +203,6 @@ def resolve_external_packages(spec: ExternalPackages):
             "install": lambda pkg, args: ["bun", "add", "-g", pkg, *args],
             "remove": lambda pkg: ["bun", "remove", "-g", pkg],
         },
-        "go": {
-            "install": lambda pkg, args: ["go", "install", pkg, *args],
-            "remove": None,
-        },
     }
 
     result: ResolvedExternalPackages = {}
@@ -227,9 +223,6 @@ def resolve_external_packages(spec: ExternalPackages):
                 args: list[str] = []
             else:
                 pkg, *args = item
-
-            if manager == "go" and "@" not in pkg:
-                pkg = f"{pkg}@latest"
 
             pkgs[pkg] = args
 
@@ -282,18 +275,6 @@ def get_external_installed(manager: ExternalPackageManager):
                 pkg = line.split()[0]
                 pkgs.add(pkg)
 
-    elif manager == "go":
-        user = get_username()
-        user_env = get_user_env(user)
-
-        gobin = user_env.get("GOBIN")
-        gopath = user_env.get("GOPATH")
-
-        go_bin_dir = gobin or f"{gopath}/bin"
-
-        if os.path.isdir(go_bin_dir):
-            pkgs = set(os.listdir(go_bin_dir))
-
     external_pkg_cache[manager] = pkgs
     return pkgs
 
@@ -329,8 +310,3 @@ def reconcile_external_pkgs(
 
         if remove_cmd:
             run_cmd_as_user(remove_cmd(pkg))
-
-        elif manager == "go":
-            path = shutil.which(pkg)
-            if path:
-                os.remove(path)

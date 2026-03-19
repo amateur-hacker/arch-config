@@ -7,6 +7,7 @@ from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PackageList = [
     "bun",
+    "clang",
     "cmake",
     "devtools",
     "docker",

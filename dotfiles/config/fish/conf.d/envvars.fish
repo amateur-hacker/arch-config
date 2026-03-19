@@ -27,10 +27,6 @@ function ensure_dir
     command mkdir -p $argv[1]
 end
 
-# Add to path
-ensure_dir $HOME/.local/bin
-fish_add_path $HOME/.local/bin $HOME/.local/share/bun/bin
-
 # Redirect tool-specific files to XDG paths
 set -x LESSHISTFILE "$XDG_DATA_HOME/less_history"
 set -x PYTHON_HISTORY "$XDG_DATA_HOME/python_history"

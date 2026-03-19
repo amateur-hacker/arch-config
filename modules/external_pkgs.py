@@ -9,6 +9,7 @@ from specs import ExternalPackages
 
 HOME = get_user_home_dir()
 EXTERNAL_PACKAGES: ExternalPackages = {
+    "pipx": [],
     "cargo": [
         # ("ripgrep", "--locked"),
         # "wlr-which-key",

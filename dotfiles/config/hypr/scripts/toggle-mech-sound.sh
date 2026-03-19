@@ -3,7 +3,6 @@
 set -euo pipefail
 
 # NOTE: In noctalia shell tabler icons are used by default.
-SOUNDPACK="$HOME/.config/wayvibes/soundpacks/akko_lavender_purples"
 VOLUME=5
 
 notify() {

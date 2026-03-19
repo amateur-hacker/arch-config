@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+BAT="/sys/class/power_supply/BAT0"
+capacity=$(cat "$BAT/capacity")
+status=$(cat "$BAT/status") # Charging / Discharging / Full
+
+mode="${1:-}"
+
+case "$mode" in
+  --plugged)
+    # Only show if actually charging
+    if [[ "$status" != "Charging" && "$status" != "Full" ]]; then
+      exit 0
+    fi
+
+    qs -c noctalia-shell ipc call toast send "{
+      \"title\": \"Battery\",
+      \"body\": \"Charging ($capacity%)\",
+      \"icon\": \"battery-charging-2\"
+    }"
+    ;;
+
+  --unplugged)
+    # Only show if actually discharging
+    if [[ "$status" != "Discharging" ]]; then
+      exit 0
+    fi
+
+    if [ "$capacity" -le 20 ]; then
+      icon="battery-1"
+    elif [ "$capacity" -le 50 ]; then
+      icon="battery-2"
+    elif [ "$capacity" -le 80 ]; then
+      icon="battery-3"
+    else
+      icon="battery-4"
+    fi
+
+    qs -c noctalia-shell ipc call toast send "{
+      \"title\": \"Battery\",
+      \"body\": \"Unplugged ($capacity%)\",
+      \"icon\": \"$icon\"
+    }"
+    ;;
+
+  *)
+    echo "Usage: notify-battery --plugged | --unplugged"
+    exit 1
+    ;;
+esac
