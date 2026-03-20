@@ -65,6 +65,7 @@ PKGS: PackageList = [
     "spotdl",
     ("starship", ["ttf-cascadia-mono-nerd"]),
     "tealdeer",
+    "television",
     "toilet",
     "trash-cli",
     "tty-clock",

@@ -8,22 +8,23 @@
         "customLaunchPrefixEnabled": false,
         "density": "default",
         "enableClipPreview": true,
+        "enableClipboardChips": true,
         "enableClipboardHistory": true,
+        "enableClipboardSmartIcons": true,
         "enableSessionSearch": false,
         "enableSettingsSearch": false,
         "enableWindowsSearch": false,
-        "iconMode": "native",
+        "iconMode": "tabler",
         "ignoreMouseInput": true,
         "overviewLayer": false,
         "pinnedApps": [
         ],
-        "position": "top_center",
+        "position": "follow_bar",
         "screenshotAnnotationTool": "",
         "showCategories": false,
         "showIconBackground": false,
         "sortByMostUsed": true,
         "terminalCommand": "$TERMINAL -e",
-        "useApp2Unit": false,
         "viewMode": "list"
     },
     "audio": {
@@ -141,6 +142,16 @@
                     "usePadding": false
                 },
                 {
+                    "defaultSettings": {
+                        "customColor": "none",
+                        "showConditionIcon": true,
+                        "showTempUnit": true,
+                        "showTempValue": true,
+                        "tooltipOption": "everything"
+                    },
+                    "id": "plugin:weather-indicator"
+                },
+                {
                     "colorizeIcons": false,
                     "hideMode": "hidden",
                     "id": "ActiveWindow",
@@ -216,12 +227,6 @@
                     "textColor": "none"
                 },
                 {
-                    "displayMode": "onhover",
-                    "iconColor": "none",
-                    "id": "Bluetooth",
-                    "textColor": "none"
-                },
-                {
                     "deviceNativePath": "__default__",
                     "displayMode": "graphic-clean",
                     "hideIfIdle": false,
@@ -238,7 +243,13 @@
                     "textColor": "none"
                 },
                 {
-                    "applyToAllMonitors": false,
+                    "displayMode": "onhover",
+                    "iconColor": "none",
+                    "id": "Bluetooth",
+                    "textColor": "none"
+                },
+                {
+                    "applyToAllMonitors": true,
                     "displayMode": "onhover",
                     "iconColor": "none",
                     "id": "Brightness",
@@ -251,6 +262,10 @@
                     "id": "NotificationHistory",
                     "showUnreadBadge": true,
                     "unreadBadgeColor": "primary"
+                },
+                {
+                    "iconColor": "none",
+                    "id": "SessionMenu"
                 }
             ]
         }
@@ -383,8 +398,10 @@
         "indicatorColor": "primary",
         "indicatorOpacity": 0.6,
         "indicatorThickness": 3,
+        "launcherIcon": "",
         "launcherIconColor": "none",
         "launcherPosition": "end",
+        "launcherUseDistroLogo": false,
         "monitors": [
         ],
         "onlySameOutput": true,
@@ -462,6 +479,7 @@
         "telemetryEnabled": false
     },
     "hooks": {
+        "colorGeneration": "",
         "darkModeChange": "",
         "enabled": true,
         "performanceModeDisabled": "",
@@ -509,6 +527,7 @@
         "bluetoothRssiPollingEnabled": false,
         "disableDiscoverability": false,
         "networkPanelView": "wifi",
+        "showLinkSpeedInWidget": false,
         "wifiDetailsViewMode": "grid",
         "wifiEnabled": true
     },
@@ -519,7 +538,7 @@
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "nightTemp": "4000"
+        "nightTemp": "4400"
     },
     "noctaliaPerformance": {
         "disableDesktopWidgets": true,
@@ -573,7 +592,8 @@
         "overlayLayer": true
     },
     "plugins": {
-        "autoUpdate": true
+        "autoUpdate": true,
+        "notifyUpdates": true
     },
     "sessionMenu": {
         "countdownDuration": 3000,
@@ -642,7 +662,7 @@
         "showHeader": true,
         "showKeybinds": true
     },
-    "settingsVersion": 57,
+    "settingsVersion": 59,
     "systemMonitor": {
         "batteryCriticalThreshold": 5,
         "batteryWarningThreshold": 20,
@@ -696,6 +716,16 @@
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
         "monitorDirectories": [
+            {
+                "directory": "/home/amateur_hacker/pictures/wallpapers",
+                "name": "eDP-1",
+                "wallpaper": ""
+            },
+            {
+                "directory": "/home/amateur_hacker/pictures/wallpapers",
+                "name": "HDMI-A-1",
+                "wallpaper": ""
+            }
         ],
         "overviewBlur": 0.4,
         "overviewEnabled": false,
@@ -709,7 +739,14 @@
         "sortOrder": "name",
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,
-        "transitionType": "random",
+        "transitionType": [
+            "fade",
+            "disc",
+            "stripes",
+            "wipe",
+            "pixelate",
+            "honeycomb"
+        ],
         "useSolidColor": false,
         "useWallhaven": false,
         "viewMode": "recursive",

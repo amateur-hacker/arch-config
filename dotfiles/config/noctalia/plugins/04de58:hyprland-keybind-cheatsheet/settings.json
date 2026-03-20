@@ -397,11 +397,15 @@
         },
         {
           "keys": "Super + A, C",
-          "desc": "Open editor"
+          "desc": "Open code editor"
         },
         {
           "keys": "Super + A, F",
           "desc": "Open file manager"
+        },
+        {
+          "keys": "Super + A, I",
+          "desc": "Open image editor app"
         },
         {
           "keys": "Super + A, M",
@@ -410,6 +414,14 @@
         {
           "keys": "Super + A, S",
           "desc": "Open song app"
+        },
+        {
+          "keys": "Super + A, T",
+          "desc": "Open transfer files app"
+        },
+        {
+          "keys": "Super + A, V",
+          "desc": "Open video editor app"
         }
       ]
     },

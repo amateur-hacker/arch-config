@@ -14,6 +14,7 @@ from .dotfiles_utils import (
     build_symlinks,
     ensure_acl,
     ensure_wheel_sudo_privileges,
+    ensure_xhost_root_access,
     generate_grub_config,
     generate_locales,
     get_current_wallpaper_path,
@@ -161,3 +162,4 @@ class Dotfiles(decman.Module):
         update_tldr_cache()
         update_locate_db()
         set_papirus_folder_color(desired_color="cat-mocha-lavender")
+        ensure_xhost_root_access()

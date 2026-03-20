@@ -355,3 +355,20 @@ def ensure_wheel_sudo_privileges():
         ],
         pty=False,
     )
+
+
+def ensure_xhost_root_access():
+    """Allow root to access X display (only if needed)."""
+
+    display = os.environ.get("DISPLAY")
+    if not display:
+        return
+
+    result = run_cmd_as_user(["xhost"], capture_output=True)
+
+    if "SI:localuser:root" in result:
+        return
+
+    logger.info("Granting root access to X display (xhost)")
+
+    run_cmd_as_user(["xhost", "+SI:localuser:root"])

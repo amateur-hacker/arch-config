@@ -30,6 +30,7 @@ map.set("n", "<leader>y", "<cmd>%y+<cr>", { desc = "Copy whole File" })
 
 -- Save file
 map.del({ "i", "x", "n", "s" }, "<c-s>")
+map.del("n", "<leader><leader>")
 map.set("n", "<leader><leader>", "<cmd>silent write<cr><esc>", { desc = "Save File" })
 
 -- Toggle inlay hints
