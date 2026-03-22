@@ -31,6 +31,7 @@ PKGS: PackageList = [
             # "gnome-online-accounts",
         ],
     ),
+    "ferdium-bin",
     "gnome-calculator",
     ("gnome-chess", ["gnuchess"]),
     "google-chrome",
@@ -103,14 +104,14 @@ PKGS: PackageList = [
             "zenity",
         ],
     ),
-    (
-        "telegram-desktop",
-        [
-            "geoclue",
-            "geocode-glib-2",
-            "webkitgtk-6.0",
-        ],
-    ),
+    # (
+    #     "telegram-desktop",
+    #     [
+    #         "geoclue",
+    #         "geocode-glib-2",
+    #         "webkitgtk-6.0",
+    #     ],
+    # ),
     (
         "timeshift",
         [
@@ -130,6 +131,7 @@ PKGS: PackageList = [
             "xfsprogs",
         ],
     ),
+    "yad",
     ("zathura", ["zathura-pdf-poppler"]),
 ]
 

@@ -52,6 +52,7 @@ PKGS: PackageList = [
     "less",
     "lolcat",
     "lsd",
+    "net-tools",
     CustomPackage(
         "nitch++-git",
         "https://github.com/amateur-hacker/nitchplusplus",
@@ -81,6 +82,14 @@ PKGS: PackageList = [
     ),
     "unrar",
     "unzip",
+    (
+        "usbutils",
+        [
+            "coreutils",
+            "python",
+        ],
+    ),
+    "wireless_tools",
     "wget",
     (
         "yazi",
