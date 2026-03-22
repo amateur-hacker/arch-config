@@ -38,6 +38,7 @@ FILE_ITEMS: DotfileItemList = [
     #     "your_user_name",
     # ),
     ("/etc/default/grub", "etc/default/grub"),
+    ("/etc/environment", "etc/environment"),
     ("/etc/fonts/local.conf", "etc/fonts/local.conf"),
     ("/etc/locale.conf", "etc/locale.conf"),
     ("/etc/mkinitcpio.conf", "etc/mkinitcpio.conf"),
@@ -101,6 +102,11 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/zathura", "config/zathura"),
     (f"{HOME}/.face", "home/.face"),
     (f"{HOME}/.face.icon", "home/.face"),
+    ("/root/.config/gtk-3.0", "config/gtk-3.0"),
+    ("/root/.config/gtk-4.0", "config/gtk-4.0"),
+    ("/root/.config/Kvantum", "config/Kvantum"),
+    ("/root/.config/qt5ct", "config/qt5ct"),
+    ("/root/.config/qt6ct", "config/qt6ct"),
 ]
 
 TRACKED_ITEMS: TrackedItemsMap = {
