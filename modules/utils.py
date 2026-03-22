@@ -15,6 +15,8 @@ from specs import (
     PackageSpecs,
 )
 
+logger = logging.getLogger(__name__)
+
 InstallCommand: TypeAlias = Callable[[str, list[str]], list[str]]
 RemoveCommand: TypeAlias = Callable[[str], list[str]]
 
@@ -29,8 +31,6 @@ class ResolvedManagerOps(ManagerOps):
 
 
 ResolvedExternalPackages: TypeAlias = dict[ExternalPackageManager, ResolvedManagerOps]
-
-logger = logging.getLogger(__name__)
 
 
 def is_laptop():

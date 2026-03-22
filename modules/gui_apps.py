@@ -6,26 +6,61 @@ from specs import PackageList
 from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PackageList = [
+    (
+        "amberol",
+        [
+            "gst-libav",
+            "gst-plugins-bad",
+            "gst-plugins-ugly",
+        ],
+    ),
+    "baobab",
     "blanket",
+    (
+        "blueman",
+        [
+            "iproute2",
+            "networkmanager",
+        ],
+    ),
+    "evince",
+    (
+        "evolution",
+        [
+            "gnome-keyring",
+            # "gnome-online-accounts",
+        ],
+    ),
+    "gnome-calculator",
+    ("gnome-chess", ["gnuchess"]),
     "google-chrome",
+    # (
+    #     "g4music-git",
+    #     [
+    #         "gst-plugins-bad",
+    #         "gst-plugins-base",
+    #         "gst-plugins-good",
+    #     ],
+    # ),
     "gnome-clocks",
     (
         "gparted",
         [
             "btrfs-progs",
             "dosfstools",
-            "exfatprogs",
             "f2fs-tools",
             "gpart",
             "jfsutils",
             "mtools",
             "nilfs-utils",
             "ntfs-3g",
+            "polkit",
             "udftools",
             "xfsprogs",
             "xorg-xhost",
         ],
     ),
+    ("gthumb", ["libraw"]),
     "imv",
     "keypunch-git",
     "kitty",
@@ -37,6 +72,9 @@ PKGS: PackageList = [
         ],
     ),
     "localsend",
+    # "lollypop",
+    "loupe",
+    "linux-wifi-hotspot",
     "mpv",
     "pika-backup",
     "pinta",
@@ -53,7 +91,7 @@ PKGS: PackageList = [
             "python-librosa",
         ],
     ),
-    "qalculate-gtk",
+    # "qalculate-gtk",
     ("nautilus", ["nautilus-open-any-terminal", "xdg-user-dirs-gtk", "file-roller"]),
     (
         "spotify",
@@ -79,6 +117,17 @@ PKGS: PackageList = [
             ("btrfs-progs", ["inotify-tools"]),
             "grub-btrfs",
             "xorg-xhost",
+        ],
+    ),
+    (
+        "ventoy-bin",
+        [
+            "e2fsprogs",
+            "gtk3",
+            "ntfs-3g",
+            "parted",
+            "polkit",
+            "xfsprogs",
         ],
     ),
     ("zathura", ["zathura-pdf-poppler"]),

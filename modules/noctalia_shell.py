@@ -1,5 +1,6 @@
 import decman
 from decman.plugins import pacman, aur
+from decman.plugins.aur import CustomPackage
 
 from specs import PackageList
 
@@ -7,9 +8,12 @@ from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PackageList = [
     (
-        "noctalia-shell",
+        # "noctalia-shell",
+        CustomPackage(
+            "noctalia-shell-git",
+            "https://github.com/amateur-hacker/noctalia-shell",
+        ),
         [
-            "cava",
             "cliphist",
             "ddcutil",
             "evtest",
@@ -65,7 +69,7 @@ class NoctaliaShell(decman.Module):
         super().__init__("noctalia_shell")
 
         _resolved_pkgs = resolve_pkgs(PKGS)
-        self._pkgs, self._aur_pkgs, _ = split_pkgs(_resolved_pkgs)
+        self._pkgs, self._aur_pkgs, self._custom_pkgs = split_pkgs(_resolved_pkgs)
 
     @pacman.packages
     def pkgs(self):
@@ -74,3 +78,7 @@ class NoctaliaShell(decman.Module):
     @aur.packages
     def aur_pkgs(self):
         return self._aur_pkgs
+
+    @aur.custom_packages
+    def custom_packages(self):
+        return self._custom_pkgs

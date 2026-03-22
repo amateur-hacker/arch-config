@@ -82,6 +82,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/gtk-4.0", "config/gtk-4.0"),
     (f"{HOME}/.config/hypr", "config/hypr"),
     (f"{HOME}/.config/kitty", "config/kitty"),
+    (f"{HOME}/.config/Kvantum", "config/Kvantum"),
     (f"{HOME}/.config/lsd", "config/lsd"),
     (f"{HOME}/.config/mimeapps.list", "config/mimeapps.list"),
     (f"{HOME}/.config/mpv", "config/mpv"),

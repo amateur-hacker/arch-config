@@ -364,11 +364,11 @@ def ensure_xhost_root_access():
     if not display:
         return
 
-    result = run_cmd_as_user(["xhost"], capture_output=True)
+    result = run_cmd_as_user(["xhost"], pty=False)
 
     if "SI:localuser:root" in result:
         return
 
     logger.info("Granting root access to X display (xhost)")
 
-    run_cmd_as_user(["xhost", "+SI:localuser:root"])
+    run_cmd_as_user(["xhost", "+SI:localuser:root"], pty=False)

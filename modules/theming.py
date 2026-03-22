@@ -9,6 +9,7 @@ PKGS: PackageList = [
     "adw-gtk-theme",
     "bibata-cursor-theme",
     "catppuccin-mocha-grub-theme-git",
+    ("kvantum", ["kvantum-qt5"]),  # kvanutm-qt6-git
     "matugen",
     "nwg-look",
     "papirus-folders-catppuccin-git",

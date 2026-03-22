@@ -1,0 +1,3 @@
+GTK_THEME="adw-gtk3-dark"
+QT_STYLE_OVERRIDE="kvantum"
+QT_QPA_PLATFORMTHEME="qt6ct"
