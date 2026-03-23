@@ -142,16 +142,6 @@
                     "usePadding": false
                 },
                 {
-                    "defaultSettings": {
-                        "customColor": "none",
-                        "showConditionIcon": true,
-                        "showTempUnit": true,
-                        "showTempValue": true,
-                        "tooltipOption": "everything"
-                    },
-                    "id": "plugin:weather-indicator"
-                },
-                {
                     "colorizeIcons": false,
                     "hideMode": "hidden",
                     "id": "ActiveWindow",
@@ -233,7 +223,7 @@
                 },
                 {
                     "deviceNativePath": "__default__",
-                    "displayMode": "graphic-clean",
+                    "displayMode": "icon-hover",
                     "hideIfIdle": false,
                     "hideIfNotDetected": true,
                     "id": "Battery",
