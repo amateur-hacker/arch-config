@@ -1,5 +1,5 @@
 {
-  "showTempValue": false,
+  "showTempValue": true,
   "showConditionIcon": true,
   "showTempUnit": true,
   "tooltipOption": "everything",

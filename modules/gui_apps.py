@@ -77,6 +77,7 @@ PKGS: PackageList = [
     "loupe",
     "linux-wifi-hotspot",
     "mpv",
+    # "obsidian",
     "pika-backup",
     "pinta",
     (
