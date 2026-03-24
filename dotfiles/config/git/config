@@ -1,0 +1,5 @@
+[user]
+	email = amateurhacker2004@gmail.com
+	name = amateur-hacker
+[merge]
+	tool = nvimdiff

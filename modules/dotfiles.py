@@ -79,6 +79,7 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/dircolors", "config/dircolors"),
     (f"{HOME}/.config/fastfetch", "config/fastfetch"),
     (f"{HOME}/.config/fish", "config/fish"),
+    (f"{HOME}/.config/git", "config/git"),
     (f"{HOME}/.config/gtk-3.0", "config/gtk-3.0"),
     (f"{HOME}/.config/gtk-4.0", "config/gtk-4.0"),
     (f"{HOME}/.config/hypr", "config/hypr"),
