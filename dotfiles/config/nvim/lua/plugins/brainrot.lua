@@ -32,6 +32,7 @@ return {
     enabled = not vim.g.neovide,
     build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
     opts = {
+      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif", "*.face*" }, -- render image files as images when opened
       processor = "magick_cli",
     },
   },
