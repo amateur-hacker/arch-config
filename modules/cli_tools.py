@@ -20,10 +20,14 @@ PKGS: PackageList = [
     (
         "decman",
         [
+            # build deps
             "python-build",
             "python-installer",
             "python-setuptools",
             "python-wheel",
+            # test deps
+            "python-pytest",
+            "python-pytest-mock",
         ],
     ),
     "duf",
