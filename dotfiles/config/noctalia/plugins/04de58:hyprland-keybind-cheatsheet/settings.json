@@ -330,6 +330,22 @@
         {
           "keys": "Super + Shift + Ctrl + 0",
           "desc": "Move window and follow to workspace 10"
+        },
+        {
+          "keys": "Super + Ctrl + COMMA",
+          "desc": "Previous workspace"
+        },
+        {
+          "keys": "Super + Ctrl + PERIOD",
+          "desc": "Next workspace"
+        },
+        {
+          "keys": "Super + Shift + Ctrl + COMMA",
+          "desc": "Move window to previous workspace"
+        },
+        {
+          "keys": "Super + Shift + Ctrl + PERIOD",
+          "desc": "Move window to next workspace"
         }
       ]
     },

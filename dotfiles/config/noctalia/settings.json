@@ -292,6 +292,7 @@
         "monitorForColors": "HDMI-A-1",
         "predefinedScheme": "Catppuccin Lavender",
         "schedulingMode": "off",
+        "syncGsettings": true,
         "useWallpaperColors": false
     },
     "controlCenter": {
