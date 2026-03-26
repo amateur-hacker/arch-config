@@ -6,6 +6,13 @@ from specs import PackageList
 from .utils import resolve_pkgs
 
 PKGS: PackageList = [
+    # (
+    #     "package_name",
+    #     [
+    #         "deps1",
+    #         "deps2",
+    #     ]
+    # ),
     "base",
     "base-devel",
     "bluez",

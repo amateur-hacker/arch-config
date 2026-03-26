@@ -8,6 +8,8 @@ SYSTEM_UNITS = {
     "ufw.service",
     "bluetooth.service",
     "sddm.service",
+    "docker.service",
+    "docker.socket",
 }
 
 LAPTOP_UNITS = {

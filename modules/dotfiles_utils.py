@@ -467,3 +467,31 @@ def decrypt_ssh_private_key(encrypted_path: Path):
     )
 
     run_cmd_as_user(["chmod", "600", str(target_file)], pty=False)
+
+
+def ensure_git_config(user_name: str, user_email: str):
+    """Ensure global git username and email are set correctly."""
+
+    current_name = run_cmd_as_user(
+        ["git", "config", "--global", "user.name"],
+        pty=False,
+    ).strip()
+
+    current_email = run_cmd_as_user(
+        ["git", "config", "--global", "user.email"],
+        pty=False,
+    ).strip()
+
+    if current_name != user_name:
+        logger.info("Setting git username to '%s'", user_name)
+        run_cmd_as_user(
+            ["git", "config", "--global", "user.name", user_name],
+            pty=False,
+        )
+
+    if current_email != user_email:
+        logger.info("Setting git email to '%s'", user_email)
+        run_cmd_as_user(
+            ["git", "config", "--global", "user.email", user_email],
+            pty=False,
+        )

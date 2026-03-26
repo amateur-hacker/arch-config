@@ -7,13 +7,19 @@ from .utils import resolve_pkgs, split_pkgs
 
 PKGS: PackageList = [
     (
-        "hyprland",
+        "hyprland-git",
         [
-            "hyprland-protocols",
-            "hyprpicker",
+            "hyprland-protocols-git",
+            "hyprpicker-git",
             "hyprpolkitagent",
             "hyprshot",
-            "xdg-desktop-portal-hyprland",
+            (
+                "xdg-desktop-portal-hyprland-git",
+                [
+                    "grim",
+                    "slurp",
+                ],
+            ),
         ],
     ),
     "socat",

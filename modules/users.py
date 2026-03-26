@@ -17,6 +17,7 @@ USERS = (
         shell=shutil.which(SHELL),
         groups=(
             "audio",
+            "docker",
             "input",
             "lp",
             "network",

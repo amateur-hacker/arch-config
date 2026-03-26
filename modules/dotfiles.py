@@ -2,6 +2,7 @@ from pathlib import Path
 
 import decman
 
+from settings import GIT_USER_EMAIL, GIT_USER_NAME
 from specs import DotfileItemList, TrackedItemsMap
 
 from .dotfiles_utils import (
@@ -15,6 +16,7 @@ from .dotfiles_utils import (
     decrypt_sops_age_key,
     decrypt_ssh_private_key,
     ensure_acl,
+    ensure_git_config,
     ensure_wheel_sudo_privileges,
     ensure_xhost_root_access,
     generate_grub_config,
@@ -37,7 +39,7 @@ FILE_ITEMS: DotfileItemList = [
     # (
     #     "/path/to/dst/file",
     #     "/path/to/src/file",
-    #     "your_user_name",
+    #     "your_user_name(optional and default is root)",
     # ),
     ("/etc/default/grub", "etc/default/grub"),
     ("/etc/environment", "etc/environment"),
@@ -67,6 +69,11 @@ FILE_ITEMS: DotfileItemList = [
 ]
 
 DIRECTORY_ITEMS: DotfileItemList = [
+    # (
+    #     "/path/to/dst/dir",
+    #     "/path/to/src/dir",
+    #     "your_user_name(optional and default is root)",
+    # ),
     (
         "/usr/share/plymouth/themes/anonymous",
         "usr/share/plymouth/themes/anonymous",
@@ -74,6 +81,11 @@ DIRECTORY_ITEMS: DotfileItemList = [
 ]
 
 SYMLINK_ITEMS: DotfileItemList = [
+    # (
+    #     "/path/to/dst/file",
+    #     "/path/to/src/file",
+    #     "your_user_name(optional and default is your username.)",
+    # ),
     (f"{HOME}/.config/atac", "config/atac"),
     (f"{HOME}/.config/bottom", "config/bottom"),
     (f"{HOME}/.config/cava", "config/cava"),
@@ -181,3 +193,4 @@ class Dotfiles(decman.Module):
         decrypt_ssh_private_key(
             encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc"
         )
+        ensure_git_config(user_name=GIT_USER_NAME, user_email=GIT_USER_EMAIL)
