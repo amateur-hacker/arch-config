@@ -21,15 +21,20 @@ decman --help
 
 ## ✨ Features
 
-- **Declarative Package Management** — Define packages in Python, let decman handle installation
-- **Declarative Dotfile Management** — Symlink/copy dotfiles from repo to system
-- **AUR Support** — Chaotic AUR + Paru + custom AUR packages
-- **Hyprland** — Wayland compositor with noctalia shell
-- **Fish Shell** — Modern CLI shell with plugins
-- **Neovim** — LazyVim with customizations
-- **Dev Tools** — Node.js, Python, Rust, Go, Bun, Docker, Lazygit, Lazydocker
-- **GUI Apps** — Chrome, Spotify, Telegram, Kitty, MPV
-- **Theming** — Catppuccin Mocha Lavender, SDDM, GRUB, GTK themes
+- **Declarative Package Management** — Define packages in Python, decman handles installation
+- **Declarative Dotfile Management** — Symlink/copy 150+ dotfiles from repo to system
+- **Full Hyprland Desktop** — Wayland compositor with noctalia shell, ergonomic keybinds
+- **Complete Theming** — Catppuccin Mocha everywhere: SDDM, GRUB, Plymouth, GTK, Qt, cursors, icons, apps
+- **Development Stack** — Node.js, Python, Rust, Go, Bun, Julia, PHP, Ruby + Docker + Lazygit + Lazydocker
+- **Productivity Apps** — Chrome, Spotify, LibreOffice, Ferdium, Pinta, Pitivi, Neovide etc...
+- **Additional Features** — OCR, Mechanical sound, Show keys, Screenshot annotation, Video recording
+
+## 📸 Screenshots
+
+![Preview 1](./previews/1.png)
+![Preview 2](./previews/2.png)
+![Preview 3](./previews/3.png)
+![Preview 4](./previews/4.png)
 
 ## 📂 Project Structure
 
@@ -226,14 +231,92 @@ EXTERNAL_PACKAGES: ExternalPackages = {
     "cargo": [
         # ("ripgrep", "--locked"),
     ],
-    "go": [],
     "pipx": []
 }
 ```
 
-Currently supported package managers: **bun**, **cargo**, **go** and **pipx**.
+Currently supported package managers: **bun**, **cargo** and **pipx**.
 
 > **Note:** External packages are installed after regular packages. They are managed separately from pacman/AUR packages.
+>
+
+## 🔐 Secrets Management
+
+This project supports encrypting sensitive files (SSH keys, API keys) using **sops** and **age**.
+
+### Step 1: Create .sops.yaml Config
+
+Create a `.sops.yaml` file in the project root with your age key:
+
+```bash
+# First, generate a key and get its public key
+age-keygen -o secrets/keys.txt
+
+# Create .sops.yaml with your public age key
+cat > .sops.yaml << 'EOF'
+creation_rules:
+  - age: your_age_public_key_here
+EOF
+```
+
+### Step 2: Generate Age Key
+
+```bash
+# Encrypt the keys file with a password
+age -p -o secrets/sops-keys.txt.age secrets/keys.txt
+```
+
+### Step 3: Encrypt SSH Private Key
+
+```bash
+# Replace ~/.ssh/id_rsa with your actual private key path
+sops -e --input-type binary --output-type binary ~/.ssh/id_rsa > secrets/ssh-id_rsa.enc
+```
+
+### Step 4: Encrypt API Keys
+
+```bash
+# Create api-keys.yaml with your secrets
+cat > secrets/api-keys.yaml << 'EOF'
+OPENAI_API_KEY: "sk-..."
+GROQ_API_KEY: "gsk_..."
+ANTHROPIC_API_KEY: "sk-ant-..."
+EOF
+
+# Encrypt the file
+sops -e secrets/api-keys.yaml > secrets/api-keys.enc.yaml
+rm secrets/api-keys.yaml  # Remove unencrypted file
+```
+
+### Step 5: Clean Up
+
+Remove all unencrypted files from the secrets folder:
+
+```bash
+# Keep only: sops-keys.txt.age, ssh-id_rsa.enc, api-keys.enc.yaml
+ls -la secrets/
+```
+
+### Step 6: Enable Decryption
+
+In `modules/dotfiles.py`, uncomment the decryption functions:
+
+```python
+# decrypt_sops_age_key(
+#     encrypted_path=Path(self._root) / "secrets/sops-keys.txt.age"
+# )
+# decrypt_ssh_private_key(
+#     encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc"
+# )
+```
+
+### Usage
+
+Decrypt and read API keys on demand:
+
+```bash
+sops -d secrets/api-keys.enc.yaml | yq -r '.OPENAI_API_KEY'
+```
 
 ## 💻 Useful Commands
 
