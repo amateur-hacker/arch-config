@@ -179,5 +179,5 @@ class Dotfiles(decman.Module):
             encrypted_path=Path(self._root) / "secrets/sops-keys.txt.age"
         )
         decrypt_ssh_private_key(
-            encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc.yaml"
+            encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc"
         )
