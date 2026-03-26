@@ -12,6 +12,8 @@ from .dotfiles_utils import (
     build_initramfs_images,
     build_plymouth_theme,
     build_symlinks,
+    decrypt_sops_age_key,
+    decrypt_ssh_private_key,
     ensure_acl,
     ensure_wheel_sudo_privileges,
     ensure_xhost_root_access,
@@ -103,6 +105,8 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/zathura", "config/zathura"),
     (f"{HOME}/.face", "home/.face"),
     (f"{HOME}/.face.icon", "home/.face"),
+    (f"{HOME}/.ssh/config", "home/.ssh/config"),
+    (f"{HOME}/.ssh/id_rsa.pub", "home/.ssh/id_rsa.pub"),
     ("/root/.config/gtk-3.0", "config/gtk-3.0"),
     ("/root/.config/gtk-4.0", "config/gtk-4.0"),
     ("/root/.config/Kvantum", "config/Kvantum"),
@@ -143,7 +147,8 @@ class Dotfiles(decman.Module):
 
     def __init__(self):
         super().__init__("dotfiles")
-        self._base = Path(__file__).resolve().parent.parent / "dotfiles"
+        self._root = Path(__file__).resolve().parent.parent
+        self._base = Path(self._root) / "dotfiles"
 
     def files(self):
         return build_files(base=self._base, items=FILE_ITEMS)
@@ -152,7 +157,6 @@ class Dotfiles(decman.Module):
         return build_directories(base=self._base, items=DIRECTORY_ITEMS)
 
     def symlinks(self):
-        # NOTE: can use .extend method for conditional logic.
         return build_symlinks(base=self._base, items=SYMLINK_ITEMS, default_owner=USER)
 
     def after_update(self, store):
@@ -171,3 +175,9 @@ class Dotfiles(decman.Module):
         update_locate_db()
         set_papirus_folder_color(desired_color="cat-mocha-lavender")
         ensure_xhost_root_access()
+        decrypt_sops_age_key(
+            encrypted_path=Path(self._root) / "secrets/sops-keys.txt.age"
+        )
+        decrypt_ssh_private_key(
+            encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc.yaml"
+        )

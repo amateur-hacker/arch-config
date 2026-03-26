@@ -9,6 +9,7 @@ from .utils import resolve_pkgs, split_pkgs
 PKGS: PackageList = [
     "7zip",
     "acpi",
+    "age",
     "ain-bin",
     "bat",
     "bottom",
@@ -67,6 +68,7 @@ PKGS: PackageList = [
     "ripgrep",
     "rsync",
     "scrntime-git",
+    "sops",
     "spotdl",
     ("starship", ["ttf-cascadia-mono-nerd"]),
     "tealdeer",
@@ -113,6 +115,7 @@ PKGS: PackageList = [
             "zoxide",
         ],
     ),
+    "yq",
     (
         "yt-dlp",
         [

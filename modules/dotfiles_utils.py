@@ -2,6 +2,7 @@ import hashlib
 import logging
 import os
 import pwd
+import shlex
 from pathlib import Path
 from typing import Iterable, TypeAlias
 
@@ -340,19 +341,25 @@ def ensure_wheel_sudo_privileges():
         content = sudoers_file.read_text()
         mode = sudoers_file.stat().st_mode & 0o777
 
-        if content == rule and mode == 0o440:
+        if content.strip() == rule.strip() and mode == 0o440:
             return
 
     logger.info("Ensuring wheel group sudo privileges.")
 
-    run_cmd_as_root(["bash", "-c", f"echo '{rule.strip()}' > {sudoers_file}"])
+    safe_rule = shlex.quote(rule.strip())
+    safe_target = shlex.quote(str(sudoers_file))
 
     run_cmd_as_root(
         [
-            "chmod",
-            "440",
-            str(sudoers_file),
+            "bash",
+            "-c",
+            f"printf %s {safe_rule} | tee {safe_target}",
         ],
+        pty=False,
+    )
+
+    run_cmd_as_root(
+        ["chmod", "440", str(sudoers_file)],
         pty=False,
     )
 
@@ -372,3 +379,91 @@ def ensure_xhost_root_access():
     logger.info("Granting root access to X display (xhost)")
 
     run_cmd_as_user(["xhost", "+SI:localuser:root"], pty=False)
+
+
+def decrypt_sops_age_key(encrypted_path: Path):
+    """Decrypt sops age key and place it in ~/.config/sops/age/keys.txt."""
+
+    target_dir = HOME / ".config/sops/age"
+    target_file = target_dir / "keys.txt"
+
+    if not encrypted_path.exists():
+        raise FileNotFoundError(f"{encrypted_path} doesn't exist")
+
+    run_cmd_as_user(
+        ["mkdir", "-p", str(target_dir)],
+        pty=False,
+    )
+
+    if target_file.exists():
+        if target_file.stat().st_mtime >= encrypted_path.stat().st_mtime:
+            return
+
+    logger.info("Decrypting age key to %s", target_file)
+
+    result = run_cmd_as_user(
+        [
+            "age",
+            "-d",
+            str(encrypted_path),
+        ],
+        pty=False,
+    )
+
+    if not result:
+        raise RuntimeError(
+            "Failed to decrypt age key (wrong password or corrupted file)"
+        )
+
+    safe_result = shlex.quote(result)
+    safe_target = shlex.quote(str(target_file))
+
+    run_cmd_as_user(
+        ["bash", "-c", f"printf %s {safe_result} | tee {safe_target}"],
+        pty=False,
+    )
+
+    run_cmd_as_user(["chmod", "600", str(target_file)], pty=False)
+
+
+def decrypt_ssh_private_key(encrypted_path: Path):
+    """Decrypt SSH private key using sops and place it in ~/.ssh/id_rsa."""
+
+    target_dir = HOME / ".ssh"
+    target_file = target_dir / "id_rsa"
+
+    if not encrypted_path.exists():
+        raise FileNotFoundError(f"{encrypted_path} doesn't exist")
+
+    run_cmd_as_user(
+        ["mkdir", "-p", str(target_dir)],
+        pty=False,
+    )
+
+    if target_file.exists():
+        if target_file.stat().st_mtime >= encrypted_path.stat().st_mtime:
+            return
+
+    logger.info("Decrypting SSH private key to %s", target_file)
+
+    result = run_cmd_as_user(
+        [
+            "sops",
+            "--decrypt",
+            str(encrypted_path),
+        ],
+        pty=False,
+    )
+
+    if not result:
+        raise RuntimeError("Failed to decrypt SSH key")
+
+    safe_result = shlex.quote(result)
+    safe_target = shlex.quote(str(target_file))
+
+    run_cmd_as_user(
+        ["bash", "-c", f"printf %s {safe_result} | tee {safe_target}"],
+        pty=False,
+    )
+
+    run_cmd_as_user(["chmod", "600", str(target_file)], pty=False)
