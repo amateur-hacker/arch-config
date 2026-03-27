@@ -246,7 +246,7 @@ This project supports encrypting sensitive files (SSH keys, API keys) using **so
 
 ### Step 1: Create .sops.yaml Config
 
-Create a `.sops.yaml` file in the project root with your age key:
+Create a `.sops.yaml` file in the secrets folder with your age key:
 
 ```bash
 # First, generate a key and get its public key
