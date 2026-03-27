@@ -5,7 +5,7 @@ from modules.utils import (
     reconcile_external_pkgs,
     resolve_external_packages,
 )
-from specs import ExternalPackages
+from shared_types import ExternalPackages
 
 HOME = get_user_home_dir()
 EXTERNAL_PACKAGES: ExternalPackages = {

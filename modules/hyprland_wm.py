@@ -1,9 +1,8 @@
 import decman
 from decman.plugins import aur, pacman
 
-from specs import PackageList
-
-from .utils import resolve_pkgs, split_pkgs
+from modules.utils import resolve_pkgs, split_pkgs
+from shared_types import PackageList
 
 PKGS: PackageList = [
     (

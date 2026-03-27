@@ -1,7 +1,7 @@
 import decman
 from decman.plugins import systemd
 
-from .utils import get_username, is_laptop
+from modules.utils import get_username, is_laptop
 
 SYSTEM_UNITS = {
     "NetworkManager.service",
@@ -9,7 +9,6 @@ SYSTEM_UNITS = {
     "bluetooth.service",
     "sddm.service",
     "docker.service",
-    "docker.socket",
 }
 
 LAPTOP_UNITS = {

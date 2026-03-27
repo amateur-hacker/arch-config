@@ -3,8 +3,8 @@ import subprocess
 import decman
 from decman.plugins import pacman
 
-from .utils import is_laptop
-from settings import ENABLE_GAME_SUPPORT
+from modules.utils import is_laptop
+from variables import ENABLE_GAME_SUPPORT
 
 
 def read_file(path):

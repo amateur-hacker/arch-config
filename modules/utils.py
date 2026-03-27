@@ -7,13 +7,13 @@ from typing import Callable, TypeAlias, TypedDict
 import decman
 from decman.plugins.aur import CustomPackage
 
-from settings import SHELL
-from specs import (
+from shared_types import (
     ExternalPackageManager,
     ExternalPackages,
     PackageSpec,
     PackageSpecs,
 )
+from variables import SHELL
 
 logger = logging.getLogger(__name__)
 

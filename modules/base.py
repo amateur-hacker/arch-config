@@ -1,9 +1,8 @@
 import decman
 from decman.plugins import pacman
 
-from specs import PackageList
-
-from .utils import resolve_pkgs
+from modules.utils import resolve_pkgs
+from shared_types import PackageList
 
 PKGS: PackageList = [
     # (
@@ -45,7 +44,6 @@ PKGS: PackageList = [
         ],
     ),
     "sddm",
-    "snapper",
     "sudo",
     "zram-generator",
 ]

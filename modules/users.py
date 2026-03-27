@@ -1,10 +1,10 @@
 import shutil
+
 from decman.extras.users import Group, User, UserManager
 
 from modules.dotfiles_utils import ensure_fullname
-
-from .utils import get_username, get_user_home_dir
-from settings import FULL_NAME, SHELL
+from modules.utils import get_user_home_dir, get_username
+from variables import FULL_NAME, SHELL
 
 USER_NAME = get_username()
 USER_HOME_DIR = get_user_home_dir()

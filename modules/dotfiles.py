@@ -2,10 +2,7 @@ from pathlib import Path
 
 import decman
 
-from settings import GIT_USER_EMAIL, GIT_USER_NAME
-from specs import DotfileItemList, TrackedItemsMap
-
-from .dotfiles_utils import (
+from modules.dotfiles_utils import (
     apply_graphical_gsettings,
     build_directories,
     build_files,
@@ -13,8 +10,8 @@ from .dotfiles_utils import (
     build_initramfs_images,
     build_plymouth_theme,
     build_symlinks,
-    decrypt_sops_age_key,
-    decrypt_ssh_private_key,
+    # decrypt_sops_age_key,
+    # decrypt_ssh_private_key,
     ensure_acl,
     ensure_git_config,
     ensure_wheel_sudo_privileges,
@@ -29,6 +26,9 @@ from .dotfiles_utils import (
     update_tldr_cache,
     update_xdg_user_dirs,
 )
+from shared_types import DotfileItemList, TrackedItemsMap
+from variables import GIT_USER_EMAIL, GIT_USER_NAME
+
 from .utils import get_user_home_dir, get_username
 
 HOME = get_user_home_dir()
@@ -39,7 +39,7 @@ FILE_ITEMS: DotfileItemList = [
     # (
     #     "/path/to/dst/file",
     #     "/path/to/src/file",
-    #     "your_user_name(optional and default is root)",
+    #     "your_user_name(optional)",
     # ),
     ("/etc/default/grub", "etc/default/grub"),
     ("/etc/environment", "etc/environment"),
@@ -117,8 +117,6 @@ SYMLINK_ITEMS: DotfileItemList = [
     (f"{HOME}/.config/zathura", "config/zathura"),
     (f"{HOME}/.face", "home/.face"),
     (f"{HOME}/.face.icon", "home/.face"),
-    (f"{HOME}/.ssh/config", "home/.ssh/config"),
-    (f"{HOME}/.ssh/id_rsa.pub", "home/.ssh/id_rsa.pub"),
     ("/root/.config/gtk-3.0", "config/gtk-3.0"),
     ("/root/.config/gtk-4.0", "config/gtk-4.0"),
     ("/root/.config/Kvantum", "config/Kvantum"),
@@ -187,10 +185,10 @@ class Dotfiles(decman.Module):
         update_locate_db()
         set_papirus_folder_color(desired_color="cat-mocha-lavender")
         ensure_xhost_root_access()
-        decrypt_sops_age_key(
-            encrypted_path=Path(self._root) / "secrets/sops-keys.txt.age"
-        )
-        decrypt_ssh_private_key(
-            encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc"
-        )
+        # decrypt_sops_age_key(
+        #     encrypted_path=Path(self._root) / "secrets/sops-keys.txt.age"
+        # )
+        # decrypt_ssh_private_key(
+        #     encrypted_path=Path(self._root) / "secrets/ssh-id_rsa.enc"
+        # )
         ensure_git_config(user_name=GIT_USER_NAME, user_email=GIT_USER_EMAIL)

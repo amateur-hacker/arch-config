@@ -1,10 +1,65 @@
 # 🏠 Arch Linux Declarative Config
 
-> A Declarative system configuration for **Arch Linux** using [decman](https://github.com/kiviktnm/decman)
+> A complete, ready-to-use ultimate Arch Hyprland desktop experience.
 
-This repository organizes system configuration into modular Python files.
-Each module declares packages, dotfiles, and system behavior, which are
-applied declaratively through decman.
+## ❓ Why This?
+
+If you've ever spent days—or even weeks, or even years—configuring your Linux desktop just the way you like it, only to realize you'd have to do it all over again on a fresh install, this project is for you.
+
+I've been there. Every time I reinstalled, I'd forget which packages I needed, which dotfiles had my essential configs, which scripts made my workflow smoother. Half the things were documented, half weren't. It was always a gamble.
+
+You might ask: "Why not NixOS?" Fair question—NixOS is the king of declarative Linux. But the truth is, it's a steep learning curve. You have to learn Nix, write everything in Nix (dotfiles, configs, packages), and it forces you into its ecosystem. It's powerful, but it takes time to master.
+
+This project gives you the best of both worlds: a declarative, reproducible system that you can apply in just two commands—without the Nix learning curve. You still use Arch Linux the way you know it, with regular config files, but they're applied automatically and declaratively.
+
+No more hunting through notes, no more "I think I had this setting somewhere."
+
+This setup is perfect for developers, content creators, gamers, power users, or anyone who just wants a productive desktop without the hassle. For gamers: required libraries and hardware drivers are installed automatically—just add your games later.
+
+## 📋 Prerequisites
+
+A fresh Arch Linux installation (using archinstall or manual install) with the following settings:
+
+- **Bootloader:** GRUB
+- **Filesystem:** BTRFS
+- **Kernel:** Linux Zen
+- **Network:** NetworkManager
+- **Desktop Environment:** None (we'll install Hyprland)
+
+After the base install is done, everything else is handled by this declarative configuration.
+
+## ⚙️ Before You Begin
+
+After cloning the repository, make these adjustments:
+
+### 1. Edit Variables
+
+Open variables.py and update these values
+
+- `FULL_NAME` - Your display name
+- `GIT_USER_NAME` - Your Git username
+- `GIT_USER_EMAIL` - Your Git email
+- `SHELL` - Your default user shell
+- `ENABLE_GAME_SUPPORT` - Set to `True` if you need gaming libraries
+
+### 2. Configure Hyprland (Optional)
+
+If you have an **NVIDIA GPU**, uncomment these in `dotfiles/config/hypr/configs/env-variables.conf`:
+
+```bash
+env = LIBVA_DRIVER_NAME,nvidia
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = __NV_PRIME_RENDER_OFFLOAD,1
+env = __VK_LAYER_NV_optimus,NVIDIA_only
+env = GSK_RENDERER,ngl
+```
+
+If you're on a **desktop (not laptop)**, comment out these imports in `dotfiles/config/hypr/hyprland.conf`:
+
+```bash
+# source=$configs/laptop.conf          # Comment out
+# source=$configs/laptop-display.conf  # Comment out
+```
 
 ## 🚀 Quick Start
 
@@ -12,10 +67,13 @@ applied declaratively through decman.
 # Step 1: Run initial setup (installs decman, AUR helper, etc.)
 ./initial-setup.sh
 
-# Step 2: Edit the settings.py first then apply the configuration
+# Step 2: Apply the configuration (variables.py should already be edited from Before You Begin)
 sudo decman --source main.py
 
-# Step 3: Explore more options
+# Step 3: REBOOT your system
+sudo reboot
+
+# Step 4: Explore more options
 decman --help
 ```
 
@@ -26,7 +84,7 @@ decman --help
 - **Full Hyprland Desktop** — Wayland compositor with noctalia shell, ergonomic keybinds
 - **Complete Theming** — Catppuccin Mocha everywhere: SDDM, GRUB, Plymouth, GTK, Qt, cursors, icons, apps
 - **Development Stack** — Node.js, Python, Rust, Go, Bun, Julia, PHP, Ruby + Docker + Lazygit + Lazydocker
-- **Productivity Apps** — Chrome, Spotify, LibreOffice, Ferdium, Pinta, Pitivi, Neovide etc...
+- **Productivity Apps** — Chrome, Spotify, LibreOffice, Ferdium, Pinta, Pitivi, Neovide, Opencode etc...
 - **Additional Features** — OCR, Mechanical sound, Show keys, Screenshot annotation, Video recording
 
 ## 📸 Screenshots
@@ -42,8 +100,8 @@ decman --help
 .
 ├── main.py                  # Entry point — decman source file
 ├── profiles.py              # Profile definitions
-├── specs.py                 # Type definitions
-├── settings.py              # User settings
+├── types.py                 # Share type definitions
+├── variables.py             # User settings
 ├── logging_config.py        # Logging setup
 ├── modules/                 # Package & dotfile modules
 │   ├── aur.py               # AUR packages
@@ -273,7 +331,16 @@ age -p -o secrets/sops-keys.txt.age secrets/keys.txt
 sops -e --input-type binary --output-type binary ~/.ssh/id_rsa > secrets/ssh-id_rsa.enc
 ```
 
-### Step 4: Encrypt API Keys
+### Step 4: Add SSH Public Key
+
+Copy your SSH public key to the dotfiles folder for automatic setup:
+
+```bash
+mkdir -p dotfiles/home/.ssh
+cp ~/.ssh/id_rsa.pub dotfiles/home/.ssh/authorized_keys
+```
+
+### Step 5: Encrypt API Keys
 
 ```bash
 # Create api-keys.yaml with your secrets
@@ -287,7 +354,7 @@ EOF
 sops -e secrets/api-keys.yaml > secrets/api-keys.enc.yaml
 ```
 
-### Step 5: Clean Up
+### Step 6: Clean Up
 
 Remove all unencrypted files from the secrets folder:
 
@@ -296,7 +363,7 @@ Remove all unencrypted files from the secrets folder:
 ls -la secrets/
 ```
 
-### Step 6: Enable Decryption
+### Step 7: Enable Decryption
 
 In `modules/dotfiles.py`, uncomment the decryption functions:
 
@@ -327,3 +394,7 @@ sops -d secrets/api-keys.enc.yaml | yq -r '.OPENAI_API_KEY'
 | `decman --only aur` | Only run AUR packages |
 | `decman --params aur-upgrade-devel` | Upgrade devel packages (*-git, etc.) |
 | `decman --params aur-force` | Force rebuild cached AUR packages |
+
+## 💡 Bonus: Want to Theme Other Apps?
+
+This setup uses the Catppuccin Mocha palette throughout. If you want to theme additional apps not included here, check out [Catppuccin Ports](https://catppuccin.com/ports/) — they have themes for almost every popular app out there.

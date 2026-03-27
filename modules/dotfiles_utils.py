@@ -14,7 +14,7 @@ from modules.utils import (
     run_cmd_as_root,
     run_cmd_as_user,
 )
-from specs import DotfileItemSpec, TrackedItemsMap
+from shared_types import DotfileItemSpec, TrackedItemsMap
 
 FileMap: TypeAlias = dict[str, File]
 DirectoryMap: TypeAlias = dict[str, Directory]
