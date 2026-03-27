@@ -285,7 +285,6 @@ EOF
 
 # Encrypt the file
 sops -e secrets/api-keys.yaml > secrets/api-keys.enc.yaml
-rm secrets/api-keys.yaml  # Remove unencrypted file
 ```
 
 ### Step 5: Clean Up
