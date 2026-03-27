@@ -48,8 +48,6 @@ PKGS: PackageList = [
     "fzf",
     "geoip",
     ("gowall", ["go"]),
-    ("github-cli", ["git"]),
-    "ghq",
     "httpie",
     "imagemagick",
     "inxi",
