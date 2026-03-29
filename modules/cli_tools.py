@@ -10,6 +10,7 @@ PKGS: PackageList = [
     "acpi",
     "age",
     "ain-bin",
+    "atac",
     "bat",
     "bottom",
     "cava",
