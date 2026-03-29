@@ -8,7 +8,7 @@ PKGS: PackageList = [
     "adw-gtk-theme",
     "bibata-cursor-theme",
     "catppuccin-mocha-grub-theme-git",
-    ("kvantum", ["kvantum-qt5"]),  # kvanutm-qt6-git
+    ("kvantum", ["kvantum-qt5"]),
     "matugen",
     "nwg-look",
     "papirus-folders-catppuccin-git",
@@ -16,7 +16,7 @@ PKGS: PackageList = [
     "qt5ct",
     "qt6ct",
     "sddm-silent-theme",
-    "spicetify-cli",
+    ("spicetify-cli", ["spicetify-marketplace-bin"]),
     "tela-circle-icon-theme-blue",
 ]
 

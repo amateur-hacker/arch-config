@@ -62,7 +62,7 @@ PKGS: PackageList = [
         ],
     ),
     ("gthumb", ["libraw"]),
-    "gnome-screen-recorder-ui",
+    "gpu-screen-recorder-ui",
     "imv",
     "keypunch-git",
     "kitty",

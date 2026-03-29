@@ -63,6 +63,7 @@ PKGS: PackageList = [
     "perl-file-mimeinfo",
     "pipes.sh",
     "plocate",
+    "qrencode",
     "ripgrep",
     "rsync",
     "scrntime-git",

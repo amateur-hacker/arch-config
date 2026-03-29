@@ -78,6 +78,11 @@ DIRECTORY_ITEMS: DotfileItemList = [
         "/usr/share/plymouth/themes/anonymous",
         "usr/share/plymouth/themes/anonymous",
     ),
+    (
+        f"{HOME}/pictures/wallpapers/my-walls",
+        "home/pictures/wallpapers/my-walls",
+        USER,
+    ),
 ]
 
 SYMLINK_ITEMS: DotfileItemList = [
