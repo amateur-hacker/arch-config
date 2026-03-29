@@ -17,6 +17,7 @@ LAPTOP_UNITS = {
 
 USER_UNITS = {
     "pipewire.service",
+    "pipewire-pulse.service",
     "wireplumber.service",
 }
 

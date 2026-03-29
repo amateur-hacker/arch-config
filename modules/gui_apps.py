@@ -22,14 +22,15 @@ PKGS: PackageList = [
             "networkmanager",
         ],
     ),
+    "cobang",
     "evince",
-    (
-        "evolution",
-        [
-            "gnome-keyring",
-            # "gnome-online-accounts",
-        ],
-    ),
+    # (
+    #     "evolution",
+    #     [
+    #         "gnome-keyring",
+    #         # "gnome-online-accounts",
+    #     ],
+    # ),
     "ferdium-bin",
     "gnome-calculator",
     ("gnome-chess", ["gnuchess"]),
@@ -61,6 +62,7 @@ PKGS: PackageList = [
         ],
     ),
     ("gthumb", ["libraw"]),
+    "gnome-screen-recorder-ui",
     "imv",
     "keypunch-git",
     "kitty",

@@ -13,7 +13,7 @@ from modules import (
     Theming,
     WaylandTools,
 )
-from specs import Profile
+from shared_types import Profile
 
 ProfileModules: TypeAlias = list[decman.Module]
 ProfilesMap: TypeAlias = dict[Profile, ProfileModules]

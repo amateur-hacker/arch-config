@@ -2,7 +2,7 @@
 x-scheme-handler/http=google-chrome.desktop
 x-scheme-handler/https=google-chrome.desktop
 x-scheme-handler/chrome=google-chrome.desktop
-x-scheme-handler/mailto=userapp-Evolution-0922L3.desktop
+x-scheme-handler/mailto=google-chrome.desktop
 text/html=google-chrome.desktop
 application/x-extension-htm=google-chrome.desktop
 application/x-extension-html=google-chrome.desktop
@@ -54,8 +54,6 @@ text/csv=libreoffice-calc.desktop
 application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop
 application/vnd.ms-powerpoint=libreoffice-impress.desktop
 application/vnd.oasis.opendocument.presentation=libreoffice-impress.desktop
-; x-scheme-handler/mailto=thunderbird.desktop
-; message/rfc822=thunderbird.desktop
 x-scheme-handler/tg=org.telegram.desktop.desktop
 x-scheme-handler/tonsite=org.telegram.desktop.desktop
 
@@ -65,4 +63,4 @@ x-scheme-handler/https=google-chrome.desktop;
 x-scheme-handler/chrome=google-chrome.desktop;
 x-scheme-handler/tg=org.telegram.desktop.desktop;
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;
-x-scheme-handler/mailto=userapp-Evolution-0922L3.desktop;
+x-scheme-handler/mailto=google-chrome.desktop;

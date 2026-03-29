@@ -3,7 +3,7 @@ import decman
 from logging_config import setup_logging
 from modules import AURTools, Base, Dotfiles, Hardware, SystemdServices, Users
 from profiles import PROFILES
-from specs import Profile
+from shared_types import Profile
 
 setup_logging()
 

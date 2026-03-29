@@ -405,7 +405,7 @@
       ]
     },
     {
-      "title": "Open Apps",
+      "title": "Apps",
       "binds": [
         {
           "keys": "Super + A, B",
@@ -438,11 +438,15 @@
         {
           "keys": "Super + A, V",
           "desc": "Open video editor app"
+        },
+        {
+          "keys": "Super + A, Q",
+          "desc": "Open video editor app"
         }
       ]
     },
     {
-      "title": "Open/Toggle Utilities",
+      "title": "Utilities/Tools",
       "binds": [
         {
           "keys": "Super + U, A",
@@ -457,12 +461,20 @@
           "desc": "Open color picker"
         },
         {
+          "keys": "Super + U, D",
+          "desc": "Define word"
+        },
+        {
           "keys": "Super + U, E",
           "desc": "Toggle eye care"
         },
         {
           "keys": "Super + U, K",
           "desc": "Toggle show keys"
+        },
+        {
+          "keys": "Super + U, L",
+          "desc": "Google lens search"
         },
         {
           "keys": "Super + U, M",
@@ -474,7 +486,7 @@
         },
         {
           "keys": "Super + U, O",
-          "desc": "Open ocr select"
+          "desc": "Open OCR"
         },
         {
           "keys": "Super + U, R",
@@ -581,8 +593,8 @@
           "desc": "Select (save)"
         },
         {
-          "keys": "Super + S, E",
-          "desc": "Edit screenshot"
+          "keys": "Super + S, M",
+          "desc": "Markup (interactive)"
         },
         {
           "keys": "Super + S, F",
@@ -599,6 +611,6 @@
   "hyprlandKeybindConfigPath": "~/.config/hypr/configs/keybinds.conf",
   "modKeyVariable": "$mainMod",
   "windowHeight": 850,
-  "windowWidth": 1700,
+  "windowWidth": 1750,
   "columnCount": 4
 }

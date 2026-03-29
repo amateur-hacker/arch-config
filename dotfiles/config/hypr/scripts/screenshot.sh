@@ -43,7 +43,7 @@ Modes:
 Actions:
   -c, --copy          Copy to clipboard
   -C, --save          Save
-  -e, --edit          Edit in satty
+  -m, --markup        Interactive markup
 EOF
 }
 
@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
   --fullscreen) args+=(-f) ;;
   --copy) args+=(-c) ;;
   --save) args+=(-S) ;;
-  --edit) args+=(-e) ;;
+  --markup) args+=(-e) ;;
   --help)
     show_help
     exit 0
@@ -125,14 +125,14 @@ while getopts "safcSe" opt; do
     action="save"
     ;;
 
-  # Edit screenshot in satty
+  # Markup screenshot in satty
   e)
     ((++action_count))
     ((action_count > 1)) && {
       echo "Error: multiple actions specified"
       exit 1
     }
-    action="edit"
+    action="markup"
     ;;
 
   esac
@@ -157,7 +157,7 @@ esac
 
 # Perform selected action
 case "$action" in
-edit)
+markup)
   "${cmd[@]}" -t ppm - | satty --filename - --fullscreen --output-filename "$file"
   ;;
 copy)
