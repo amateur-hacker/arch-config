@@ -38,6 +38,7 @@ PKGS: PackageList = [
         [
             "python-pipx",
             "python-rich",
+            "uv",
         ],
     ),
     ("ruby", ["rubygems"]),

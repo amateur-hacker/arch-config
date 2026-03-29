@@ -56,7 +56,9 @@ if status is-interactive
     # nitch++
 end
 
+# Fish shell theme
 fish_config theme choose "Catppuccin Mocha"
+
 # Shell integrations
 starship init fish | source
 zoxide init --cmd cd fish | source
